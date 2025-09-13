@@ -1,8 +1,11 @@
 import { DefaultLoader, Engine, ExcaliburGraphicsContext, Scene, SceneActivationContext } from "excalibur";
 import { Player } from "./player";
+import { Resources } from "./resources";
 
 export class MyLevel extends Scene {
+    private _engine?: Engine;
     override onInitialize(engine: Engine): void {
+        this._engine = engine;
         // Scene.onInitialize is where we recommend you perform the composition for your game
         const player = new Player();
         this.add(player); // Actors need to be added to a scene to be drawn
@@ -31,7 +34,30 @@ export class MyLevel extends Scene {
     }
 
     override onPreDraw(ctx: ExcaliburGraphicsContext, elapsedMs: number): void {
-        // Called before Excalibur draws to the screen
+        // Dessiner l'image de fond en gardant le ratio (effet cover)
+        if (Resources.Background.isLoaded() && this._engine) {
+            const img = Resources.Background.image;
+            const canvasW = this._engine.drawWidth;
+            const canvasH = this._engine.drawHeight;
+            const imgW = img.width;
+            const imgH = img.height;
+            const scale = Math.max(canvasW / imgW, canvasH / imgH);
+            const drawW = imgW * scale;
+            const drawH = imgH * scale;
+            const offsetX = (canvasW - drawW) / 2;
+            const offsetY = (canvasH - drawH) / 2;
+            ctx.drawImage(
+                img,
+                0,
+                0,
+                imgW,
+                imgH,
+                offsetX,
+                offsetY,
+                drawW,
+                drawH
+            );
+        }
     }
 
     override onPostDraw(ctx: ExcaliburGraphicsContext, elapsedMs: number): void {
