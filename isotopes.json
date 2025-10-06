@@ -1,0 +1,106 @@
+[
+  {
+    "element": "Hydrogène",
+    "isotopes": [
+  {"nom": "Protium", "A": 1, "Z": 1, "mode_desintegration": "stable", "demi_vie_s": null},
+  {"nom": "Deutérium", "A": 2, "Z": 1, "mode_desintegration": "stable", "demi_vie_s": null},
+  {"nom": "Tritium", "A": 3, "Z": 1, "mode_desintegration": "β-", "demi_vie_s": 3.8878e8}
+    ]
+  },
+  {
+    "element": "Carbone",
+    "isotopes": [
+  {"nom": "Carbone-12", "A": 12, "Z": 6, "mode_desintegration": "stable", "demi_vie_s": null},
+  {"nom": "Carbone-13", "A": 13, "Z": 6, "mode_desintegration": "stable", "demi_vie_s": null},
+  {"nom": "Carbone-14", "A": 14, "Z": 6, "mode_desintegration": "β-", "demi_vie_s": 1.808e11}
+    ]
+  },
+
+  {
+    "element": "Plomb",
+    "isotopes": [
+      {"nom": "Plomb-206", "A": 206, "Z": 82, "mode_desintegration": "stable", "demi_vie_s": null},
+      {"nom": "Plomb-207", "A": 207, "Z": 82, "mode_desintegration": "stable", "demi_vie_s": null},
+      {"nom": "Plomb-208", "A": 208, "Z": 82, "mode_desintegration": "stable", "demi_vie_s": null}
+    ]
+  },
+  {
+    "element": "Bismuth",
+    "isotopes": [
+      {"nom": "Bismuth-209", "A": 209, "Z": 83, "mode_desintegration": "α", "demi_vie_s": 6.6e26},
+      {"nom": "Bismuth-208", "A": 208, "Z": 83, "mode_desintegration": "β-", "demi_vie_s": 1.6e5},
+      {"nom": "Bismuth-210", "A": 210, "Z": 83, "mode_desintegration": "β-", "demi_vie_s": 1.2e6}
+    ]
+  },
+  {
+    "element": "Polonium",
+    "isotopes": [
+      {"nom": "Polonium-210", "A": 210, "Z": 84, "mode_desintegration": "α", "demi_vie_s": 1.2e7},
+      {"nom": "Polonium-209", "A": 209, "Z": 84, "mode_desintegration": "α", "demi_vie_s": 1.02e5},
+      {"nom": "Polonium-208", "A": 208, "Z": 84, "mode_desintegration": "α", "demi_vie_s": 1.8e2}
+    ]
+  },
+  {
+    "element": "Astate",
+    "isotopes": [
+      {"nom": "Astate-210", "A": 210, "Z": 85, "mode_desintegration": "α", "demi_vie_s": 8.1},
+      {"nom": "Astate-211", "A": 211, "Z": 85, "mode_desintegration": "α", "demi_vie_s": 25.6},
+      {"nom": "Astate-215", "A": 215, "Z": 85, "mode_desintegration": "α", "demi_vie_s": 0.1}
+    ]
+  },
+  {
+    "element": "Radon",
+    "isotopes": [
+      {"nom": "Radon-222", "A": 222, "Z": 86, "mode_desintegration": "α", "demi_vie_s": 3.8e5},
+      {"nom": "Radon-220", "A": 220, "Z": 86, "mode_desintegration": "α", "demi_vie_s": 55.6},
+      {"nom": "Radon-219", "A": 219, "Z": 86, "mode_desintegration": "α", "demi_vie_s": 3.96}
+    ]
+  },
+  {
+    "element": "Francium",
+    "isotopes": [
+      {"nom": "Francium-223", "A": 223, "Z": 87, "mode_desintegration": "β-", "demi_vie_s": 1.2e3},
+      {"nom": "Francium-221", "A": 221, "Z": 87, "mode_desintegration": "α", "demi_vie_s": 4.8},
+      {"nom": "Francium-222", "A": 222, "Z": 87, "mode_desintegration": "α", "demi_vie_s": 14.2}
+    ]
+  },
+  {
+    "element": "Radium",
+    "isotopes": [
+      {"nom": "Radium-226", "A": 226, "Z": 88, "mode_desintegration": "α", "demi_vie_s": 5.05e10},
+      {"nom": "Radium-228", "A": 228, "Z": 88, "mode_desintegration": "β-", "demi_vie_s": 1.6e9},
+      {"nom": "Radium-224", "A": 224, "Z": 88, "mode_desintegration": "α", "demi_vie_s": 3.5e6}
+    ]
+  },
+  {
+    "element": "Actinium",
+    "isotopes": [
+      {"nom": "Actinium-227", "A": 227, "Z": 89, "mode_desintegration": "β-", "demi_vie_s": 6.8e9},
+      {"nom": "Actinium-225", "A": 225, "Z": 89, "mode_desintegration": "α", "demi_vie_s": 8.6e6},
+      {"nom": "Actinium-228", "A": 228, "Z": 89, "mode_desintegration": "β-", "demi_vie_s": 6.1}
+    ]
+  },
+  {
+    "element": "Thorium",
+    "isotopes": [
+      {"nom": "Thorium-232", "A": 232, "Z": 90, "mode_desintegration": "α", "demi_vie_s": 4.41e17},
+      {"nom": "Thorium-230", "A": 230, "Z": 90, "mode_desintegration": "α", "demi_vie_s": 2.5e12},
+      {"nom": "Thorium-228", "A": 228, "Z": 90, "mode_desintegration": "α", "demi_vie_s": 6.0e9}
+    ]
+  },
+  {
+    "element": "Protactinium",
+    "isotopes": [
+      {"nom": "Protactinium-231", "A": 231, "Z": 91, "mode_desintegration": "α", "demi_vie_s": 1.03e16},
+      {"nom": "Protactinium-233", "A": 233, "Z": 91, "mode_desintegration": "β-", "demi_vie_s": 2.7e6},
+      {"nom": "Protactinium-230", "A": 230, "Z": 91, "mode_desintegration": "α", "demi_vie_s": 1.7e4}
+    ]
+  },
+  {
+    "element": "Uranium",
+    "isotopes": [
+      {"nom": "Uranium-235", "A": 235, "Z": 92, "mode_desintegration": "α", "demi_vie_s": 2.221e16},
+      {"nom": "Uranium-238", "A": 238, "Z": 92, "mode_desintegration": "α", "demi_vie_s": 1.409e17}
+    ]
+  }
+]
