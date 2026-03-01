@@ -152,9 +152,11 @@ export class Game extends Phaser.Scene {
             this.coreGraphics.setPosition(width / 2, height / 2);
             this.coreGraphics.body.updateFromGameObject();
 
-            this.levelText.setPosition(width / 2, height - 100);
-            this.levelText.setStyle({ wordWrap: { width: width - 40 } });
-            this.nextLevelButton.setPosition(width / 2, height - 40);
+            this.levelText.setPosition(width / 2, height - 10);
+            this.levelText.setStyle({ wordWrap: { width: width - 20 } });
+            this.levelText.setOrigin(0.5, 1);
+
+            this.nextLevelButton.setPosition(width / 2, height - 120);
 
             // Re-center title banner
             this.createTitleBanner();
@@ -172,15 +174,16 @@ export class Game extends Phaser.Scene {
 
     createTitleBanner() {
         if (this.titleBannerContainer) this.titleBannerContainer.destroy();
-        this.titleBannerContainer = this.add.container(this.sys.game.config.width / 2, 70);
+
+        const width = this.sys.game.config.width;
+        const spacing = 5;
+        const bannerTileSize = Math.floor(Math.min(50, (width - 20 - spacing * 5) / 6));
+
+        // Place banner at very top
+        this.titleBannerContainer = this.add.container(width / 2, bannerTileSize / 2 + 10);
 
         // Target isotopes to spell I-Sc-O-Te-P-Es
         const bannerIsotopes = ['I-127', 'Sc-45', 'O-16', 'Te-120', 'P-31', 'Es-252'];
-
-        // Dynamically compute size for banner to fit 6 tiles on narrow screens
-        const spacing = 5;
-        const width = this.sys.game.config.width;
-        const bannerTileSize = Math.floor(Math.min(50, (width - 20 - spacing * 5) / 6));
 
         const totalWidth = (bannerIsotopes.length * bannerTileSize) + ((bannerIsotopes.length - 1) * spacing);
         const startX = -totalWidth / 2 + (bannerTileSize / 2);
@@ -349,8 +352,19 @@ export class Game extends Phaser.Scene {
         // Clear previous grid
         this.gridContainer.removeAll(true);
 
-        const centerX = this.sys.game.config.width / 2;
-        const centerY = this.sys.game.config.height / 2;
+        const width = this.sys.game.config.width;
+        const centerX = width / 2;
+
+        // Compute Title Banner Height to offset the Grid below it
+        const spacing = 5;
+        const bannerTileSize = Math.floor(Math.min(50, (width - 20 - spacing * 5) / 6));
+        const bannerBottomY = (bannerTileSize / 2 + 10) + (bannerTileSize / 2) + 20; // safe margin
+
+        // Place Game Grid Center just below banner instead of screen vertical center
+        const centerY = bannerBottomY + (3 * this.tileSize) + 10;
+
+        // Ensure the grid container is correctly zeroed since we offset the tiles directly
+        this.gridContainer.setPosition(0, 0);
 
         const currP = this.currentIsotope.protons;
         const currN = this.currentIsotope.neutrons;
