@@ -109,6 +109,9 @@ export class Game extends Phaser.Scene {
             this.loadLevel(this.currentLevelIndex + 1);
         });
 
+        // Setup dynamic tile size based on screen width
+        this.updateTileSize();
+
         // Initialize Level 0 or fallback to sandbox
         if (this.levelsData && this.levelsData.length > 0) {
             this.loadLevel(0);
@@ -144,6 +147,8 @@ export class Game extends Phaser.Scene {
             this.bg.setPosition(width / 2, height / 2);
             this.bg.setDisplaySize(width, height);
 
+            this.updateTileSize();
+
             this.coreGraphics.setPosition(width / 2, height / 2);
             this.coreGraphics.body.updateFromGameObject();
 
@@ -152,10 +157,17 @@ export class Game extends Phaser.Scene {
             this.nextLevelButton.setPosition(width / 2, height - 40);
 
             // Re-center title banner
-            this.titleBannerContainer.setPosition(width / 2, 70);
+            this.createTitleBanner();
 
             this.updateGrid(); // Redraw grid on center
         });
+    }
+
+    updateTileSize() {
+        const width = this.sys.game.config.width;
+        // A 7x7 grid should fit inside the width with a minimal margin
+        // 7 tiles * size < width - 10 => size = (width - 10) / 7
+        this.tileSize = Math.floor(Math.min(60, (width - 10) / 7));
     }
 
     createTitleBanner() {
@@ -164,20 +176,24 @@ export class Game extends Phaser.Scene {
 
         // Target isotopes to spell I-Sc-O-Te-P-Es
         const bannerIsotopes = ['I-127', 'Sc-45', 'O-16', 'Te-120', 'P-31', 'Es-252'];
-        const tileSize = 50;
+
+        // Dynamically compute size for banner to fit 6 tiles on narrow screens
         const spacing = 5;
-        const totalWidth = (bannerIsotopes.length * tileSize) + ((bannerIsotopes.length - 1) * spacing);
-        const startX = -totalWidth / 2 + (tileSize / 2);
+        const width = this.sys.game.config.width;
+        const bannerTileSize = Math.floor(Math.min(50, (width - 20 - spacing * 5) / 6));
+
+        const totalWidth = (bannerIsotopes.length * bannerTileSize) + ((bannerIsotopes.length - 1) * spacing);
+        const startX = -totalWidth / 2 + (bannerTileSize / 2);
 
         bannerIsotopes.forEach((isoName, index) => {
             const isoData = this.isotopesDB[isoName] || { decayMode: 'None', protons: 0 };
             const sym = isoName.split('-')[0];
             const mass = isoName.split('-')[1];
 
-            const tileX = startX + index * (tileSize + spacing);
+            const tileX = startX + index * (bannerTileSize + spacing);
 
             // Draw tile
-            const rect = this.add.rectangle(tileX, 0, tileSize, tileSize, this.getDecayColor(isoData.decayMode));
+            const rect = this.add.rectangle(tileX, 0, bannerTileSize, bannerTileSize, this.getDecayColor(isoData.decayMode));
             rect.setStrokeStyle(2, 0xffffff);
 
             // Text Label
@@ -194,7 +210,7 @@ export class Game extends Phaser.Scene {
         });
 
         // Add a nice semi-transparent dark background for the banner so it pops over the grid
-        const bgRect = this.add.rectangle(0, 0, totalWidth + 20, tileSize + 20, 0x000000, 0.5);
+        const bgRect = this.add.rectangle(0, 0, totalWidth + 20, bannerTileSize + 20, 0x000000, 0.5);
         this.titleBannerContainer.addAt(bgRect, 0);
 
         // Put banner behind the level text, but above the main grid
