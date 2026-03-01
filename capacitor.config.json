@@ -1,0 +1,6 @@
+{
+  "appId": "com.goulu.isotope",
+  "appName": "isotope",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
