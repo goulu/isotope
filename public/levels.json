@@ -12,5 +12,13 @@
     "description": "L'Oxygène 18 est stable. Ajoutez-lui un neutron (Clic Gauche, Espace ou Flèche Droite) pour le transformer en Oxygène 19. Il deviendra instable et se désintégrera tout seul (Beta-) vers cet élément !",
     "startIsotope": "O-18",
     "targetElement": "F"
+  },
+  {
+    "id": 3,
+    "title": "Niveau 3 : Le rêve de l'alchimiste",
+    "description": "Transmutation du Mercure 198 en Or. C'est la réaction réalisée en 1941 par Sherr, Bainbridge et Anderson.",
+    "startIsotope": "Hg-198",
+    "targetElement": "Au",
+    "requireStable": false
   }
 ]

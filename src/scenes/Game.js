@@ -448,7 +448,8 @@ export class Game extends Phaser.Scene {
         this.isLevelComplete = false;
         this.nextLevelButton.setVisible(false);
 
-        this.levelText.setText(`[Niveau ${level.id}] ${level.title}\nObjectif: Atteindre un isotope stable de ${level.targetElement}\n=> ${level.description}`);
+        const stableText = (level.requireStable !== false) ? ' stable' : '';
+        this.levelText.setText(`[Niveau ${level.id}] ${level.title}\nObjectif: Atteindre un isotope${stableText} de ${level.targetElement}\n=> ${level.description}`);
 
         // Clear tweens and immediately reset grid position
         this.tweens.killTweensOf(this.gridContainer);
@@ -463,8 +464,10 @@ export class Game extends Phaser.Scene {
         const level = this.levelsData[this.currentLevelIndex];
         const sym = this.currentIsotope.id.split('-')[0];
 
-        // Victory if we reached the target element and it's stable
-        if (sym === level.targetElement && this.isStable) {
+        const requireStable = level.requireStable !== false; // defaults to true if omitted
+
+        // Victory if we reached the target element and its stability matches the requirement
+        if (sym === level.targetElement && (!requireStable || this.isStable)) {
             this.isLevelComplete = true;
             this.sndWin.play();
             this.levelText.setText(`[SUCCÈS] ${level.title}\nValidé ! Vous avez atteint ${this.currentIsotope.name}.`);
