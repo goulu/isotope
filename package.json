@@ -1,22 +1,24 @@
 {
   "name": "isotope",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite",  
     "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
     "@capacitor/cli": "^5.0.0",
-    "terser": "^5.26.0"
+    "terser": "^5.26.0",
+    "vite": "^5.0.0"
   },
   "dependencies": {
-    "phaser": "^3.80.0",
-    "@capacitor/core": "^5.0.0",
     "@capacitor/android": "^5.0.0",
-    "@capacitor/ios": "^5.0.0"
+    "@capacitor/core": "^5.0.0",
+    "@capacitor/ios": "^5.0.0",
+    "axios": "^1.13.6",
+    "cheerio": "^1.2.0",
+    "phaser": "^3.80.0"
   }
 }

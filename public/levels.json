@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "Tutoriel 1 : Capture Électronique",
+    "description": "L'atome de Tellure 123 (Te-123) est un cas particulier d'isobare stable. Ajoutez-lui un électron (Clic Droit ou Flèche Bas) pour transmuter un proton en neutron. Vous obtiendrez instantanément de l'Antimoine stable !",
+    "startIsotope": "Te-123",
+    "targetElement": "Sb"
+  },
+  {
+    "id": 2,
+    "title": "Tutoriel 2 : Radioactivité Beta-",
+    "description": "L'Oxygène 18 est stable. Ajoutez-lui un neutron (Clic Gauche, Espace ou Flèche Droite) pour le transformer en Oxygène 19. Il deviendra instable et se désintégrera tout seul (Beta-) vers cet élément !",
+    "startIsotope": "O-18",
+    "targetElement": "F"
+  }
+]

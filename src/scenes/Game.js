@@ -1,63 +1,433 @@
 import Phaser from 'phaser';
-import readmeText from '../../README.md?raw';
 
 export class Game extends Phaser.Scene {
     constructor() {
         super('Game');
+        this.isotopesDB = null;
+        this.currentIsotope = null;
+        this.gridContainer = null;
+        this.tileSize = 60;
+
+        // Decay Timer properties
+        this.decayTimeLeft = 0; // in milliseconds
+        this.isStable = true;
+
+        // Level properties
+        this.levelsData = null;
+        this.currentLevelIndex = 0;
+        this.isLevelComplete = false;
     }
 
     preload() {
-        // We can load some placeholder assets from phaser labs 
-        this.load.setBaseURL('https://labs.phaser.io');
-        this.load.image('sky', 'assets/skies/space3.png');
-        this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-        this.load.image('red', 'assets/particles/red.png');
+        this.load.setBaseURL('./'); // Since isotopes.json is in public/
+        this.load.json('isotopes', 'isotopes.json');
+        this.load.json('levels', 'levels.json');
+
+        // Placeholder assets from Phaser labs
+        this.load.image('sky', 'https://labs.phaser.io/assets/skies/space3.png');
+        this.load.image('particle_n', 'https://labs.phaser.io/assets/particles/blue.png');
+        this.load.image('particle_p', 'https://labs.phaser.io/assets/particles/red.png');
+        this.load.image('particle_e', 'https://labs.phaser.io/assets/particles/yellow.png');
     }
 
     create() {
+        // Load Database
+        this.isotopesDB = this.cache.json.get('isotopes');
+
         // Background
-        const bg = this.add.image(400, 300, 'sky');
-        bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height);
+        this.bg = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'sky');
+        this.bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height);
 
-        // Add some basic physics entities
-        const particles = this.add.particles(0, 0, 'red', {
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: 'ADD'
-        });
+        // Group for Segrè Grid
+        this.gridContainer = this.add.container(0, 0);
 
-        const logo = this.physics.add.image(400, 100, 'logo');
-        logo.setVelocity(100, 200);
-        logo.setBounce(1, 1);
-        logo.setCollideWorldBounds(true);
+        // Core UI representation (Physics body for collisions)
+        this.coreGraphics = this.add.rectangle(this.sys.game.config.width / 2, this.sys.game.config.height / 2, this.tileSize, this.tileSize, 0x000000, 0); // invisible hitbox, 0 alpha
+        this.physics.add.existing(this.coreGraphics, true); // true = static body
 
-        particles.startFollow(logo);
-
-        // Display the README.md text
-        const infoText = this.add.text(
+        // Stats Text (Bottom)
+        this.uiText = this.add.text(
             this.sys.game.config.width / 2,
-            this.sys.game.config.height / 2,
-            readmeText,
+            this.sys.game.config.height - 80,
+            '',
             {
-                fontFamily: 'Arial, sans-serif',
-                fontSize: '24px',
+                fontFamily: 'Courier',
+                fontSize: '20px',
                 color: '#ffffff',
                 align: 'center',
-                backgroundColor: '#00000088',
-                padding: { x: 20, y: 20 },
-                wordWrap: { width: this.sys.game.config.width - 40 }
+                backgroundColor: '#000000aa',
+                padding: { x: 10, y: 10 }
             }
         ).setOrigin(0.5);
 
-        // Handle resize for background and text
+        // Level UI (Top)
+        this.levelsData = this.cache.json.get('levels');
+
+        this.levelText = this.add.text(
+            this.sys.game.config.width / 2,
+            30,
+            '',
+            {
+                fontFamily: 'Arial',
+                fontSize: '18px',
+                color: '#ffffff',
+                align: 'center',
+                backgroundColor: '#000000cc',
+                padding: { x: 10, y: 10 },
+                wordWrap: { width: this.sys.game.config.width - 40 }
+            }
+        ).setOrigin(0.5, 0);
+
+        this.nextLevelButton = this.add.text(
+            this.sys.game.config.width / 2,
+            140,
+            'Niveau Suivant >>',
+            {
+                fontFamily: 'Arial',
+                fontSize: '20px',
+                color: '#ffffff',
+                backgroundColor: '#2E8B57',
+                padding: { x: 15, y: 10 }
+            }
+        ).setOrigin(0.5).setInteractive().setVisible(false);
+
+        this.nextLevelButton.on('pointerdown', () => {
+            this.loadLevel(this.currentLevelIndex + 1);
+        });
+
+        // Initialize Level 0 or fallback to sandbox
+        if (this.levelsData && this.levelsData.length > 0) {
+            this.loadLevel(0);
+        } else {
+            this.setElement('Pb-208');
+        }
+
+
+        // Disable default right-click context menu
+        this.input.mouse.disableContextMenu();
+
+        // Handle Input
+        // Neutron (Left click, Space, or Right arrow) -> n+1
+        // Electron (Right click, or Down arrow) -> p-1, n+1
+
+        this.input.on('pointerdown', (pointer) => {
+            if (pointer.button === 0) { // Left click
+                this.actionNeutron();
+            } else if (pointer.button === 2) { // Right click
+                this.actionElectron();
+            }
+        });
+
+        this.input.keyboard.on('keydown-SPACE', () => this.actionNeutron());
+        this.input.keyboard.on('keydown-RIGHT', () => this.actionNeutron());
+        this.input.keyboard.on('keydown-DOWN', () => this.actionElectron());
+
+        // Handle resize
         this.scale.on('resize', (gameSize) => {
             const width = gameSize.width;
             const height = gameSize.height;
-            bg.setPosition(width / 2, height / 2);
-            bg.setDisplaySize(width, height);
 
-            infoText.setPosition(width / 2, height / 2);
-            infoText.setStyle({ wordWrap: { width: width - 40 } });
+            this.bg.setPosition(width / 2, height / 2);
+            this.bg.setDisplaySize(width, height);
+
+            this.coreGraphics.setPosition(width / 2, height / 2);
+            this.coreGraphics.body.updateFromGameObject();
+            this.uiText.setPosition(width / 2, height - 80);
+
+            this.levelText.setPosition(width / 2, 30);
+            this.levelText.setStyle({ wordWrap: { width: width - 40 } });
+            this.nextLevelButton.setPosition(width / 2, 140);
+
+            this.updateGrid(); // Redraw grid on center
         });
+    }
+
+    actionNeutron() {
+        if (!this.currentIsotope || this.isLevelComplete) return;
+        this.transmute(this.currentIsotope.protons, this.currentIsotope.neutrons + 1);
+    }
+
+    actionElectron() {
+        if (!this.currentIsotope || this.isLevelComplete) return;
+        this.transmute(this.currentIsotope.protons - 1, this.currentIsotope.neutrons + 1);
+    }
+
+    transmute(newProtons, newNeutrons) {
+        const mass = newProtons + newNeutrons;
+        const sym = this.getSymbolByProtons(newProtons);
+        const isoName = `${sym}-${mass}`;
+
+        if (this.isotopesDB[isoName]) {
+            // Calculate delta for smooth animation Before updating value
+            const deltaP = newProtons - this.currentIsotope.protons;
+            const deltaN = newNeutrons - this.currentIsotope.neutrons;
+
+            // Instantly apply state change
+            this.setElement(isoName);
+
+            // Animate grid sliding
+            // Shift container in the opposite direction of the visual change to feign camera movement
+            const startX = this.gridContainer.x - (deltaN * this.tileSize);
+            const startY = this.gridContainer.y + (deltaP * this.tileSize);
+
+            this.gridContainer.setPosition(startX, startY);
+
+            // Remove existing tweens on gridContainer to allow spamming
+            this.tweens.killTweensOf(this.gridContainer);
+            this.tweens.add({
+                targets: this.gridContainer,
+                x: 0,
+                y: 0,
+                duration: 250, // Slightly longer duration for smoother fade-in
+                ease: 'Cubic.out' // Using Cubic.out for a silkier slide
+            });
+
+        } else {
+            // Unstable/Unknown configuration, shake
+            this.cameras.main.shake(100, 0.01);
+            console.log(`Lost track! Tried to make ${isoName}`);
+        }
+    }
+
+    getSymbolByProtons(protons) {
+        for (let key in this.isotopesDB) {
+            if (this.isotopesDB[key].protons === protons) {
+                return key.split('-')[0];
+            }
+        }
+        return "Unknown";
+    }
+
+    calculateGameDecayTime(halfLifeSeconds) {
+        if (halfLifeSeconds <= 0) return 0;
+
+        // log10(0.001) = -3 -> 1.0 + (-3/6) = 0.5s -- Wait, scaling requested:
+        // 1ms -> 0.5s. log10(1e-3) = -3. If formula is: 1 + log10(t)/something = 0.5 => log10(t)/something = -0.5 => -3/X = -0.5 => X = 6
+        // 1s -> 1s. log10(1) = 0. 1 + 0 = 1s.
+        // 1000s -> 2s. log10(1e3) = 3. 1 + 3/X = 2 => 3/X = 1 => X = 3
+        // Actually, the user asked: 0.5s for 1ms, 1s for 1s, 2s for 1000s.
+        // Wait, log10(t) is -3, 0, 3. 
+        // A linear interpolation of log10(t): 
+        // log=0 -> 1s
+        // log=-3 -> 0.5s => slope = 0.5 / 3 = 1/6
+        // log=3 -> 2s => slope is not linear if we use 1/6?  1 + 3*(1/6) = 1.5s
+        // Wait, 1 + log10(t)/3:  -3/3 = -1 -> 0s. 3/3 = 1 -> 2s.
+        // So a piecewise or a slightly adjusted formula is needed:
+        // Let y = a * log10(t) + b
+        // -3a + b = 0.5
+        // 0a + b = 1  => b = 1
+        // 3a + 1 = 2 => 3a = 1 => a = 1/3
+        // So for t=1ms (-3), 1 + (-3)*(1/3) = 0. Which doesn't match 0.5.
+        // Let's just use:
+        // if log < 0: 1 + log/6
+        // if log >= 0: 1 + log/3
+
+        let logVal = Math.log10(halfLifeSeconds);
+        let gameSeconds = 1.0;
+        if (logVal < 0) {
+            gameSeconds = 1.0 + (logVal / 6.0); // -3 -> 0.5
+        } else {
+            gameSeconds = 1.0 + (logVal / 3.0); // 3 -> 2.0
+        }
+
+        if (gameSeconds < 0.1) gameSeconds = 0.1;
+
+        return gameSeconds * 1000;
+    }
+
+    setElement(isotopeName) {
+        if (this.isotopesDB[isotopeName]) {
+            this.currentIsotope = { id: isotopeName, ...this.isotopesDB[isotopeName] };
+
+            this.isStable = this.currentIsotope.halfLife === -1;
+            if (!this.isStable) {
+                this.decayTimeLeft = this.calculateGameDecayTime(this.currentIsotope.halfLife);
+            } else {
+                this.decayTimeLeft = 0;
+            }
+
+            this.updateGrid();
+            this.updateUI();
+        } else {
+            console.warn(`Isotope ${isotopeName} not found in DB!`);
+        }
+    }
+
+    getDecayColor(decayMode) {
+        switch (decayMode) {
+            case "None": return 0x000000; // Black for stable
+            case "Beta-": return 0x66c2ff; // Light Blue
+            case "Beta+": return 0xff99cc; // Pink
+            case "Alpha": return 0xffff66; // Yellow
+            case "Proton": return 0xff9966; // Light Orange
+            case "Neutron": return 0xcc99ff; // Purple
+            default: return 0xaaddaa; // Fallback
+        }
+    }
+
+    updateGrid() {
+        if (!this.currentIsotope) return;
+
+        // Clear previous grid
+        this.gridContainer.removeAll(true);
+
+        const centerX = this.sys.game.config.width / 2;
+        const centerY = this.sys.game.config.height / 2;
+
+        const currP = this.currentIsotope.protons;
+        const currN = this.currentIsotope.neutrons;
+
+        // We want a 7x7 grid -> +/- 3 around the center
+        const range = 3;
+
+        // Create 7x7 tiles
+        for (let dP = -range; dP <= range; dP++) {
+            for (let dN = -range; dN <= range; dN++) {
+
+                const targetP = currP + dP;
+                const targetN = currN + dN;
+                const targetMass = targetP + targetN;
+                const targetSym = this.getSymbolByProtons(targetP);
+                const targetIsoName = `${targetSym}-${targetMass}`;
+                const isoData = this.isotopesDB[targetIsoName];
+
+                // Position formulas
+                // Z (Protons) increases Upwards -> centerY - (dP * tileSize)
+                // N (Neutrons) increases Rightwards -> centerX + (dN * tileSize)
+                const tileX = centerX + (dN * this.tileSize);
+                const tileY = centerY - (dP * this.tileSize);
+
+                let tileColor = 0xb0c4de; // Default bg-greyish for empty/unknown
+                let borderThickness = 1;
+                let borderColor = 0xffffff;
+                let textStr = "";
+
+                if (isoData) {
+                    tileColor = this.getDecayColor(isoData.decayMode);
+                    textStr = `${targetSym}\n${targetMass}`;
+
+                    // Highlight the central (current) isotope
+                    if (dP === 0 && dN === 0) {
+                        borderThickness = 4;
+                        borderColor = 0xff0000; // Red border to indicate it's the active one
+                    }
+                }
+
+                // Base tile
+                const rect = this.add.rectangle(tileX, tileY, this.tileSize, this.tileSize, tileColor);
+                rect.setStrokeStyle(borderThickness, borderColor);
+
+                // Label
+                const labelColor = (isoData && isoData.decayMode === "None") ? '#ffffff' : '#000000';
+                const label = this.add.text(tileX, tileY, textStr, {
+                    fontFamily: 'Arial',
+                    fontSize: '14px',
+                    color: labelColor,
+                    align: 'center',
+                    fontStyle: 'bold'
+                }).setOrigin(0.5);
+
+                this.gridContainer.add([rect, label]);
+            }
+        }
+    }
+
+    loadLevel(index) {
+        if (index >= this.levelsData.length) {
+            this.levelText.setText("Félicitations !\nVous avez complété tous les niveaux de cette démo.");
+            this.nextLevelButton.setVisible(false);
+            this.isLevelComplete = true; // block input
+            return;
+        }
+
+        this.currentLevelIndex = index;
+        const level = this.levelsData[index];
+        this.isLevelComplete = false;
+        this.nextLevelButton.setVisible(false);
+
+        this.levelText.setText(`[Niveau ${level.id}] ${level.title}\nObjectif: Atteindre un isotope stable de ${level.targetElement}\n=> ${level.description}`);
+
+        // Clear tweens and immediately reset grid position
+        this.tweens.killTweensOf(this.gridContainer);
+        this.gridContainer.setPosition(0, 0);
+
+        this.setElement(level.startIsotope);
+    }
+
+    checkWinCondition() {
+        if (this.isLevelComplete || !this.levelsData || this.currentLevelIndex >= this.levelsData.length) return;
+
+        const level = this.levelsData[this.currentLevelIndex];
+        const sym = this.currentIsotope.id.split('-')[0];
+
+        // Victory if we reached the target element and it's stable
+        if (sym === level.targetElement && this.isStable) {
+            this.isLevelComplete = true;
+            this.levelText.setText(`[SUCCÈS] ${level.title}\nValidé ! Vous avez atteint ${this.currentIsotope.name}.`);
+            this.levelText.setColor('#00ff00');
+            this.nextLevelButton.setVisible(true);
+        }
+    }
+
+    updateUI() {
+        if (!this.currentIsotope) return;
+
+        const iso = this.currentIsotope;
+        const mass = iso.protons + iso.neutrons;
+        const symbol = iso.id.split('-')[0];
+
+        let stabilityTxt = this.isStable ? "STABLE" : `Half-Life: ${iso.halfLife} s\nDecay: ${iso.decayMode}\nTime Left: ${(this.decayTimeLeft / 1000).toFixed(1)}s`;
+
+        this.uiText.setText(
+            `${iso.name} (${symbol}-${mass})\n` +
+            `Protons (Z) : ${iso.protons}\n` +
+            `Neutrons (N): ${iso.neutrons}\n` +
+            `------------------\n` +
+            `${stabilityTxt}`
+        );
+
+        this.checkWinCondition();
+    }
+
+    triggerDecay() {
+        if (!this.currentIsotope) return;
+
+        let p = this.currentIsotope.protons;
+        let n = this.currentIsotope.neutrons;
+        const mode = this.currentIsotope.decayMode;
+
+        if (mode === 'Alpha') {
+            p -= 2; n -= 2;
+        } else if (mode === 'Beta-') {
+            n -= 1; p += 1;
+        } else if (mode === 'Beta+') {
+            p -= 1; n += 1;
+        } else if (mode === 'Proton') {
+            p -= 1;
+        } else if (mode === 'Neutron') {
+            n -= 1;
+        }
+
+        // Use transmute to ensure we get the smooth sliding animation
+        this.transmute(p, n);
+
+        // Add a red flash specifically for automatic decays to make them feel impactful
+        this.cameras.main.flash(150, 255, 0, 0);
+    }
+
+    update(time, delta) {
+        if (!this.isStable && this.decayTimeLeft > 0) {
+            this.decayTimeLeft -= delta;
+
+            // Periodically update the UI text timer 
+            if (Math.floor(time) % 5 === 0) {
+                this.updateUI();
+            }
+
+            if (this.decayTimeLeft <= 0) {
+                this.decayTimeLeft = 0;
+                this.triggerDecay();
+            }
+        }
     }
 }
