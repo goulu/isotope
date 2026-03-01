@@ -23,11 +23,13 @@ export class Game extends Phaser.Scene {
         this.load.json('isotopes', 'isotopes.json');
         this.load.json('levels', 'levels.json');
 
-        // Placeholder assets from Phaser labs
-        this.load.image('sky', 'https://labs.phaser.io/assets/skies/space3.png');
-        this.load.image('particle_n', 'https://labs.phaser.io/assets/particles/blue.png');
-        this.load.image('particle_p', 'https://labs.phaser.io/assets/particles/red.png');
-        this.load.image('particle_e', 'https://labs.phaser.io/assets/particles/yellow.png');
+        // Local Assets
+        this.load.image('sky', 'assets/img/space3.png');
+
+        // Audio
+        this.load.audio('sfx_shoot', 'assets/audio/blaster.mp3');
+        this.load.audio('sfx_decay', 'assets/audio/explosion.mp3');
+        this.load.audio('sfx_win', 'assets/audio/key.mp3');
     }
 
     create() {
@@ -37,6 +39,11 @@ export class Game extends Phaser.Scene {
         // Background
         this.bg = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'sky');
         this.bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height);
+
+        // Sound Effects (lowered volume)
+        this.sndShoot = this.sound.add('sfx_shoot', { volume: 0.3 });
+        this.sndDecay = this.sound.add('sfx_decay', { volume: 0.5 });
+        this.sndWin = this.sound.add('sfx_win', { volume: 0.6 });
 
         // Group for Segrè Grid
         this.gridContainer = this.add.container(0, 0);
@@ -80,7 +87,7 @@ export class Game extends Phaser.Scene {
 
         this.nextLevelButton = this.add.text(
             this.sys.game.config.width / 2,
-            140,
+            160,
             'Niveau Suivant >>',
             {
                 fontFamily: 'Arial',
@@ -90,6 +97,10 @@ export class Game extends Phaser.Scene {
                 padding: { x: 15, y: 10 }
             }
         ).setOrigin(0.5).setInteractive().setVisible(false);
+        this.nextLevelButton.setDepth(100);
+
+        // Title Banner (I-Sc-O-Te-P-Es)
+        this.createTitleBanner();
 
         this.nextLevelButton.on('pointerdown', () => {
             this.loadLevel(this.currentLevelIndex + 1);
@@ -136,19 +147,67 @@ export class Game extends Phaser.Scene {
 
             this.levelText.setPosition(width / 2, 30);
             this.levelText.setStyle({ wordWrap: { width: width - 40 } });
-            this.nextLevelButton.setPosition(width / 2, 140);
+            this.nextLevelButton.setPosition(width / 2, 160);
+
+            // Re-center title banner
+            this.titleBannerContainer.setPosition(width / 2, height / 2 - 180);
 
             this.updateGrid(); // Redraw grid on center
         });
     }
 
+    createTitleBanner() {
+        if (this.titleBannerContainer) this.titleBannerContainer.destroy();
+        this.titleBannerContainer = this.add.container(this.sys.game.config.width / 2, this.sys.game.config.height / 2 - 180);
+
+        // Target isotopes to spell I-Sc-O-Te-P-Es
+        const bannerIsotopes = ['I-127', 'Sc-45', 'O-16', 'Te-120', 'P-31', 'Es-252'];
+        const tileSize = 50;
+        const spacing = 5;
+        const totalWidth = (bannerIsotopes.length * tileSize) + ((bannerIsotopes.length - 1) * spacing);
+        const startX = -totalWidth / 2 + (tileSize / 2);
+
+        bannerIsotopes.forEach((isoName, index) => {
+            const isoData = this.isotopesDB[isoName] || { decayMode: 'None', protons: 0 };
+            const sym = isoName.split('-')[0];
+            const mass = isoName.split('-')[1];
+
+            const tileX = startX + index * (tileSize + spacing);
+
+            // Draw tile
+            const rect = this.add.rectangle(tileX, 0, tileSize, tileSize, this.getDecayColor(isoData.decayMode));
+            rect.setStrokeStyle(2, 0xffffff);
+
+            // Text Label
+            const labelColor = (isoData.decayMode === "None") ? '#ffffff' : '#000000';
+            const label = this.add.text(tileX, 0, `${sym}\n${mass}`, {
+                fontFamily: 'Arial',
+                fontSize: '14px',
+                color: labelColor,
+                align: 'center',
+                fontStyle: 'bold'
+            }).setOrigin(0.5);
+
+            this.titleBannerContainer.add([rect, label]);
+        });
+
+        // Add a nice semi-transparent dark background for the banner so it pops over the grid
+        const bgRect = this.add.rectangle(0, 0, totalWidth + 20, tileSize + 20, 0x000000, 0.5);
+        this.titleBannerContainer.addAt(bgRect, 0);
+
+        // Put banner behind the level text, but above the main grid
+        this.titleBannerContainer.setDepth(50);
+    }
+
     actionNeutron() {
         if (!this.currentIsotope || this.isLevelComplete) return;
+        this.sndShoot.play();
         this.transmute(this.currentIsotope.protons, this.currentIsotope.neutrons + 1);
     }
 
     actionElectron() {
         if (!this.currentIsotope || this.isLevelComplete) return;
+        this.sndShoot.play();
         this.transmute(this.currentIsotope.protons - 1, this.currentIsotope.neutrons + 1);
     }
 
@@ -363,6 +422,7 @@ export class Game extends Phaser.Scene {
         // Victory if we reached the target element and it's stable
         if (sym === level.targetElement && this.isStable) {
             this.isLevelComplete = true;
+            this.sndWin.play();
             this.levelText.setText(`[SUCCÈS] ${level.title}\nValidé ! Vous avez atteint ${this.currentIsotope.name}.`);
             this.levelText.setColor('#00ff00');
             this.nextLevelButton.setVisible(true);
@@ -412,6 +472,7 @@ export class Game extends Phaser.Scene {
         this.transmute(p, n);
 
         // Add a red flash specifically for automatic decays to make them feel impactful
+        this.sndDecay.play();
         this.cameras.main.flash(150, 255, 0, 0);
     }
 
