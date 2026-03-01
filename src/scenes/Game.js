@@ -74,7 +74,7 @@ export class Game extends Phaser.Scene {
 
         this.levelText = this.add.text(
             this.sys.game.config.width / 2,
-            30,
+            this.sys.game.config.height - 100,
             '',
             {
                 fontFamily: 'Arial',
@@ -85,11 +85,12 @@ export class Game extends Phaser.Scene {
                 padding: { x: 10, y: 10 },
                 wordWrap: { width: this.sys.game.config.width - 40 }
             }
-        ).setOrigin(0.5, 0);
+        ).setOrigin(0.5, 1);
+        this.levelText.setDepth(100);
 
         this.nextLevelButton = this.add.text(
             this.sys.game.config.width / 2,
-            160,
+            this.sys.game.config.height - 40,
             'Niveau Suivant >>',
             {
                 fontFamily: 'Arial',
@@ -146,12 +147,12 @@ export class Game extends Phaser.Scene {
             this.coreGraphics.setPosition(width / 2, height / 2);
             this.coreGraphics.body.updateFromGameObject();
 
-            this.levelText.setPosition(width / 2, 30);
+            this.levelText.setPosition(width / 2, height - 100);
             this.levelText.setStyle({ wordWrap: { width: width - 40 } });
-            this.nextLevelButton.setPosition(width / 2, 160);
+            this.nextLevelButton.setPosition(width / 2, height - 40);
 
             // Re-center title banner
-            this.titleBannerContainer.setPosition(width / 2, height / 2 - 180);
+            this.titleBannerContainer.setPosition(width / 2, 70);
 
             this.updateGrid(); // Redraw grid on center
         });
@@ -159,7 +160,7 @@ export class Game extends Phaser.Scene {
 
     createTitleBanner() {
         if (this.titleBannerContainer) this.titleBannerContainer.destroy();
-        this.titleBannerContainer = this.add.container(this.sys.game.config.width / 2, this.sys.game.config.height / 2 - 180);
+        this.titleBannerContainer = this.add.container(this.sys.game.config.width / 2, 70);
 
         // Target isotopes to spell I-Sc-O-Te-P-Es
         const bannerIsotopes = ['I-127', 'Sc-45', 'O-16', 'Te-120', 'P-31', 'Es-252'];
