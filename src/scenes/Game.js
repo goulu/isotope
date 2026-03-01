@@ -74,7 +74,7 @@ export class Game extends Phaser.Scene {
 
         this.levelText = this.add.text(
             this.sys.game.config.width / 2,
-            this.sys.game.config.height - 100,
+            this.sys.game.config.height,
             '',
             {
                 fontFamily: 'Arial',
@@ -152,7 +152,7 @@ export class Game extends Phaser.Scene {
             this.coreGraphics.setPosition(width / 2, height / 2);
             this.coreGraphics.body.updateFromGameObject();
 
-            this.levelText.setPosition(width / 2, height - 10);
+            this.levelText.setPosition(width / 2, height);
             this.levelText.setStyle({ wordWrap: { width: width - 20 } });
             this.levelText.setOrigin(0.5, 1);
 
@@ -360,8 +360,8 @@ export class Game extends Phaser.Scene {
         const bannerTileSize = Math.floor(Math.min(50, (width - 20 - spacing * 5) / 6));
         const bannerBottomY = (bannerTileSize / 2 + 10) + (bannerTileSize / 2) + 20; // safe margin
 
-        // Place Game Grid Center just below banner instead of screen vertical center
-        const centerY = bannerBottomY + (3 * this.tileSize) + 10;
+        // Place Game Grid Center just below banner instead of screen vertical center, and offset 64 pixels down
+        const centerY = bannerBottomY + (3 * this.tileSize) + 10 + 64;
 
         // Ensure the grid container is correctly zeroed since we offset the tiles directly
         this.gridContainer.setPosition(0, 0);
