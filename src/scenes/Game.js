@@ -27,9 +27,9 @@ export class Game extends Phaser.Scene {
         this.load.image('sky', 'assets/img/space3.png');
 
         // Audio
-        this.load.audio('sfx_shoot', 'assets/audio/blaster.mp3');
-        this.load.audio('sfx_decay', 'assets/audio/explosion.mp3');
-        this.load.audio('sfx_win', 'assets/audio/key.mp3');
+        this.load.audio('sfx_shoot', 'assets/audio/blaster.wav');
+        this.load.audio('sfx_decay', 'assets/audio/explosion.wav');
+        this.load.audio('sfx_win', 'assets/audio/key.wav');
     }
 
     create() {
@@ -52,20 +52,22 @@ export class Game extends Phaser.Scene {
         this.coreGraphics = this.add.rectangle(this.sys.game.config.width / 2, this.sys.game.config.height / 2, this.tileSize, this.tileSize, 0x000000, 0); // invisible hitbox, 0 alpha
         this.physics.add.existing(this.coreGraphics, true); // true = static body
 
-        // Stats Text (Bottom)
-        this.uiText = this.add.text(
-            this.sys.game.config.width / 2,
-            this.sys.game.config.height - 80,
-            '',
-            {
-                fontFamily: 'Courier',
-                fontSize: '20px',
-                color: '#ffffff',
-                align: 'center',
-                backgroundColor: '#000000aa',
-                padding: { x: 10, y: 10 }
+        // Tooltip container
+        this.tooltipBg = this.add.rectangle(0, 0, 10, 10, 0x000000, 0.9).setOrigin(0, 0);
+        this.tooltipBg.setStrokeStyle(1, 0xffffff);
+        this.tooltipText = this.add.text(10, 10, '', {
+            fontFamily: 'Courier',
+            fontSize: '14px',
+            color: '#ffffff',
+            align: 'left'
+        });
+        this.tooltipContainer = this.add.container(0, 0, [this.tooltipBg, this.tooltipText]).setDepth(200).setVisible(false);
+
+        this.input.on('pointermove', (pointer) => {
+            if (this.tooltipContainer.visible) {
+                this.updateTooltipPosition(pointer);
             }
-        ).setOrigin(0.5);
+        });
 
         // Level UI (Top)
         this.levelsData = this.cache.json.get('levels');
@@ -143,7 +145,6 @@ export class Game extends Phaser.Scene {
 
             this.coreGraphics.setPosition(width / 2, height / 2);
             this.coreGraphics.body.updateFromGameObject();
-            this.uiText.setPosition(width / 2, height - 80);
 
             this.levelText.setPosition(width / 2, 30);
             this.levelText.setStyle({ wordWrap: { width: width - 40 } });
@@ -306,7 +307,7 @@ export class Game extends Phaser.Scene {
             }
 
             this.updateGrid();
-            this.updateUI();
+            this.checkWinCondition();
         } else {
             console.warn(`Isotope ${isotopeName} not found in DB!`);
         }
@@ -326,6 +327,7 @@ export class Game extends Phaser.Scene {
 
     updateGrid() {
         if (!this.currentIsotope) return;
+        this.hideTooltip();
 
         // Clear previous grid
         this.gridContainer.removeAll(true);
@@ -375,6 +377,17 @@ export class Game extends Phaser.Scene {
                 // Base tile
                 const rect = this.add.rectangle(tileX, tileY, this.tileSize, this.tileSize, tileColor);
                 rect.setStrokeStyle(borderThickness, borderColor);
+
+                if (isoData) {
+                    rect.setInteractive();
+                    const isCenter = (dP === 0 && dN === 0);
+                    rect.on('pointerover', (pointer) => {
+                        this.showTooltip(isoData, targetSym, targetMass, isCenter, pointer);
+                    });
+                    rect.on('pointerout', () => {
+                        this.hideTooltip();
+                    });
+                }
 
                 // Label
                 const labelColor = (isoData && isoData.decayMode === "None") ? '#ffffff' : '#000000';
@@ -429,16 +442,26 @@ export class Game extends Phaser.Scene {
         }
     }
 
-    updateUI() {
-        if (!this.currentIsotope) return;
+    updateTooltipPosition(pointer) {
+        let tx = pointer.x + 15;
+        let ty = pointer.y + 15;
+        const b = this.tooltipText.getBounds();
+        if (tx + b.width + 20 > this.sys.game.config.width) {
+            tx = pointer.x - b.width - 25;
+        }
+        if (ty + b.height + 20 > this.sys.game.config.height) {
+            ty = pointer.y - b.height - 25;
+        }
+        this.tooltipContainer.setPosition(tx, ty);
+    }
 
-        const iso = this.currentIsotope;
-        const mass = iso.protons + iso.neutrons;
-        const symbol = iso.id.split('-')[0];
+    showTooltip(iso, symbol, mass, isCurrent, pointer) {
+        let stabilityTxt = (iso.halfLife === -1) ? "STABLE" : `Half-Life: ${iso.halfLife} s\nDecay: ${iso.decayMode}`;
+        if (isCurrent && iso.halfLife !== -1) {
+            stabilityTxt += `\nTime Left: ${(this.decayTimeLeft / 1000).toFixed(1)}s`;
+        }
 
-        let stabilityTxt = this.isStable ? "STABLE" : `Half-Life: ${iso.halfLife} s\nDecay: ${iso.decayMode}\nTime Left: ${(this.decayTimeLeft / 1000).toFixed(1)}s`;
-
-        this.uiText.setText(
+        this.tooltipText.setText(
             `${iso.name} (${symbol}-${mass})\n` +
             `Protons (Z) : ${iso.protons}\n` +
             `Neutrons (N): ${iso.neutrons}\n` +
@@ -446,7 +469,21 @@ export class Game extends Phaser.Scene {
             `${stabilityTxt}`
         );
 
-        this.checkWinCondition();
+        const b = this.tooltipText.getBounds();
+        this.tooltipBg.setSize(b.width + 20, b.height + 20);
+        this.tooltipContainer.setVisible(true);
+        this.hoveredIsotope = { iso, symbol, mass, isCurrent };
+
+        if (pointer) {
+            this.updateTooltipPosition(pointer);
+        }
+    }
+
+    hideTooltip() {
+        if (this.tooltipContainer) {
+            this.tooltipContainer.setVisible(false);
+            this.hoveredIsotope = null;
+        }
     }
 
     triggerDecay() {
@@ -480,9 +517,8 @@ export class Game extends Phaser.Scene {
         if (!this.isStable && this.decayTimeLeft > 0) {
             this.decayTimeLeft -= delta;
 
-            // Periodically update the UI text timer 
-            if (Math.floor(time) % 5 === 0) {
-                this.updateUI();
+            if (this.tooltipContainer && this.tooltipContainer.visible && this.hoveredIsotope && this.hoveredIsotope.isCurrent) {
+                this.showTooltip(this.hoveredIsotope.iso, this.hoveredIsotope.symbol, this.hoveredIsotope.mass, true);
             }
 
             if (this.decayTimeLeft <= 0) {
