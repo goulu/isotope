@@ -108,30 +108,34 @@ export class Game extends Phaser.Scene {
         ).setOrigin(1, 0);
         this.resourceText.setDepth(100);
 
+        // Action buttons (side by side above status bar)
+        const actionButtonY = this.sys.game.config.height - 110;
+        const actionButtonSpacing = 100;
+
         this.nextLevelButton = this.add.text(
-            this.sys.game.config.width / 2,
-            this.sys.game.config.height - 40,
-            'Niveau Suivant >>',
+            this.sys.game.config.width / 2 + actionButtonSpacing / 2,
+            actionButtonY,
+            '➡️',
             {
                 fontFamily: 'Arial',
-                fontSize: '20px',
+                fontSize: '32px',
                 color: '#ffffff',
                 backgroundColor: '#2E8B57',
-                padding: { x: 15, y: 10 }
+                padding: { x: 20, y: 10 }
             }
         ).setOrigin(0.5).setInteractive().setVisible(false);
         this.nextLevelButton.setDepth(100);
 
         this.restartButton = this.add.text(
-            this.sys.game.config.width / 2,
-            this.sys.game.config.height - 40,
-            'Recommencer',
+            this.sys.game.config.width / 2 - actionButtonSpacing / 2,
+            actionButtonY,
+            '🔄',
             {
                 fontFamily: 'Arial',
-                fontSize: '20px',
+                fontSize: '32px',
                 color: '#ffffff',
                 backgroundColor: '#8B4513',
-                padding: { x: 15, y: 10 }
+                padding: { x: 20, y: 10 }
             }
         ).setOrigin(0.5).setInteractive().setVisible(false);
         this.restartButton.setDepth(100);
@@ -158,19 +162,12 @@ export class Game extends Phaser.Scene {
         // Disable default right-click context menu
         this.input.mouse.disableContextMenu();
 
-        // Handle Input via buttons (mouse/keyboard disabled for particles)
+        // Handle Input via buttons ONLY (no grid clicks, no keyboard)
+        // Pointer down on grid does nothing - only button clicks work
         this.input.on('pointerdown', (pointer) => {
             if (this.isLevelComplete || this.isGameOver) return;
-            if (pointer.button === 0) { // Left click
-                this.actionNeutron();
-            } else if (pointer.button === 2) { // Right click
-                this.actionElectron();
-            }
+            // Only button clicks trigger actions, grid clicks are ignored
         });
-
-        this.input.keyboard.on('keydown-SPACE', () => this.actionNeutron());
-        this.input.keyboard.on('keydown-RIGHT', () => this.actionNeutron());
-        this.input.keyboard.on('keydown-DOWN', () => this.actionElectron());
 
         // Handle resize
         this.scale.on('resize', (gameSize) => {
@@ -185,8 +182,11 @@ export class Game extends Phaser.Scene {
             this.coreGraphics.setPosition(width / 2, height / 2);
             this.coreGraphics.body.updateFromGameObject();
 
-            this.nextLevelButton.setPosition(width / 2, height - 120);
-            this.restartButton.setPosition(width / 2, height - 120);
+            // Position action buttons side by side
+            const actionButtonY = height - 110;
+            const actionButtonSpacing = 100;
+            this.nextLevelButton.setPosition(width / 2 + actionButtonSpacing / 2, actionButtonY);
+            this.restartButton.setPosition(width / 2 - actionButtonSpacing / 2, actionButtonY);
 
             // Recreate status bar and title banner
             this.createStatusBar();
@@ -198,7 +198,9 @@ export class Game extends Phaser.Scene {
 
     createStatusBar() {
         const width = this.sys.game.config.width;
+        const height = this.sys.game.config.height;
         const barHeight = 50;
+        const barY = height - barHeight;
 
         // Clean up existing status bar
         if (this.statusBar) {
@@ -210,51 +212,63 @@ export class Game extends Phaser.Scene {
             this.descriptionText = null;
         }
 
-        // Create background rectangle
-        const bgRect = this.add.rectangle(0, 0, width, barHeight, 0x000000, 0.8);
+        // Create background rectangle at bottom
+        const bgRect = this.add.rectangle(0, barY, width, barHeight, 0x000000, 0.8);
         bgRect.setOrigin(0, 0);
 
         // Level title text (clickable to toggle description)
         const currentLevel = this.levelsData && this.levelsData[this.currentLevelIndex];
         const titleText = currentLevel ? `[Niveau ${currentLevel.id}] ${currentLevel.title}` : 'Isotope';
-        this.levelTitleText = this.add.text(20, barHeight / 2, titleText, {
+        this.levelTitleText = this.add.text(20, barY + barHeight / 2, titleText, {
             fontFamily: 'Arial',
             fontSize: '18px',
             color: '#ffffff',
             align: 'left'
         }).setOrigin(0, 0.5);
         this.levelTitleText.setInteractive();
-        this.levelTitleText.on('pointerdown', () => this.toggleStatusBar());
+        this.levelTitleText.on('pointerdown', (pointer) => {
+            if (pointer.button === 0) { // Left click only
+                this.toggleStatusBar();
+            }
+        });
 
         // Particle buttons container
-        const buttonSpacing = 10;
-        const buttonWidth = 100;
-        const buttonsStartX = width - 250;
+        const buttonSpacing = 15;
+        const buttonWidth = 140;
+        const buttonsStartX = width - buttonWidth * 2 - buttonSpacing - 20;
 
-        // Neutron button (⚛)
-        this.neutronButton = this.add.text(buttonsStartX, barHeight / 2, '⚛ 5/5', {
+        // Neutron button (⚛) - Larger
+        this.neutronButton = this.add.text(buttonsStartX, barY + barHeight / 2, '⚛ 5/5', {
             fontFamily: 'Arial',
-            fontSize: '18px',
+            fontSize: '24px',
             color: '#ffffff',
             backgroundColor: '#00008B',
-            padding: { x: 10, y: 5 }
+            padding: { x: 20, y: 10 }
         }).setOrigin(0.5, 0.5);
         this.neutronButton.setInteractive();
-        this.neutronButton.on('pointerdown', () => this.actionNeutron());
+        this.neutronButton.on('pointerdown', (pointer) => {
+            if (pointer.button === 0) { // Left click only
+                this.actionNeutron();
+            }
+        });
 
-        // Electron button (⚡)
-        this.electronButton = this.add.text(buttonsStartX + buttonWidth + buttonSpacing, barHeight / 2, '⚡ 1/1', {
+        // Electron button (⚡) - Larger
+        this.electronButton = this.add.text(buttonsStartX + buttonWidth + buttonSpacing, barY + barHeight / 2, '⚡ 1/1', {
             fontFamily: 'Arial',
-            fontSize: '18px',
+            fontSize: '24px',
             color: '#ffffff',
             backgroundColor: '#8B008B',
-            padding: { x: 10, y: 5 }
+            padding: { x: 20, y: 10 }
         }).setOrigin(0.5, 0.5);
         this.electronButton.setInteractive();
-        this.electronButton.on('pointerdown', () => this.actionElectron());
+        this.electronButton.on('pointerdown', (pointer) => {
+            if (pointer.button === 0) { // Left click only
+                this.actionElectron();
+            }
+        });
 
-        // Description text (hidden by default)
-        this.descriptionText = this.add.text(20, barHeight + 20, '', {
+        // Description text (hidden by default, above the bar when expanded)
+        this.descriptionText = this.add.text(20, barY - 60, '', {
             fontFamily: 'Arial',
             fontSize: '14px',
             color: '#ffffff',
@@ -298,9 +312,10 @@ export class Game extends Phaser.Scene {
         this.statusBarExpanded = !this.statusBarExpanded;
         this.descriptionText.setVisible(this.statusBarExpanded);
 
-        // Reposition description text
+        // Reposition description text above the status bar
         if (this.statusBarExpanded) {
-            this.descriptionText.setPosition(20, 50 + 20);
+            const height = this.sys.game.config.height;
+            this.descriptionText.setPosition(20, height - 120);
         }
     }
 
