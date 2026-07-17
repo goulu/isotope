@@ -16,6 +16,18 @@ export class Game extends Phaser.Scene {
         this.levelsData = null;
         this.currentLevelIndex = 0;
         this.isLevelComplete = false;
+
+        // Resource properties
+        this.remainingNeutrons = 0;
+        this.remainingElectrons = 0;
+        this.maxNeutrons = 0;
+        this.maxElectrons = 0;
+        this.isGameOver = false;
+
+        // UI elements
+        this.statusBar = null;
+        this.statusBarExpanded = false;
+        this.descriptionText = null;
     }
 
     preload() {
@@ -30,6 +42,7 @@ export class Game extends Phaser.Scene {
         this.load.audio('sfx_shoot', 'assets/audio/blaster.wav');
         this.load.audio('sfx_decay', 'assets/audio/explosion.wav');
         this.load.audio('sfx_win', 'assets/audio/key.wav');
+        this.load.audio('sfx_lose', 'assets/audio/explosion.wav');
     }
 
     create() {
@@ -44,6 +57,7 @@ export class Game extends Phaser.Scene {
         this.sndShoot = this.sound.add('sfx_shoot', { volume: 0.3 });
         this.sndDecay = this.sound.add('sfx_decay', { volume: 0.5 });
         this.sndWin = this.sound.add('sfx_win', { volume: 0.6 });
+        this.sndLose = this.sound.add('sfx_lose', { volume: 0.7 });
 
         // Group for Segrè Grid
         this.gridContainer = this.add.container(0, 0);
@@ -69,24 +83,30 @@ export class Game extends Phaser.Scene {
             }
         });
 
-        // Level UI (Top)
+        // Level data
         this.levelsData = this.cache.json.get('levels');
 
-        this.levelText = this.add.text(
-            this.sys.game.config.width / 2,
-            this.sys.game.config.height,
+        // Create Status Bar (compact UI at top)
+        this.createStatusBar();
+
+        // Title Banner (I-Sc-O-Te-P-Es)
+        this.createTitleBanner();
+
+        // Resource UI (Top Right)
+        this.resourceText = this.add.text(
+            this.sys.game.config.width - 10,
+            10,
             '',
             {
                 fontFamily: 'Arial',
-                fontSize: '18px',
+                fontSize: '16px',
                 color: '#ffffff',
-                align: 'center',
-                backgroundColor: '#000000cc',
-                padding: { x: 10, y: 10 },
-                wordWrap: { width: this.sys.game.config.width - 40 }
+                align: 'right',
+                backgroundColor: '#00000080',
+                padding: { x: 10, y: 5 }
             }
-        ).setOrigin(0.5, 1);
-        this.levelText.setDepth(100);
+        ).setOrigin(1, 0);
+        this.resourceText.setDepth(100);
 
         this.nextLevelButton = this.add.text(
             this.sys.game.config.width / 2,
@@ -102,11 +122,26 @@ export class Game extends Phaser.Scene {
         ).setOrigin(0.5).setInteractive().setVisible(false);
         this.nextLevelButton.setDepth(100);
 
-        // Title Banner (I-Sc-O-Te-P-Es)
-        this.createTitleBanner();
+        this.restartButton = this.add.text(
+            this.sys.game.config.width / 2,
+            this.sys.game.config.height - 40,
+            'Recommencer',
+            {
+                fontFamily: 'Arial',
+                fontSize: '20px',
+                color: '#ffffff',
+                backgroundColor: '#8B4513',
+                padding: { x: 15, y: 10 }
+            }
+        ).setOrigin(0.5).setInteractive().setVisible(false);
+        this.restartButton.setDepth(100);
 
         this.nextLevelButton.on('pointerdown', () => {
             this.loadLevel(this.currentLevelIndex + 1);
+        });
+
+        this.restartButton.on('pointerdown', () => {
+            this.loadLevel(this.currentLevelIndex);
         });
 
         // Setup dynamic tile size based on screen width
@@ -123,11 +158,9 @@ export class Game extends Phaser.Scene {
         // Disable default right-click context menu
         this.input.mouse.disableContextMenu();
 
-        // Handle Input
-        // Neutron (Left click, Space, or Right arrow) -> n+1
-        // Electron (Right click, or Down arrow) -> p-1, n+1
-
+        // Handle Input via buttons (mouse/keyboard disabled for particles)
         this.input.on('pointerdown', (pointer) => {
+            if (this.isLevelComplete || this.isGameOver) return;
             if (pointer.button === 0) { // Left click
                 this.actionNeutron();
             } else if (pointer.button === 2) { // Right click
@@ -152,17 +185,145 @@ export class Game extends Phaser.Scene {
             this.coreGraphics.setPosition(width / 2, height / 2);
             this.coreGraphics.body.updateFromGameObject();
 
-            this.levelText.setPosition(width / 2, height);
-            this.levelText.setStyle({ wordWrap: { width: width - 20 } });
-            this.levelText.setOrigin(0.5, 1);
-
             this.nextLevelButton.setPosition(width / 2, height - 120);
+            this.restartButton.setPosition(width / 2, height - 120);
 
-            // Re-center title banner
+            // Recreate status bar and title banner
+            this.createStatusBar();
             this.createTitleBanner();
 
             this.updateGrid(); // Redraw grid on center
         });
+    }
+
+    createStatusBar() {
+        const width = this.sys.game.config.width;
+        const barHeight = 50;
+
+        // Clean up existing status bar
+        if (this.statusBar) {
+            this.statusBar.destroy();
+            this.statusBar = null;
+        }
+        if (this.descriptionText) {
+            this.descriptionText.destroy();
+            this.descriptionText = null;
+        }
+
+        // Create background rectangle
+        const bgRect = this.add.rectangle(0, 0, width, barHeight, 0x000000, 0.8);
+        bgRect.setOrigin(0, 0);
+
+        // Level title text (clickable to toggle description)
+        const currentLevel = this.levelsData && this.levelsData[this.currentLevelIndex];
+        const titleText = currentLevel ? `[Niveau ${currentLevel.id}] ${currentLevel.title}` : 'Isotope';
+        this.levelTitleText = this.add.text(20, barHeight / 2, titleText, {
+            fontFamily: 'Arial',
+            fontSize: '18px',
+            color: '#ffffff',
+            align: 'left'
+        }).setOrigin(0, 0.5);
+        this.levelTitleText.setInteractive();
+        this.levelTitleText.on('pointerdown', () => this.toggleStatusBar());
+
+        // Particle buttons container
+        const buttonSpacing = 10;
+        const buttonWidth = 100;
+        const buttonsStartX = width - 250;
+
+        // Neutron button (⚛)
+        this.neutronButton = this.add.text(buttonsStartX, barHeight / 2, '⚛ 5/5', {
+            fontFamily: 'Arial',
+            fontSize: '18px',
+            color: '#ffffff',
+            backgroundColor: '#00008B',
+            padding: { x: 10, y: 5 }
+        }).setOrigin(0.5, 0.5);
+        this.neutronButton.setInteractive();
+        this.neutronButton.on('pointerdown', () => this.actionNeutron());
+
+        // Electron button (⚡)
+        this.electronButton = this.add.text(buttonsStartX + buttonWidth + buttonSpacing, barHeight / 2, '⚡ 1/1', {
+            fontFamily: 'Arial',
+            fontSize: '18px',
+            color: '#ffffff',
+            backgroundColor: '#8B008B',
+            padding: { x: 10, y: 5 }
+        }).setOrigin(0.5, 0.5);
+        this.electronButton.setInteractive();
+        this.electronButton.on('pointerdown', () => this.actionElectron());
+
+        // Description text (hidden by default)
+        this.descriptionText = this.add.text(20, barHeight + 20, '', {
+            fontFamily: 'Arial',
+            fontSize: '14px',
+            color: '#ffffff',
+            align: 'left',
+            backgroundColor: '#000000cc',
+            padding: { x: 10, y: 10 },
+            wordWrap: { width: width - 40 }
+        }).setOrigin(0, 0).setVisible(false);
+
+        // Create container for status bar elements
+        this.statusBar = this.add.container(0, 0, [
+            bgRect,
+            this.levelTitleText,
+            this.neutronButton,
+            this.electronButton,
+            this.descriptionText
+        ]);
+        this.statusBar.setDepth(100);
+
+        this.statusBarExpanded = false;
+    }
+
+    updateStatusBar() {
+        if (!this.levelsData || this.currentLevelIndex >= this.levelsData.length) return;
+
+        const level = this.levelsData[this.currentLevelIndex];
+        this.levelTitleText.setText(`[Niveau ${level.id}] ${level.title}`);
+        this.descriptionText.setText(level.description);
+
+        if (this.neutronButton) {
+            this.neutronButton.setText(`⚛ ${this.remainingNeutrons}/${this.maxNeutrons}`);
+        }
+        if (this.electronButton) {
+            this.electronButton.setText(`⚡ ${this.remainingElectrons}/${this.maxElectrons}`);
+        }
+    }
+
+    toggleStatusBar() {
+        if (!this.descriptionText) return;
+
+        this.statusBarExpanded = !this.statusBarExpanded;
+        this.descriptionText.setVisible(this.statusBarExpanded);
+
+        // Reposition description text
+        if (this.statusBarExpanded) {
+            this.descriptionText.setPosition(20, 50 + 20);
+        }
+    }
+
+    gameOver(isVictory) {
+        this.isGameOver = true;
+        this.isLevelComplete = !isVictory;
+
+        const currentLevel = this.levelsData && this.levelsData[this.currentLevelIndex];
+        if (isVictory) {
+            this.sndWin.play();
+            this.levelTitleText.setColor('#00ff00');
+            this.levelTitleText.setText(`[SUCCÈS] ${currentLevel.title}`);
+            this.nextLevelButton.setVisible(true);
+        } else {
+            this.sndLose.play();
+            this.levelTitleText.setColor('#ff0000');
+            this.levelTitleText.setText(`[ÉCHEC] ${currentLevel.title}\nIl vous reste 0 neutrons et 0 électrons.`);
+        }
+        this.restartButton.setVisible(true);
+
+        // Hide particle buttons when game is over
+        if (this.neutronButton) this.neutronButton.setVisible(false);
+        if (this.electronButton) this.electronButton.setVisible(false);
     }
 
     updateTileSize() {
@@ -221,13 +382,25 @@ export class Game extends Phaser.Scene {
     }
 
     actionNeutron() {
-        if (!this.currentIsotope || this.isLevelComplete) return;
+        if (!this.currentIsotope || this.isLevelComplete || this.isGameOver) return;
+        if (this.remainingNeutrons <= 0) {
+            this.gameOver(false);
+            return;
+        }
+        this.remainingNeutrons--;
+        this.updateStatusBar();
         this.sndShoot.play();
         this.transmute(this.currentIsotope.protons, this.currentIsotope.neutrons + 1);
     }
 
     actionElectron() {
-        if (!this.currentIsotope || this.isLevelComplete) return;
+        if (!this.currentIsotope || this.isLevelComplete || this.isGameOver) return;
+        if (this.remainingElectrons <= 0) {
+            this.gameOver(false);
+            return;
+        }
+        this.remainingElectrons--;
+        this.updateStatusBar();
         this.sndShoot.play();
         this.transmute(this.currentIsotope.protons - 1, this.currentIsotope.neutrons + 1);
     }
@@ -437,7 +610,7 @@ export class Game extends Phaser.Scene {
 
     loadLevel(index) {
         if (index >= this.levelsData.length) {
-            this.levelText.setText("Félicitations !\nVous avez complété tous les niveaux de cette démo.");
+            this.levelTitleText.setText("Félicitations !\nVous avez complété tous les niveaux de cette démo.");
             this.nextLevelButton.setVisible(false);
             this.isLevelComplete = true; // block input
             return;
@@ -446,10 +619,22 @@ export class Game extends Phaser.Scene {
         this.currentLevelIndex = index;
         const level = this.levelsData[index];
         this.isLevelComplete = false;
+        this.isGameOver = false;
         this.nextLevelButton.setVisible(false);
+        this.restartButton.setVisible(false);
 
-        const stableText = (level.requireStable !== false) ? ' stable' : '';
-        this.levelText.setText(`[Niveau ${level.id}] ${level.title}\nObjectif: Atteindre un isotope${stableText} de ${level.targetElement}\n=> ${level.description}`);
+        // Initialize resources
+        this.maxNeutrons = level.maxNeutrons || 10;
+        this.maxElectrons = level.maxElectrons || 5;
+        this.remainingNeutrons = this.maxNeutrons;
+        this.remainingElectrons = this.maxElectrons;
+
+        // Update status bar
+        this.updateStatusBar();
+
+        // Show particle buttons
+        if (this.neutronButton) this.neutronButton.setVisible(true);
+        if (this.electronButton) this.electronButton.setVisible(true);
 
         // Clear tweens and immediately reset grid position
         this.tweens.killTweensOf(this.gridContainer);
@@ -459,7 +644,7 @@ export class Game extends Phaser.Scene {
     }
 
     checkWinCondition() {
-        if (this.isLevelComplete || !this.levelsData || this.currentLevelIndex >= this.levelsData.length) return;
+        if (this.isLevelComplete || this.isGameOver || !this.levelsData || this.currentLevelIndex >= this.levelsData.length) return;
 
         const level = this.levelsData[this.currentLevelIndex];
         const sym = this.currentIsotope.id.split('-')[0];
@@ -468,11 +653,7 @@ export class Game extends Phaser.Scene {
 
         // Victory if we reached the target element and its stability matches the requirement
         if (sym === level.targetElement && (!requireStable || this.isStable)) {
-            this.isLevelComplete = true;
-            this.sndWin.play();
-            this.levelText.setText(`[SUCCÈS] ${level.title}\nValidé ! Vous avez atteint ${this.currentIsotope.name}.`);
-            this.levelText.setColor('#00ff00');
-            this.nextLevelButton.setVisible(true);
+            this.gameOver(true);
         }
     }
 

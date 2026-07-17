@@ -4,14 +4,18 @@
     "title": "Tutoriel 1 : Capture Électronique",
     "description": "L'atome de Tellure 123 (Te-123) est un cas particulier d'isobare stable. Ajoutez-lui un électron (Clic Droit ou Flèche Bas) pour transmuter un proton en neutron. Vous obtiendrez instantanément de l'Antimoine stable !",
     "startIsotope": "Te-123",
-    "targetElement": "Sb"
+    "targetElement": "Sb",
+    "maxNeutrons": 5,
+    "maxElectrons": 1
   },
   {
     "id": 2,
     "title": "Tutoriel 2 : Radioactivité Beta-",
     "description": "L'Oxygène 18 est stable. Ajoutez-lui un neutron (Clic Gauche, Espace ou Flèche Droite) pour le transformer en Oxygène 19. Il deviendra instable et se désintégrera tout seul (Beta-) vers cet élément !",
     "startIsotope": "O-18",
-    "targetElement": "F"
+    "targetElement": "F",
+    "maxNeutrons": 3,
+    "maxElectrons": 2
   },
   {
     "id": 3,
@@ -19,6 +23,8 @@
     "description": "Transmutation du Mercure 198 en Or. C'est la réaction réalisée en 1941 par Sherr, Bainbridge et Anderson.",
     "startIsotope": "Hg-198",
     "targetElement": "Au",
-    "requireStable": false
+    "requireStable": false,
+    "maxNeutrons": 10,
+    "maxElectrons": 5
   }
 ]
