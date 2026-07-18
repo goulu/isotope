@@ -371,28 +371,9 @@ export class Game extends Phaser.Scene {
         }
 
         // Update Target Isotope Icon
-        let targetIsoName = "";
-        if (level.targetIsotope) {
-            targetIsoName = level.targetIsotope;
-        } else {
-            let minMassDiff = Infinity;
-            const startMassVal = parseInt(startMass);
-
-            for (let key in this.isotopesDB) {
-                if (key.startsWith(level.targetElement + "-")) {
-                    if (this.isotopesDB[key].decayMode === "None") {
-                        const mass = parseInt(key.split('-')[1]);
-                        const diff = Math.abs(mass - startMassVal);
-                        if (diff < minMassDiff) {
-                            minMassDiff = diff;
-                            targetIsoName = key;
-                        }
-                    }
-                }
-            }
-        }
+        const targetIsoName = level.targetIsotope;
         const targetIsoData = this.isotopesDB[targetIsoName] || { decayMode: 'None', protons: 0, neutrons: 0 };
-        const targetSym = targetIsoName ? targetIsoName.split('-')[0] : level.targetElement;
+        const targetSym = targetIsoName ? targetIsoName.split('-')[0] : "";
         const targetMass = targetIsoName ? targetIsoName.split('-')[1] : "";
 
         if (this.targetIconBg) {
@@ -828,18 +809,10 @@ export class Game extends Phaser.Scene {
         if (this.isLevelComplete || this.isGameOver || !this.levelsData || this.currentLevelIndex >= this.levelsData.length) return;
 
         const level = this.levelsData[this.currentLevelIndex];
-        const sym = this.currentIsotope.id.split('-')[0];
 
         // Victory if we reached the target and it is stable
-        if (level.targetIsotope) {
-            if (this.currentIsotope.id === level.targetIsotope && this.isStable) {
-                this.gameOver(true);
-            }
-        } else {
-            const sym = this.currentIsotope.id.split('-')[0];
-            if (sym === level.targetElement && this.isStable) {
-                this.gameOver(true);
-            }
+        if (this.currentIsotope.id === level.targetIsotope && this.isStable) {
+            this.gameOver(true);
         }
     }
 
