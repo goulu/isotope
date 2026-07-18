@@ -5,7 +5,7 @@
     "description": "L'atome de Tellure 123 (Te-123) est un cas particulier d'isobare stable. Ajoutez-lui un électron (Clic Droit ou Flèche Bas) pour transmuter un proton en neutron. Vous obtiendrez instantanément de l'Antimoine stable !",
     "startIsotope": "Te-123",
     "targetElement": "Sb",
-    "maxNeutrons": 5,
+    "maxNeutrons": 0,
     "maxElectrons": 1
   },
   {
@@ -14,17 +14,17 @@
     "description": "L'Oxygène 18 est stable. Ajoutez-lui un neutron (Clic Gauche, Espace ou Flèche Droite) pour le transformer en Oxygène 19. Il deviendra instable et se désintégrera tout seul (Beta-) vers cet élément !",
     "startIsotope": "O-18",
     "targetElement": "F",
-    "maxNeutrons": 3,
-    "maxElectrons": 2
+    "maxNeutrons": 1,
+    "maxElectrons": 0
   },
   {
     "id": 3,
     "title": "Niveau 3 : Le rêve de l'alchimiste",
-    "description": "Transmutation du Mercure 198 en Or. C'est la réaction réalisée en 1941 par Sherr, Bainbridge et Anderson.",
-    "startIsotope": "Hg-198",
+    "description": "Transmutation du Mercure 196 en Or stable. C'est la réaction réalisée en 1941 par Sherr, Bainbridge et Anderson en bombardant le mercure avec des neutrons.",
+    "startIsotope": "Hg-196",
     "targetElement": "Au",
-    "requireStable": false,
-    "maxNeutrons": 10,
-    "maxElectrons": 5
+    "requireStable": true,
+    "maxNeutrons": 1,
+    "maxElectrons": 1
   }
 ]

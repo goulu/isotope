@@ -83,13 +83,16 @@ export class Game extends Phaser.Scene {
             }
         });
 
+        // Setup dynamic tile size based on screen width
+        this.updateTileSize();
+
         // Level data
         this.levelsData = this.cache.json.get('levels');
 
         // Create Status Bar (compact UI at top)
         this.createStatusBar();
 
-        // Title Banner (I-Sc-O-Te-P-Es)
+        // Title Banner (I-S-O-Te-P-Es)
         this.createTitleBanner();
 
         // Resource UI (Top Right)
@@ -108,48 +111,9 @@ export class Game extends Phaser.Scene {
         ).setOrigin(1, 0);
         this.resourceText.setDepth(100);
 
-        // Action buttons (side by side above status bar)
-        const actionButtonY = this.sys.game.config.height - 110;
-        const actionButtonSpacing = 100;
 
-        this.nextLevelButton = this.add.text(
-            this.sys.game.config.width / 2 + actionButtonSpacing / 2,
-            actionButtonY,
-            '➡️',
-            {
-                fontFamily: 'Arial',
-                fontSize: '32px',
-                color: '#ffffff',
-                backgroundColor: '#2E8B57',
-                padding: { x: 20, y: 10 }
-            }
-        ).setOrigin(0.5).setInteractive().setVisible(false);
-        this.nextLevelButton.setDepth(100);
 
-        this.restartButton = this.add.text(
-            this.sys.game.config.width / 2 - actionButtonSpacing / 2,
-            actionButtonY,
-            '🔄',
-            {
-                fontFamily: 'Arial',
-                fontSize: '32px',
-                color: '#ffffff',
-                backgroundColor: '#8B4513',
-                padding: { x: 20, y: 10 }
-            }
-        ).setOrigin(0.5).setInteractive().setVisible(false);
-        this.restartButton.setDepth(100);
 
-        this.nextLevelButton.on('pointerdown', () => {
-            this.loadLevel(this.currentLevelIndex + 1);
-        });
-
-        this.restartButton.on('pointerdown', () => {
-            this.loadLevel(this.currentLevelIndex);
-        });
-
-        // Setup dynamic tile size based on screen width
-        this.updateTileSize();
 
         // Initialize Level 0 or fallback to sandbox
         if (this.levelsData && this.levelsData.length > 0) {
@@ -182,11 +146,7 @@ export class Game extends Phaser.Scene {
             this.coreGraphics.setPosition(width / 2, height / 2);
             this.coreGraphics.body.updateFromGameObject();
 
-            // Position action buttons side by side
-            const actionButtonY = height - 110;
-            const actionButtonSpacing = 100;
-            this.nextLevelButton.setPosition(width / 2 + actionButtonSpacing / 2, actionButtonY);
-            this.restartButton.setPosition(width / 2 - actionButtonSpacing / 2, actionButtonY);
+
 
             // Recreate status bar and title banner
             this.createStatusBar();
@@ -199,7 +159,8 @@ export class Game extends Phaser.Scene {
     createStatusBar() {
         const width = this.sys.game.config.width;
         const height = this.sys.game.config.height;
-        const barHeight = 50;
+        const size = this.tileSize;
+        const barHeight = size + 10;
         const barY = height - barHeight;
 
         // Clean up existing status bar
@@ -210,6 +171,30 @@ export class Game extends Phaser.Scene {
         if (this.descriptionText) {
             this.descriptionText.destroy();
             this.descriptionText = null;
+        }
+        if (this.startIconContainer) {
+            this.startIconContainer.destroy();
+            this.startIconContainer = null;
+        }
+        if (this.targetIconContainer) {
+            this.targetIconContainer.destroy();
+            this.targetIconContainer = null;
+        }
+        if (this.neutronButton) {
+            this.neutronButton.destroy();
+            this.neutronButton = null;
+        }
+        if (this.electronButton) {
+            this.electronButton.destroy();
+            this.electronButton = null;
+        }
+        if (this.restartButton) {
+            this.restartButton.destroy();
+            this.restartButton = null;
+        }
+        if (this.nextLevelButton) {
+            this.nextLevelButton.destroy();
+            this.nextLevelButton = null;
         }
 
         // Create background rectangle at bottom
@@ -232,43 +217,112 @@ export class Game extends Phaser.Scene {
             }
         });
 
-        // Particle buttons container
-        const buttonSpacing = 15;
-        const buttonWidth = 140;
-        const buttonsStartX = width - buttonWidth * 2 - buttonSpacing - 20;
-
-        // Neutron button (⚛) - Larger
-        this.neutronButton = this.add.text(buttonsStartX, barY + barHeight / 2, '⚛ 5/5', {
+        // Restart Button Container (🔄)
+        this.restartButton = this.add.container(0, 0);
+        this.restartButtonBg = this.add.rectangle(0, 0, size, size, 0x8B4513);
+        this.restartButtonBg.setStrokeStyle(2, 0xffffff);
+        this.restartButtonBg.setInteractive({ useHandCursor: true });
+        this.restartButtonText = this.add.text(0, 0, '🔄', {
             fontFamily: 'Arial',
-            fontSize: '24px',
+            fontSize: Math.floor(size * 0.45) + 'px',
             color: '#ffffff',
-            backgroundColor: '#00008B',
-            padding: { x: 20, y: 10 }
-        }).setOrigin(0.5, 0.5);
-        this.neutronButton.setInteractive();
-        this.neutronButton.on('pointerdown', (pointer) => {
-            if (pointer.button === 0) { // Left click only
+            align: 'center',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.restartButtonBg.on('pointerdown', (pointer) => {
+            if (pointer.button === 0) {
+                this.loadLevel(this.currentLevelIndex);
+            }
+        });
+        this.restartButton.add([this.restartButtonBg, this.restartButtonText]);
+        this.restartButton.setVisible(false);
+
+        // Start Isotope Icon Container
+        this.startIconContainer = this.add.container(0, 0);
+        this.startIconBg = this.add.rectangle(0, 0, size, size, 0x000000);
+        this.startIconBg.setStrokeStyle(1, 0xffffff);
+        this.startIconText = this.add.text(0, 0, '', {
+            fontFamily: 'Arial',
+            fontSize: Math.floor(size * 0.3) + 'px',
+            color: '#ffffff',
+            align: 'center',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.startIconContainer.add([this.startIconBg, this.startIconText]);
+
+        // Neutron button container (⚛)
+        this.neutronButton = this.add.container(0, 0);
+        this.neutronButtonBg = this.add.rectangle(0, 0, size, size, 0x00008B);
+        this.neutronButtonBg.setStrokeStyle(2, 0xffffff);
+        this.neutronButtonBg.setInteractive({ useHandCursor: true });
+        this.neutronButtonText = this.add.text(0, 0, '', {
+            fontFamily: 'Arial',
+            fontSize: Math.floor(size * 0.3) + 'px',
+            color: '#ffffff',
+            align: 'center',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.neutronButtonBg.on('pointerdown', (pointer) => {
+            if (pointer.button === 0) {
                 this.actionNeutron();
             }
         });
+        this.neutronButton.add([this.neutronButtonBg, this.neutronButtonText]);
 
-        // Electron button (⚡) - Larger
-        this.electronButton = this.add.text(buttonsStartX + buttonWidth + buttonSpacing, barY + barHeight / 2, '⚡ 1/1', {
+        // Electron button container (⚡)
+        this.electronButton = this.add.container(0, 0);
+        this.electronButtonBg = this.add.rectangle(0, 0, size, size, 0x8B008B);
+        this.electronButtonBg.setStrokeStyle(2, 0xffffff);
+        this.electronButtonBg.setInteractive({ useHandCursor: true });
+        this.electronButtonText = this.add.text(0, 0, '', {
             fontFamily: 'Arial',
-            fontSize: '24px',
+            fontSize: Math.floor(size * 0.3) + 'px',
             color: '#ffffff',
-            backgroundColor: '#8B008B',
-            padding: { x: 20, y: 10 }
-        }).setOrigin(0.5, 0.5);
-        this.electronButton.setInteractive();
-        this.electronButton.on('pointerdown', (pointer) => {
-            if (pointer.button === 0) { // Left click only
+            align: 'center',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.electronButtonBg.on('pointerdown', (pointer) => {
+            if (pointer.button === 0) {
                 this.actionElectron();
             }
         });
+        this.electronButton.add([this.electronButtonBg, this.electronButtonText]);
+
+        // Target Isotope Icon Container
+        this.targetIconContainer = this.add.container(0, 0);
+        this.targetIconBg = this.add.rectangle(0, 0, size, size, 0x000000);
+        this.targetIconBg.setStrokeStyle(1, 0xffffff);
+        this.targetIconText = this.add.text(0, 0, '', {
+            fontFamily: 'Arial',
+            fontSize: Math.floor(size * 0.3) + 'px',
+            color: '#ffffff',
+            align: 'center',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.targetIconContainer.add([this.targetIconBg, this.targetIconText]);
+
+        // Next Level Button Container (➡️)
+        this.nextLevelButton = this.add.container(0, 0);
+        this.nextLevelButtonBg = this.add.rectangle(0, 0, size, size, 0x2E8B57);
+        this.nextLevelButtonBg.setStrokeStyle(2, 0xffffff);
+        this.nextLevelButtonBg.setInteractive({ useHandCursor: true });
+        this.nextLevelButtonText = this.add.text(0, 0, '➡️', {
+            fontFamily: 'Arial',
+            fontSize: Math.floor(size * 0.45) + 'px',
+            color: '#ffffff',
+            align: 'center',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.nextLevelButtonBg.on('pointerdown', (pointer) => {
+            if (pointer.button === 0) {
+                this.loadLevel(this.currentLevelIndex + 1);
+            }
+        });
+        this.nextLevelButton.add([this.nextLevelButtonBg, this.nextLevelButtonText]);
+        this.nextLevelButton.setVisible(false);
 
         // Description text (hidden by default, above the bar when expanded)
-        this.descriptionText = this.add.text(20, barY - 60, '', {
+        this.descriptionText = this.add.text(20, barY - 10, '', {
             fontFamily: 'Arial',
             fontSize: '14px',
             color: '#ffffff',
@@ -276,14 +330,18 @@ export class Game extends Phaser.Scene {
             backgroundColor: '#000000cc',
             padding: { x: 10, y: 10 },
             wordWrap: { width: width - 40 }
-        }).setOrigin(0, 0).setVisible(false);
+        }).setOrigin(0, 1).setVisible(false);
 
         // Create container for status bar elements
         this.statusBar = this.add.container(0, 0, [
             bgRect,
             this.levelTitleText,
+            this.restartButton,
+            this.startIconContainer,
             this.neutronButton,
             this.electronButton,
+            this.targetIconContainer,
+            this.nextLevelButton,
             this.descriptionText
         ]);
         this.statusBar.setDepth(100);
@@ -298,12 +356,117 @@ export class Game extends Phaser.Scene {
         this.levelTitleText.setText(`[Niveau ${level.id}] ${level.title}`);
         this.descriptionText.setText(level.description);
 
+        // Update Start Isotope Icon
+        const startIsoName = level.startIsotope;
+        const startIsoData = this.isotopesDB[startIsoName] || { decayMode: 'None', protons: 0, neutrons: 0 };
+        const startSym = startIsoName.split('-')[0];
+        const startMass = startIsoName.split('-')[1];
+
+        if (this.startIconBg) {
+            this.startIconBg.setFillStyle(this.getDecayColor(startIsoData.decayMode));
+        }
+        if (this.startIconText) {
+            this.startIconText.setText(`${startSym}\n${startMass}`);
+            this.startIconText.setColor(startIsoData.decayMode === "None" ? '#ffffff' : '#000000');
+        }
+
+        // Update Target Isotope Icon
+        let targetIsoName = "";
+        let minMassDiff = Infinity;
+        const startMassVal = parseInt(startMass);
+
+        for (let key in this.isotopesDB) {
+            if (key.startsWith(level.targetElement + "-")) {
+                if (this.isotopesDB[key].decayMode === "None") {
+                    const mass = parseInt(key.split('-')[1]);
+                    const diff = Math.abs(mass - startMassVal);
+                    if (diff < minMassDiff) {
+                        minMassDiff = diff;
+                        targetIsoName = key;
+                    }
+                }
+            }
+        }
+        const targetIsoData = this.isotopesDB[targetIsoName] || { decayMode: 'None', protons: 0, neutrons: 0 };
+        const targetSym = targetIsoName ? targetIsoName.split('-')[0] : level.targetElement;
+        const targetMass = targetIsoName ? targetIsoName.split('-')[1] : "";
+
+        if (this.targetIconBg) {
+            this.targetIconBg.setFillStyle(this.getDecayColor(targetIsoData.decayMode));
+        }
+        if (this.targetIconText) {
+            this.targetIconText.setText(`${targetSym}\n${targetMass}`);
+            this.targetIconText.setColor(targetIsoData.decayMode === "None" ? '#ffffff' : '#000000');
+        }
+
+        // Update Buttons Text and Visibility based on Game State
+        const showActions = !this.isGameOver;
+        const showRestart = this.isGameOver;
+        const showNext = this.isGameOver && this.isVictory;
+
+        if (this.neutronButtonText) {
+            this.neutronButtonText.setText(`⚛\n${this.remainingNeutrons}/${this.maxNeutrons}`);
+        }
         if (this.neutronButton) {
-            this.neutronButton.setText(`⚛ ${this.remainingNeutrons}/${this.maxNeutrons}`);
+            this.neutronButton.setVisible(showActions && this.maxNeutrons > 0);
+        }
+        if (this.electronButtonText) {
+            this.electronButtonText.setText(`⚡\n${this.remainingElectrons}/${this.maxElectrons}`);
         }
         if (this.electronButton) {
-            this.electronButton.setText(`⚡ ${this.remainingElectrons}/${this.maxElectrons}`);
+            this.electronButton.setVisible(showActions && this.maxElectrons > 0);
         }
+
+        if (this.restartButton) {
+            this.restartButton.setVisible(showRestart);
+        }
+        if (this.nextLevelButton) {
+            this.nextLevelButton.setVisible(showNext);
+        }
+
+        if (this.startIconContainer) this.startIconContainer.setVisible(true);
+        if (this.targetIconContainer) this.targetIconContainer.setVisible(true);
+
+        // Position elements in the middle of the status bar
+        const width = this.sys.game.config.width;
+        const height = this.sys.game.config.height;
+        const size = this.tileSize;
+        const barHeight = size + 10;
+        const barY = height - barHeight;
+
+        // Responsive positioning of the level title text
+        if (width < 600) {
+            this.levelTitleText.setPosition(width / 2, barY - 20);
+            this.levelTitleText.setOrigin(0.5, 0.5);
+            this.levelTitleText.setBackgroundColor('#000000cc');
+            this.levelTitleText.setPadding({ x: 10, y: 5 });
+            this.levelTitleText.setAlign('center');
+        } else {
+            this.levelTitleText.setPosition(20, barY + barHeight / 2);
+            this.levelTitleText.setOrigin(0, 0.5);
+            this.levelTitleText.setBackgroundColor('#00000000');
+            this.levelTitleText.setPadding({ x: 0, y: 0 });
+            this.levelTitleText.setAlign('left');
+        }
+
+        // Dynamic centering of the group
+        const activeContainers = [];
+        if (showRestart && this.restartButton) activeContainers.push(this.restartButton);
+        activeContainers.push(this.startIconContainer);
+        if (showActions && this.maxElectrons > 0 && this.electronButton) activeContainers.push(this.electronButton);
+        if (showActions && this.maxNeutrons > 0 && this.neutronButton) activeContainers.push(this.neutronButton);
+        activeContainers.push(this.targetIconContainer);
+        if (showNext && this.nextLevelButton) activeContainers.push(this.nextLevelButton);
+
+        const spacing = 10;
+        const totalWidth = (activeContainers.length * size) + ((activeContainers.length - 1) * spacing);
+        const startX = width / 2 - totalWidth / 2 + size / 2;
+
+        activeContainers.forEach((container, index) => {
+            if (container) {
+                container.setPosition(startX + index * (size + spacing), barY + barHeight / 2);
+            }
+        });
     }
 
     toggleStatusBar() {
@@ -315,30 +478,30 @@ export class Game extends Phaser.Scene {
         // Reposition description text above the status bar
         if (this.statusBarExpanded) {
             const height = this.sys.game.config.height;
-            this.descriptionText.setPosition(20, height - 120);
+            const barHeight = this.tileSize + 10;
+            const barY = height - barHeight;
+            this.descriptionText.setPosition(20, barY - 10);
         }
     }
 
     gameOver(isVictory) {
         this.isGameOver = true;
         this.isLevelComplete = !isVictory;
+        this.isVictory = isVictory;
 
         const currentLevel = this.levelsData && this.levelsData[this.currentLevelIndex];
         if (isVictory) {
             this.sndWin.play();
             this.levelTitleText.setColor('#00ff00');
             this.levelTitleText.setText(`[SUCCÈS] ${currentLevel.title}`);
-            this.nextLevelButton.setVisible(true);
         } else {
             this.sndLose.play();
             this.levelTitleText.setColor('#ff0000');
             this.levelTitleText.setText(`[ÉCHEC] ${currentLevel.title}\nIl vous reste 0 neutrons et 0 électrons.`);
         }
-        this.restartButton.setVisible(true);
 
-        // Hide particle buttons when game is over
-        if (this.neutronButton) this.neutronButton.setVisible(false);
-        if (this.electronButton) this.electronButton.setVisible(false);
+        // Call updateStatusBar to handle button visibility and positioning on Game Over
+        this.updateStatusBar();
     }
 
     updateTileSize() {
@@ -358,8 +521,8 @@ export class Game extends Phaser.Scene {
         // Place banner at very top
         this.titleBannerContainer = this.add.container(width / 2, bannerTileSize / 2 + 10);
 
-        // Target isotopes to spell I-Sc-O-Te-P-Es
-        const bannerIsotopes = ['I-127', 'Sc-45', 'O-16', 'Te-120', 'P-31', 'Es-252'];
+        // Target isotopes to spell I-S-O-Te-P-Es
+        const bannerIsotopes = ['I-127', 'S-32', 'O-16', 'Te-120', 'P-31', 'Es-252'];
 
         const totalWidth = (bannerIsotopes.length * bannerTileSize) + ((bannerIsotopes.length - 1) * spacing);
         const startX = -totalWidth / 2 + (bannerTileSize / 2);
@@ -398,10 +561,9 @@ export class Game extends Phaser.Scene {
 
     actionNeutron() {
         if (!this.currentIsotope || this.isLevelComplete || this.isGameOver) return;
-        if (this.remainingNeutrons <= 0) {
-            this.gameOver(false);
-            return;
-        }
+        if (this.maxNeutrons === 0) return;
+        if (this.remainingNeutrons <= 0) return;
+
         this.remainingNeutrons--;
         this.updateStatusBar();
         this.sndShoot.play();
@@ -410,10 +572,9 @@ export class Game extends Phaser.Scene {
 
     actionElectron() {
         if (!this.currentIsotope || this.isLevelComplete || this.isGameOver) return;
-        if (this.remainingElectrons <= 0) {
-            this.gameOver(false);
-            return;
-        }
+        if (this.maxElectrons === 0) return;
+        if (this.remainingElectrons <= 0) return;
+
         this.remainingElectrons--;
         this.updateStatusBar();
         this.sndShoot.play();
@@ -516,6 +677,12 @@ export class Game extends Phaser.Scene {
 
             this.updateGrid();
             this.checkWinCondition();
+
+            if (this.isStable && !this.isLevelComplete && !this.isGameOver) {
+                if (this.remainingNeutrons === 0 && this.remainingElectrons === 0) {
+                    this.gameOver(false);
+                }
+            }
         } else {
             console.warn(`Isotope ${isotopeName} not found in DB!`);
         }
@@ -635,21 +802,16 @@ export class Game extends Phaser.Scene {
         const level = this.levelsData[index];
         this.isLevelComplete = false;
         this.isGameOver = false;
-        this.nextLevelButton.setVisible(false);
-        this.restartButton.setVisible(false);
+        this.isVictory = false;
 
         // Initialize resources
-        this.maxNeutrons = level.maxNeutrons || 10;
-        this.maxElectrons = level.maxElectrons || 5;
+        this.maxNeutrons = level.maxNeutrons !== undefined ? level.maxNeutrons : 10;
+        this.maxElectrons = level.maxElectrons !== undefined ? level.maxElectrons : 5;
         this.remainingNeutrons = this.maxNeutrons;
         this.remainingElectrons = this.maxElectrons;
 
-        // Update status bar
+        // Update status bar (which also sets button visibility based on capacity)
         this.updateStatusBar();
-
-        // Show particle buttons
-        if (this.neutronButton) this.neutronButton.setVisible(true);
-        if (this.electronButton) this.electronButton.setVisible(true);
 
         // Clear tweens and immediately reset grid position
         this.tweens.killTweensOf(this.gridContainer);
@@ -664,10 +826,8 @@ export class Game extends Phaser.Scene {
         const level = this.levelsData[this.currentLevelIndex];
         const sym = this.currentIsotope.id.split('-')[0];
 
-        const requireStable = level.requireStable !== false; // defaults to true if omitted
-
-        // Victory if we reached the target element and its stability matches the requirement
-        if (sym === level.targetElement && (!requireStable || this.isStable)) {
+        // Victory if we reached the target element and it is stable
+        if (sym === level.targetElement && this.isStable) {
             this.gameOver(true);
         }
     }
