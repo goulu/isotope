@@ -5,6 +5,7 @@
     "description": "L'atome de Tellure 123 (Te-123) est un cas particulier d'isobare stable. Ajoutez-lui un électron (Clic Droit ou Flèche Bas) pour transmuter un proton en neutron. Vous obtiendrez instantanément de l'Antimoine stable !",
     "startIsotope": "Te-123",
     "targetElement": "Sb",
+    "targetIsotope": "Sb-123",
     "maxNeutrons": 0,
     "maxElectrons": 1
   },
@@ -14,6 +15,7 @@
     "description": "L'Oxygène 18 est stable. Ajoutez-lui un neutron (Clic Gauche, Espace ou Flèche Droite) pour le transformer en Oxygène 19. Il deviendra instable et se désintégrera tout seul (Beta-) vers cet élément !",
     "startIsotope": "O-18",
     "targetElement": "F",
+    "targetIsotope": "F-19",
     "maxNeutrons": 1,
     "maxElectrons": 0
   },
@@ -23,8 +25,108 @@
     "description": "Transmutation du Mercure 196 en Or stable. C'est la réaction réalisée en 1941 par Sherr, Bainbridge et Anderson en bombardant le mercure avec des neutrons.",
     "startIsotope": "Hg-196",
     "targetElement": "Au",
-    "requireStable": true,
+    "targetIsotope": "Au-197",
     "maxNeutrons": 1,
     "maxElectrons": 1
+  },
+  {
+    "id": 4,
+    "title": "Niveau 4 : La cascade radioactive",
+    "description": "Le Plomb 208 est l'élément stable le plus lourd de la nature. Ajoutez-lui un neutron (⚛) pour le transformer en Plomb 209 instable. Il subira d'abord une désintégration Beta- (vers le Bismuth 209), puis une désintégration Alpha vers l'isotope stable de Thallium 205 !",
+    "startIsotope": "Pb-208",
+    "targetElement": "Tl",
+    "targetIsotope": "Tl-205",
+    "maxNeutrons": 1,
+    "maxElectrons": 0
+  },
+  {
+    "id": 5,
+    "title": "Niveau 5 : Le Calcium réactif",
+    "description": "Le Calcium 46 est stable. Ajoutez-lui un neutron (⚛) pour former du Calcium 47, et attendez sa désintégration en Scandium 47 instable. Dès qu'il apparaît, tirez rapidement un second neutron (⚛) avant qu'il ne se désintègre pour obtenir du Scandium 48, qui se stabilisera en Titane 48 !",
+    "startIsotope": "Ca-46",
+    "targetElement": "Ti",
+    "targetIsotope": "Ti-48",
+    "maxNeutrons": 2,
+    "maxElectrons": 0
+  },
+  {
+    "id": 6,
+    "title": "Niveau 6 : Le Krypton pressé",
+    "description": "Le Krypton 86 est stable. Ajoutez-lui un neutron (⚛) pour former du Krypton 87 instable, qui se désintègrera en Rubidium 87. Dès qu'il apparaît, tirez-lui rapidement un second neutron (⚛) avant sa désintégration pour obtenir du Rubidium 88, qui se désintégrera vers l'isotope stable de Strontium 88 !",
+    "startIsotope": "Kr-86",
+    "targetElement": "Sr",
+    "targetIsotope": "Sr-88",
+    "maxNeutrons": 2,
+    "maxElectrons": 0
+  },
+  {
+    "id": 7,
+    "title": "Niveau 7 : L'échange d'Ar-29",
+    "description": "L'Argon 29 est stable dans ce simulateur. Ajoutez-lui un neutron (⚛) pour créer de l'Argon 30 instable. Tirez-lui immédiatement un électron (⚡) avant sa désintégration (Beta-) pour le transmuter vers l'isotope stable de Chlore 30 !",
+    "startIsotope": "Ar-29",
+    "targetElement": "Cl",
+    "targetIsotope": "Cl-30",
+    "maxNeutrons": 1,
+    "maxElectrons": 1
+  },
+  {
+    "id": 8,
+    "title": "Niveau 8 : Le Silicium de précision",
+    "description": "Le Silicium 30 est stable. Ajoutez-lui un neutron (⚛) pour créer du Silicium 31, qui se désintègre en Phosphore 31 stable. Attendez sa stabilisation, puis ajoutez un deuxième neutron (⚛) pour créer du Phosphore 32 instable. Tirez-lui rapidement un troisième neutron (⚛) avant sa désintégration pour atteindre le Soufre 33 stable !",
+    "startIsotope": "Si-30",
+    "targetElement": "S",
+    "targetIsotope": "S-33",
+    "maxNeutrons": 3,
+    "maxElectrons": 0
+  },
+  {
+    "id": 9,
+    "title": "Niveau 9 : L'Argon rapide",
+    "description": "L'Argon 40 est stable. Ajoutez-lui un neutron (⚛) pour créer de l'Argon 41, qui se désintègre en Potassium 41 stable. Dès qu'il se stabilise, ajoutez un deuxième neutron (⚛) pour former du Potassium 42 instable, puis tirez-lui rapidement un troisième neutron (⚛) avant sa désintégration pour atteindre le Calcium 43 stable !",
+    "startIsotope": "Ar-40",
+    "targetElement": "Ca",
+    "targetIsotope": "Ca-43",
+    "maxNeutrons": 3,
+    "maxElectrons": 0
+  },
+  {
+    "id": 10,
+    "title": "Niveau 10 : Le Nickel réactif",
+    "description": "Le Nickel 62 est stable. Ajoutez-lui un neutron (⚛) pour obtenir du Nickel 63 instable. Tirez-lui immédiatement un deuxième neutron (⚛) avant qu'il ne se désintègre pour le stabiliser en Nickel 64. Enfin, ajoutez un troisième neutron (⚛) pour former du Nickel 65 instable, qui se désintégrera vers le Cuivre 65 stable !",
+    "startIsotope": "Ni-62",
+    "targetElement": "Cu",
+    "targetIsotope": "Cu-65",
+    "maxNeutrons": 3,
+    "maxElectrons": 0
+  },
+  {
+    "id": 11,
+    "title": "Niveau 11 : L'alchimie du Soufre",
+    "description": "Le Soufre 34 est stable. Ajoutez-lui un neutron (⚛) pour créer du Soufre 35, qui se désintègre en Chlore 35 stable. Ajoutez un deuxième neutron (⚛) pour former du Chlore 36 instable et laissez-le se désintégrer en Argon 36 stable. Ajoutez enfin un troisième neutron (⚛) pour former de l'Argon 37 instable, et tirez-lui rapidement un électron (⚡) avant sa désintégration pour atteindre le Chlore 37 stable !",
+    "startIsotope": "S-34",
+    "targetElement": "Cl",
+    "targetIsotope": "Cl-37",
+    "maxNeutrons": 3,
+    "maxElectrons": 1
+  },
+  {
+    "id": 12,
+    "title": "Niveau 12 : Le jonglage du Plomb",
+    "description": "Le Plomb 208 est stable. Ajoutez-lui un neutron (⚛) pour obtenir du Plomb 209 instable, qui se désintègre en Bismuth 209. Dès que le Bismuth apparaît, tirez-lui rapidement un électron (⚡) pour le re-transformer en Plomb 209. Répétez ce jonglage 3 fois pour épuiser tous vos électrons et laissez enfin la cascade se stabiliser vers le Thallium 205 stable !",
+    "startIsotope": "Pb-208",
+    "targetElement": "Tl",
+    "targetIsotope": "Tl-205",
+    "maxNeutrons": 1,
+    "maxElectrons": 3
+  },
+  {
+    "id": 13,
+    "title": "Niveau 13 : La grande course du Néon",
+    "description": "Le Néon 22 est stable. Ajoutez un neutron (⚛), puis tirez de manière extrêmement rapide deux autres neutrons (⚛, ⚛) et enfin deux électrons (⚡, ⚡) sans attendre que les isotopes intermédiaires ne se désintègrent. Vous atteindrez l'Oxygène 25 instable, qui subira une cascade de désintégrations spectaculaire jusqu'au Magnésium 24 stable !",
+    "startIsotope": "Ne-22",
+    "targetElement": "Mg",
+    "targetIsotope": "Mg-24",
+    "maxNeutrons": 3,
+    "maxElectrons": 2
   }
 ]
