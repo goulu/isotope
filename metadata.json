@@ -1,0 +1,6 @@
+{
+  "name": "Isotope - Le Jeu Radioactif",
+  "description": "Jeu scientifique et interactif de physique nucléaire basé sur la table des isotopes (carte de Segrè), transmutations et décroissance radioactive logarithmique.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

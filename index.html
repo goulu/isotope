@@ -2,33 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title>Isotope</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #000;
-        overflow: hidden;
-        /* Prevent selection and pull-to-refresh on mobile */
-        user-select: none;
-        -webkit-user-select: none;
-        overscroll-behavior-y: none;
-      }
-      #game-container {
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      canvas {
-        display: block;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Isotope - Le Jeu Radioactif</title>
+    <meta name="description" content="Jeu scientifique et interactif de physique nucléaire basé sur la table des isotopes (carte de Segrè), transmutations et décroissance radioactive logarithmique." />
+    <meta property="og:title" content="Isotope - Le Jeu Radioactif" />
+    <meta property="og:description" content="Jeu scientifique et interactif de physique nucléaire basé sur la table des isotopes (carte de Segrè), transmutations et décroissance radioactive logarithmique." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
-    <div id="game-container"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+
