@@ -55,7 +55,7 @@ export const TitleBanner: React.FC<TitleBannerProps> = ({ onInspectIsotope, isot
           );
         })}
       </div>
-      <div className="text-[10px] sm:text-xs text-zinc-400 font-mono tracking-widest uppercase mt-1">
+      <div className="hidden sm:block text-[10px] sm:text-xs text-zinc-400 font-mono tracking-widest uppercase mt-1">
         Le Jeu de Transmutation Radioactive
       </div>
     </div>

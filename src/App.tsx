@@ -16,13 +16,12 @@ import { sound } from './utils/audio';
 import { TitleBanner } from './components/TitleBanner';
 import { LevelBar } from './components/LevelBar';
 import { SegreChart } from './components/SegreChart';
-import { RapidCountdown } from './components/RapidCountdown';
 import { ControlPanel } from './components/ControlPanel';
 import { LogarithmicVerificationModal } from './components/LogarithmicVerificationModal';
 import { LevelSelectorModal } from './components/LevelSelectorModal';
 import { LevelStoryModal } from './components/LevelStoryModal';
 import { SandboxModal } from './components/SandboxModal';
-import { Zap, HelpCircle } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 
 export default function App() {
   // Database state
@@ -359,8 +358,8 @@ export default function App() {
   return (
     <div className="min-h-screen bg-black text-zinc-100 flex flex-col justify-between selection:bg-sky-500 selection:text-black">
       {/* Top Navigation & Brand Header */}
-      <header className="border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md px-4 py-2 sticky top-0 z-30">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <header className="border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md px-2 sm:px-4 py-1 sm:py-2 sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-1">
           <div className="flex items-center gap-2">
             <TitleBanner
               isotopesDB={isotopesDB}
@@ -370,10 +369,22 @@ export default function App() {
             />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <button
+              onClick={() => {
+                const nextMuted = !isMuted;
+                setIsMuted(nextMuted);
+                sound.setMuted(nextMuted);
+              }}
+              className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-colors"
+              title={isMuted ? 'Activer le son' : 'Couper le son'}
+            >
+              {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+            </button>
+
             <button
               onClick={() => setIsPhysicsModalOpen(true)}
-              className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sky-400 border border-sky-500/30 text-xs font-mono font-bold transition-all shadow-sm flex items-center gap-1.5"
+              className="px-2 sm:px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sky-400 border border-sky-500/30 text-[11px] sm:text-xs font-mono font-bold transition-all shadow-sm flex items-center gap-1.5"
               title="Vérifier la loi logarithmique du temps de désintégration"
             >
               <span>f(log T½)</span>
@@ -387,7 +398,7 @@ export default function App() {
                   setIsSandboxModalOpen(true);
                 }
               }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+              className={`px-2 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold border transition-all ${
                 isSandbox
                   ? 'bg-purple-600 text-white border-purple-400 shadow-md shadow-purple-600/30'
                   : 'bg-zinc-900 text-zinc-300 hover:text-white border-zinc-700'
@@ -400,42 +411,8 @@ export default function App() {
       </header>
 
       {/* Main Game Shell Container */}
-      <main className="max-w-6xl w-full mx-auto px-3 sm:px-4 py-3 flex-1 flex flex-col gap-3.5 justify-center">
-        {/* Level Status & Objective Bar */}
-        <LevelBar
-          currentLevel={currentLevel}
-          levelIndex={currentLevelIndex}
-          totalLevels={levels.length}
-          isSandbox={isSandbox}
-          onToggleSandbox={() => setIsSandbox((prev) => !prev)}
-          onOpenStory={() => setIsStoryModalOpen(true)}
-          isGameOver={isGameOver}
-          isVictory={isVictory}
-          isotopesDB={isotopesDB}
-        />
-
-        {/* Rapid Countdown & Nuclear Decay HUD */}
-        {currentIsotope && (
-          <RapidCountdown
-            currentIsotope={currentIsotope}
-            decayTimeTotal={decayTimeTotal}
-            decayTimeLeft={decayTimeLeft}
-            isPaused={isPaused}
-            onTogglePause={() => setIsPaused((p) => !p)}
-            speed={speed}
-            onChangeSpeed={(spd) => setSpeed(spd)}
-            isMuted={isMuted}
-            onToggleMute={() => {
-              const nextMuted = !isMuted;
-              setIsMuted(nextMuted);
-              sound.setMuted(nextMuted);
-            }}
-            settings={decaySettings}
-            onOpenPhysicsModal={() => setIsPhysicsModalOpen(true)}
-          />
-        )}
-
-        {/* Central Segre Chart (Carte des Nucléides) */}
+      <main className="max-w-6xl w-full mx-auto px-2 sm:px-4 py-1.5 sm:py-3 flex-1 flex flex-col gap-2 sm:gap-3 justify-start">
+        {/* 1. Central Segre Chart (Grille du jeu juste sous la barre de titre) */}
         {currentIsotope && (
           <SegreChart
             currentIsotope={currentIsotope}
@@ -452,7 +429,7 @@ export default function App() {
           />
         )}
 
-        {/* Bottom Ergonomic Action & Bombardment Controls */}
+        {/* 2. Action & Bombardment Controls (Boutons d'action particules en dessous) */}
         <ControlPanel
           remainingNeutrons={remainingNeutrons}
           maxNeutrons={maxNeutrons}
@@ -472,10 +449,24 @@ export default function App() {
           hasNextLevel={currentLevelIndex < levels.length - 1}
           isSandbox={isSandbox}
         />
+
+        {/* 3. Level Status & Objective Bar (Infos du niveau encore en dessous) */}
+        <LevelBar
+          currentLevel={currentLevel}
+          levelIndex={currentLevelIndex}
+          totalLevels={levels.length}
+          isSandbox={isSandbox}
+          onToggleSandbox={() => setIsSandbox((prev) => !prev)}
+          onOpenStory={() => setIsStoryModalOpen(true)}
+          onOpenLevelSelector={() => setIsLevelSelectorOpen(true)}
+          isGameOver={isGameOver}
+          isVictory={isVictory}
+          isotopesDB={isotopesDB}
+        />
       </main>
 
-      {/* Footer / Control Hints */}
-      <footer className="border-t border-zinc-900 bg-zinc-950 px-4 py-2 text-center text-[11px] text-zinc-500 font-mono">
+      {/* Footer / Control Hints (Desktop only) */}
+      <footer className="hidden sm:block border-t border-zinc-900 bg-zinc-950 px-4 py-2 text-center text-[11px] text-zinc-500 font-mono">
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
           <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">N</kbd> ou Clic : +Neutron</span>
           <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">E</kbd> ou Clic Droit : +Électron</span>
