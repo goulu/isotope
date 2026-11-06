@@ -1,6 +1,6 @@
-# Manual de usuario — ISOTHOPE
+# Manual de usuario — ISOThOPE
 
-Bienvenido a **ISOTHOPE**, el juego de puzles y transmutación nuclear basado en datos científicos reales del OIEA (NUBASE / LiveChart).
+Bienvenido a **ISOThOPE**, el juego de puzles y transmutación nuclear basado en datos científicos reales del OIEA (NUBASE / LiveChart).
 
 ## 🎯 1. Objetivo del juego
 
@@ -39,11 +39,11 @@ Cada casilla de la cuadrícula está coloreada según el comportamiento físico 
 
 - **Explicación del nivel**: Haz clic en cualquier lugar del **bloque de descripción del nivel** (situado debajo de la barra de título) para abrir el informe científico e histórico de la misión.
 - **Selector de niveles**: Haz clic en el botón numerado (ej. `1/13`) a la izquierda del bloque de nivel para cambiar de misión.
-- **Nivel 0 — Modo Libre (Sandbox)**: Situado en la parte superior de la lista de niveles, te ofrece partículas ilimitadas (`∞`) y te permite hacer clic directamente en cualquier casilla de la cuadrícula o del título `I S O Th O P E` para explorar la carta de nucleidos.
+- **Nivel 0 — Modo Libre (Sandbox)**: Situado en la parte superior de la lista de niveles, te ofrece partículas ilimitadas (`∞`) y te permite hacer clic directamente en cualquier casilla de la cuadrícula o del título `ISOThOPE` para explorar la carta de nucleidos.
 
 ## 📈 5. La Ley Logarítmica del Tiempo
 
-En la naturaleza, las semividas (`T½`) de los isótopos abarcan desde microsegundos (`10⁻⁶ s`) hasta miles de millones de años (`10¹⁷ s`). Para comprimir estos 23 órdenes de magnitud en unos pocos segundos de juego respetando la jerarquía de estabilidad real de cada isótopo, **ISOTHOPE** aplica una ley logarítmica:
+En la naturaleza, las semividas (`T½`) de los isótopos abarcan desde microsegundos (`10⁻⁶ s`) hasta miles de millones de años (`10¹⁷ s`). Para comprimir estos 23 órdenes de magnitud en unos pocos segundos de juego respetando la jerarquía de estabilidad real de cada isótopo, **ISOThOPE** aplica una ley logarítmica:
 
 `Tiempo_Juego = clamp(Base + Pendiente × log10(T½), Mín, Máx)`
 

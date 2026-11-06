@@ -35,7 +35,7 @@ interface ParsedManual {
 
 function parseManualMarkdown(md: string): ParsedManual {
   const lines = md.split(/\r?\n/);
-  let title = 'ISOTHOPE';
+  let title = 'ISOThOPE';
   const introLines: string[] = [];
   const chapters: Array<{ heading: string; bodyLines: string[] }> = [];
   let currentChapter: { heading: string; bodyLines: string[] } | null = null;

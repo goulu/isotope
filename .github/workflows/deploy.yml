@@ -48,4 +48,4 @@ jobs:
           curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
           unzip -o butler.zip
           chmod +x butler
-          ./butler push ./dist uluog/isotope:html5 --userversion $(node -p "require('./package.json').version")
+          ./butler push ./dist uluog/isothope:html5 --userversion $(node -p "require('./package.json').version")

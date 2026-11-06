@@ -1,5 +1,5 @@
 {
-  "appTitle": "Isotope - The Radioactive Game",
+  "appTitle": "ISOThOPE - The Radioactive Game",
   "subtitle": "The Radioactive Transmutation Game",
   "loadingTitle": "Loading Chart of Nuclides...",
   "loadingSubtitle": "Initializing 3,557 isotopes and decay laws",
@@ -44,7 +44,7 @@
   "footerElectron": "or Right Click: +Electron",
   "footerPause": "Space: Pause",
   "footerRestart": "Restart",
-  "footerAuthor": "Isotope Project by Philippe Guglielmetti (Dr. Goulu)",
+  "footerAuthor": "ISOThOPE Project by Philippe Guglielmetti (Dr. Goulu)",
   "levelSelectTitle": "Level Selection",
   "levelSelectSub": "Transmutation progress ({done}/{total} completed)",
   "currentBadge": "Current",

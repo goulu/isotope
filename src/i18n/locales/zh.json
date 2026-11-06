@@ -1,5 +1,5 @@
 {
-  "appTitle": "Isotope - 放射性核素游戏",
+  "appTitle": "ISOThOPE - 放射性核素游戏",
   "subtitle": "放射性核嬗变游戏",
   "loadingTitle": "正在加载核素图...",
   "loadingSubtitle": "正在初始化 3,557 种同位素与衰变定律",
@@ -44,7 +44,7 @@
   "footerElectron": "或右键：+电子",
   "footerPause": "空格键：暂停",
   "footerRestart": "重新开始",
-  "footerAuthor": "Isotope 项目 作者：Philippe Guglielmetti (Dr. Goulu)",
+  "footerAuthor": "ISOThOPE 项目 作者：Philippe Guglielmetti (Dr. Goulu)",
   "levelSelectTitle": "选择关卡",
   "levelSelectSub": "核嬗变进度（已完成 {done}/{total}）",
   "currentBadge": "当前",

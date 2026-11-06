@@ -120,7 +120,7 @@ async function main() {
       console.log(`[i18n] Translating manual to ${target.name} (${target.code}.md)...`);
       const response = await getAi().models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: `Translate the following Markdown user manual from French to ${target.name} for the nuclear physics game "ISOTHOPE". Preserve all Markdown formatting, tables, emojis, and mathematical notation. Return ONLY the translated Markdown.\n\n${frManual}`,
+        contents: `Translate the following Markdown user manual from French to ${target.name} for the nuclear physics game "ISOThOPE". Preserve all Markdown formatting, tables, emojis, and mathematical notation. Return ONLY the translated Markdown.\n\n${frManual}`,
       });
       if (response.text) {
         fs.writeFileSync(targetManualPath, response.text.trim() + '\n', 'utf-8');

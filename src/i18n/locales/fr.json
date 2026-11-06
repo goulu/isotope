@@ -1,5 +1,5 @@
 {
-  "appTitle": "Isotope - Le Jeu Radioactif",
+  "appTitle": "ISOThOPE - Le Jeu Radioactif",
   "subtitle": "Le Jeu de Transmutation Radioactive",
   "loadingTitle": "Chargement de la Carte des Nucléides...",
   "loadingSubtitle": "Initialisation des 3 557 isotopes et des lois de décroissance",
@@ -44,7 +44,7 @@
   "footerElectron": "ou Clic Droit : +Électron",
   "footerPause": "Espace : Pause",
   "footerRestart": "Recommencer",
-  "footerAuthor": "Projet Isotope par Philippe Guglielmetti (Dr. Goulu)",
+  "footerAuthor": "Projet ISOThOPE par Philippe Guglielmetti (Dr. Goulu)",
   "levelSelectTitle": "Sélection des Niveaux",
   "levelSelectSub": "Progression des transmutations ({done}/{total} réussis)",
   "currentBadge": "Actuel",

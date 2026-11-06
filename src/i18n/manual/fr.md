@@ -1,6 +1,6 @@
-# Manuel d'utilisation — ISOTHOPE
+# Manuel d'utilisation — ISOThOPE
 
-Bienvenue dans **ISOTHOPE**, le jeu de puzzle et de transmutation nucléaire basé sur les données scientifiques réelles de l'AIEA (NUBASE / LiveChart).
+Bienvenue dans **ISOThOPE**, le jeu de puzzle et de transmutation nucléaire basé sur les données scientifiques réelles de l'AIEA (NUBASE / LiveChart).
 
 ## 🎯 1. But du jeu
 
@@ -39,11 +39,11 @@ Chaque case de la grille est colorée selon le comportement physique réel de l'
 
 - **Explications du niveau** : Cliquez n'importe où sur le **bloc de description du niveau** (tout en bas de l'écran) pour ouvrir le briefing scientifique et historique de la mission.
 - **Sélecteur de niveaux** : Cliquez sur le bouton numéroté (ex. `1/13`) à gauche du bloc de niveau pour changer de mission.
-- **Niveau 0 — Mode Libre (Sandbox)** : Accessible tout en haut de la liste des niveaux, il vous offre des particules illimitées (`∞`) et vous permet de cliquer directement sur n'importe quelle case de la grille ou de la bannière `I S O Th O P E` pour explorer la carte des nucléides.
+- **Niveau 0 — Mode Libre (Sandbox)** : Accessible tout en haut de la liste des niveaux, il vous offre des particules illimitées (`∞`) et vous permet de cliquer directement sur n'importe quelle case de la grille ou de la bannière `ISOThOPE` pour explorer la carte des nucléides.
 
 ## 📈 5. La Loi Logarithmique du Temps
 
-Dans la réalité, les demi-vies (`T½`) des isotopes s'étendent de quelques microsecondes (`10⁻⁶ s`) à plusieurs milliards d'années (`10¹⁷ s`). Pour compresser ces 23 ordres de grandeur en quelques secondes de jeu tout en respectant l'ordre de stabilité réel de chaque isotope, **ISOTHOPE** applique une loi logarithmique :
+Dans la réalité, les demi-vies (`T½`) des isotopes s'étendent de quelques microsecondes (`10⁻⁶ s`) à plusieurs milliards d'années (`10¹⁷ s`). Pour compresser ces 23 ordres de grandeur en quelques secondes de jeu tout en respectant l'ordre de stabilité réel de chaque isotope, **ISOThOPE** applique une loi logarithmique :
 
 `Temps_Jeu = clamp(Base + Pente × log10(T½), Min, Max)`
 

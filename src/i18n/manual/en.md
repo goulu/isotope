@@ -1,6 +1,6 @@
-# User Manual — ISOTHOPE
+# User Manual — ISOThOPE
 
-Welcome to **ISOTHOPE**, the nuclear transmutation puzzle game built on real scientific data from the IAEA (NUBASE / LiveChart).
+Welcome to **ISOThOPE**, the nuclear transmutation puzzle game built on real scientific data from the IAEA (NUBASE / LiveChart).
 
 ## 🎯 1. Goal of the Game
 
@@ -39,11 +39,11 @@ Each cell on the grid is colored according to the real physical behavior of the 
 
 - **Level Briefing**: Click anywhere on the **level description bar** at the bottom of the screen to open the scientific and historical briefing for the current mission.
 - **Level Selector**: Click the numbered button (e.g. `1/13`) on the left of the level bar to switch missions.
-- **Level 0 — Free Mode (Sandbox)**: Located at the very top of the level list, it gives you unlimited particles (`∞`) and lets you click directly on any cell in the grid or the `I S O Th O P E` title banner to explore the chart of nuclides.
+- **Level 0 — Free Mode (Sandbox)**: Located at the very top of the level list, it gives you unlimited particles (`∞`) and lets you click directly on any cell in the grid or the `ISOThOPE` title banner to explore the chart of nuclides.
 
 ## 📈 5. The Logarithmic Time Law
 
-In nature, isotope half-lives (`T½`) span from microseconds (`10⁻⁶ s`) to billions of years (`10¹⁷ s`). To compress these 23 orders of magnitude into a few seconds of gameplay while preserving the true stability hierarchy of every isotope, **ISOTHOPE** uses a logarithmic law:
+In nature, isotope half-lives (`T½`) span from microseconds (`10⁻⁶ s`) to billions of years (`10¹⁷ s`). To compress these 23 orders of magnitude into a few seconds of gameplay while preserving the true stability hierarchy of every isotope, **ISOThOPE** uses a logarithmic law:
 
 `Game_Time = clamp(Base + Slope × log10(T½), Min, Max)`
 
