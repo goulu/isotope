@@ -105,6 +105,29 @@ async function main() {
   } else {
     console.log(`[i18n] All ${levels.length} levels in public/levels.json are up to date for EN, ES, ZH.`);
   }
+
+  // 3. Sync User Manual Markdown files in src/i18n/manual/
+  const manualDir = path.join(rootDir, 'src', 'i18n', 'manual');
+  const frManualPath = path.join(manualDir, 'fr.md');
+  if (fs.existsSync(frManualPath)) {
+    const frManual = fs.readFileSync(frManualPath, 'utf-8');
+    for (const target of TARGET_LANGS) {
+      const targetManualPath = path.join(manualDir, `${target.code}.md`);
+      if (!force && fs.existsSync(targetManualPath)) {
+        console.log(`[i18n] Manual '${target.code}.md' is up to date.`);
+        continue;
+      }
+      console.log(`[i18n] Translating manual to ${target.name} (${target.code}.md)...`);
+      const response = await getAi().models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: `Translate the following Markdown user manual from French to ${target.name} for the nuclear physics game "ISOTHOPE". Preserve all Markdown formatting, tables, emojis, and mathematical notation. Return ONLY the translated Markdown.\n\n${frManual}`,
+      });
+      if (response.text) {
+        fs.writeFileSync(targetManualPath, response.text.trim() + '\n', 'utf-8');
+        console.log(`[i18n] Updated ${targetManualPath}`);
+      }
+    }
+  }
 }
 
 main().catch((err) => {

@@ -11,6 +11,8 @@ interface LevelSelectorModalProps {
   currentLevelIndex: number;
   completedLevels: Set<number>;
   onSelectLevel: (index: number) => void;
+  isSandbox: boolean;
+  onSelectSandbox: () => void;
   isotopesDB: Record<string, { protons: number; neutrons: number; halfLife: number; decayMode: DecayMode; name: string }>;
 }
 
@@ -21,6 +23,8 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
   currentLevelIndex,
   completedLevels,
   onSelectLevel,
+  isSandbox,
+  onSelectSandbox,
   isotopesDB,
 }) => {
   const { t, getLevelTitle } = useI18n();
@@ -50,8 +54,54 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
 
         {/* Level List */}
         <div className="p-6 max-h-[70vh] overflow-y-auto space-y-2.5">
+          {/* Level 0: Mode Libre (Sandbox) */}
+          <div
+            onClick={() => {
+              onSelectSandbox();
+              onClose();
+            }}
+            className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+              isSandbox
+                ? 'bg-purple-950/60 border-purple-400 ring-2 ring-purple-400/50 shadow-lg'
+                : 'bg-zinc-900/50 hover:bg-zinc-800/60 border-purple-900/50'
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs flex-shrink-0 border ${
+                  isSandbox
+                    ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
+                    : 'bg-purple-950/40 text-purple-300 border-purple-800/60'
+                }`}
+              >
+                0
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-white line-clamp-1">{t('freeMode')}</span>
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-purple-950 text-purple-200 border border-purple-800">
+                    {t('sandboxBadge')}
+                  </span>
+                  {isSandbox && (
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-purple-400 text-black font-bold">
+                      {t('currentBadge')}
+                    </span>
+                  )}
+                </div>
+                <div className="text-[11px] text-zinc-400 line-clamp-1 mt-0.5">
+                  {t('sandboxDesc')}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 flex-shrink-0 bg-zinc-950 px-2.5 py-1 rounded-xl border border-purple-900/50 text-purple-300 font-mono text-xs font-bold">
+              <span>⚛ ∞</span>
+            </div>
+          </div>
+
           {levels.map((lvl, index) => {
-            const isCurrent = index === currentLevelIndex;
+            const isCurrent = !isSandbox && index === currentLevelIndex;
             const isCompleted = completedLevels.has(lvl.id);
             const startData = isotopesDB[lvl.startIsotope];
             const targetData = isotopesDB[lvl.targetIsotope];

@@ -400,27 +400,10 @@ export default function App() {
 
             <button
               onClick={() => setIsPhysicsModalOpen(true)}
-              className="px-2 sm:px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sky-400 border border-sky-500/30 text-[11px] sm:text-xs font-mono font-bold transition-all shadow-sm flex items-center gap-1.5"
-              title={t('logLawTooltip')}
+              className="w-8 h-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sky-400 border border-sky-500/30 text-sm font-mono font-extrabold transition-all shadow-sm flex items-center justify-center"
+              title="?"
             >
-              <span>f(log T½)</span>
-              <span className="hidden md:inline">{t('logLawBtn')}</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setIsSandbox((prev) => !prev);
-                if (!isSandbox) {
-                  setIsSandboxModalOpen(true);
-                }
-              }}
-              className={`px-2 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold border transition-all ${
-                isSandbox
-                  ? 'bg-purple-600 text-white border-purple-400 shadow-md shadow-purple-600/30'
-                  : 'bg-zinc-900 text-zinc-300 hover:text-white border-zinc-700'
-              }`}
-            >
-              {isSandbox ? t('exitSandbox') : t('freeMode')}
+              ?
             </button>
           </div>
         </div>
@@ -473,7 +456,13 @@ export default function App() {
           totalLevels={levels.length}
           isSandbox={isSandbox}
           onToggleSandbox={() => setIsSandbox((prev) => !prev)}
-          onOpenStory={() => setIsStoryModalOpen(true)}
+          onOpenStory={() => {
+            if (isSandbox) {
+              setIsSandboxModalOpen(true);
+            } else {
+              setIsStoryModalOpen(true);
+            }
+          }}
           onOpenLevelSelector={() => setIsLevelSelectorOpen(true)}
           isGameOver={isGameOver}
           isVictory={isVictory}
@@ -516,7 +505,15 @@ export default function App() {
         levels={levels}
         currentLevelIndex={currentLevelIndex}
         completedLevels={completedLevels}
-        onSelectLevel={(idx) => loadLevel(idx)}
+        onSelectLevel={(idx) => {
+          setIsSandbox(false);
+          loadLevel(idx);
+        }}
+        isSandbox={isSandbox}
+        onSelectSandbox={() => {
+          setIsSandbox(true);
+          setIsSandboxModalOpen(true);
+        }}
         isotopesDB={isotopesDB}
       />
 

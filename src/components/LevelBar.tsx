@@ -1,7 +1,7 @@
 import React from 'react';
 import { LevelData, DecayMode } from '../types/isotope';
 import { getDecayColor } from '../utils/physics';
-import { ArrowRight, Trophy, AlertOctagon, HelpCircle, Atom } from 'lucide-react';
+import { ArrowRight, Trophy, AlertOctagon, Atom } from 'lucide-react';
 import { useI18n } from '../i18n';
 
 interface LevelBarProps {
@@ -33,24 +33,51 @@ export const LevelBar: React.FC<LevelBarProps> = ({
 
   if (isSandbox) {
     return (
-      <div className="bg-zinc-900/90 border border-purple-500/40 rounded-2xl p-2.5 sm:p-3.5 shadow-xl backdrop-blur-md flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 font-bold">
-            ⚛
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] uppercase font-extrabold text-purple-400 tracking-wider">{t('freeMode')}</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-purple-950 text-purple-200 border border-purple-800">{t('sandboxBadge')}</span>
+      <div
+        onClick={onOpenStory}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onOpenStory();
+          }
+        }}
+        title={t('detailsTooltip')}
+        className="bg-zinc-900/90 hover:bg-zinc-800/90 border border-purple-500/40 hover:border-purple-400/60 rounded-2xl p-2.5 sm:p-3.5 shadow-xl backdrop-blur-md flex flex-wrap items-center justify-between gap-2 cursor-pointer transition-colors"
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenLevelSelector?.();
+            }}
+            className="flex-shrink-0 px-2 h-8 rounded-xl bg-purple-950/60 hover:bg-purple-900/60 border border-purple-500/40 flex items-center justify-center gap-1 text-purple-200 font-mono text-xs font-bold transition-colors"
+            title={t('chooseLevel')}
+          >
+            <Atom className="w-3.5 h-3.5 text-purple-400" />
+            <span>0/{totalLevels}</span>
+          </button>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[10px] sm:text-[11px] uppercase font-extrabold text-purple-400 tracking-wider">
+                {t('level')} 0 • {t('freeMode')}
+              </span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-purple-950 text-purple-200 border border-purple-800">
+                {t('sandboxBadge')}
+              </span>
             </div>
-            <div className="text-xs sm:text-sm font-bold text-white">
+            <div className="text-xs sm:text-sm font-bold text-white truncate">
               {t('sandboxDesc')}
             </div>
           </div>
         </div>
 
         <button
-          onClick={onToggleSandbox}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleSandbox();
+          }}
           className="px-2.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 text-xs font-semibold transition-colors flex items-center gap-1.5"
         >
           <span>{t('backToLevels')}</span>
@@ -68,11 +95,26 @@ export const LevelBar: React.FC<LevelBarProps> = ({
   const targetStyle = getDecayColor(targetIsoData?.decayMode || 'None');
 
   return (
-    <div className="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-2.5 sm:p-3.5 shadow-xl backdrop-blur-md flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+    <div
+      onClick={onOpenStory}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpenStory();
+        }
+      }}
+      title={t('detailsTooltip')}
+      className="bg-zinc-900/90 hover:bg-zinc-800/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-2.5 sm:p-3.5 shadow-xl backdrop-blur-md flex flex-wrap items-center justify-between gap-2 sm:gap-3 cursor-pointer transition-colors"
+    >
       {/* Left: Level title and ID */}
       <div className="flex items-center gap-2.5 min-w-0">
         <button
-          onClick={onOpenLevelSelector}
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpenLevelSelector?.();
+          }}
           className="flex-shrink-0 px-2 h-8 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 flex items-center justify-center gap-1 text-zinc-200 font-mono text-xs font-bold transition-colors"
           title={t('chooseLevel')}
         >
@@ -101,7 +143,7 @@ export const LevelBar: React.FC<LevelBarProps> = ({
         </div>
       </div>
 
-      {/* Right / Center: Mission Path (Start -> Target) & Details button */}
+      {/* Right / Center: Mission Path (Start -> Target) */}
       <div className="flex items-center gap-2 ml-auto">
         <div className="flex items-center gap-1.5 sm:gap-2.5 bg-zinc-950/80 px-2.5 py-1 rounded-xl border border-zinc-800/80">
           {/* Start Isotope */}
@@ -136,15 +178,6 @@ export const LevelBar: React.FC<LevelBarProps> = ({
             <span className="text-[11px] font-mono font-bold text-amber-300">{currentLevel.targetIsotope}</span>
           </div>
         </div>
-
-        <button
-          onClick={onOpenStory}
-          className="px-2.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 text-xs font-medium transition-colors flex items-center gap-1"
-          title={t('detailsTooltip')}
-        >
-          <HelpCircle className="w-3.5 h-3.5 text-amber-400" />
-          <span className="hidden sm:inline text-[11px]">{t('details')}</span>
-        </button>
       </div>
     </div>
   );
