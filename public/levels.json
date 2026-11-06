@@ -6,7 +6,21 @@
     "startIsotope": "Te-123",
     "targetIsotope": "Sb-123",
     "maxNeutrons": 0,
-    "maxElectrons": 1
+    "maxElectrons": 1,
+    "i18n": {
+      "en": {
+        "title": "Tutorial 1: Electron Capture",
+        "description": "The Tellurium-123 atom (Te-123) is a special case of a stable isobar. Add an electron (Right Click or Down Arrow) to transmute a proton into a neutron. You will instantly obtain stable Antimony!"
+      },
+      "es": {
+        "title": "Tutorial 1: Captura Electrónica",
+        "description": "El átomo de Telurio 123 (Te-123) es un caso especial de isóbaro estable. Añádele un electrón (Clic Derecho o Flecha Abajo) para transmutar un protón en neutrón. ¡Obtendrás Antimonio estable al instante!"
+      },
+      "zh": {
+        "title": "教程 1：电子俘获",
+        "description": "碲-123 (Te-123) 是一种特殊的稳定同量异位素。向其添加一个电子（右键或下方向键）将质子转化为中子，即可立即获得稳定的锑 (Sb-123)！"
+      }
+    }
   },
   {
     "id": 2,
@@ -15,7 +29,21 @@
     "startIsotope": "O-18",
     "targetIsotope": "F-19",
     "maxNeutrons": 1,
-    "maxElectrons": 0
+    "maxElectrons": 0,
+    "i18n": {
+      "en": {
+        "title": "Tutorial 2: Beta- Radioactivity",
+        "description": "Oxygen-18 is stable. Add a neutron (Left Click or Right Arrow) to turn it into Oxygen-19. It will become unstable and spontaneously decay (Beta-) into Fluorine-19!"
+      },
+      "es": {
+        "title": "Tutorial 2: Radiactividad Beta-",
+        "description": "El Oxígeno 18 es estable. Añádele un neutrón (Clic Izquierdo o Flecha Derecha) para transformarlo en Oxígeno 19. ¡Se volverá inestable y se desintegrará por sí solo (Beta-) hacia el Flúor 19!"
+      },
+      "zh": {
+        "title": "教程 2：β⁻ 放射性衰变",
+        "description": "氧-18 是稳定的。向其添加一个中子（左键或右方向键）将其转化为不稳定的氧-19。它将自发发生 β⁻ 衰变并转化为稳定的氟-19！"
+      }
+    }
   },
   {
     "id": 3,
@@ -24,7 +52,21 @@
     "startIsotope": "Hg-196",
     "targetIsotope": "Au-197",
     "maxNeutrons": 1,
-    "maxElectrons": 1
+    "maxElectrons": 1,
+    "i18n": {
+      "en": {
+        "title": "Level 3: The Alchemist's Dream",
+        "description": "Transmutation of Mercury-196 into stable Gold. This reaction was achieved in 1941 by Sherr, Bainbridge, and Anderson by bombarding mercury with neutrons."
+      },
+      "es": {
+        "title": "Nivel 3: El sueño del alquimista",
+        "description": "Transmutación del Mercurio 196 en Oro estable. Esta es la reacción lograda en 1941 por Sherr, Bainbridge y Anderson bombardeando mercurio con neutrones."
+      },
+      "zh": {
+        "title": "第 3 关：炼金术士之梦",
+        "description": "将汞-196 嬗变为稳定的金-197。这是 1941 年 Sherr、Bainbridge 和 Anderson 通过用中子轰击汞实现的著名核反应。"
+      }
+    }
   },
   {
     "id": 4,
@@ -33,7 +75,21 @@
     "startIsotope": "Pb-208",
     "targetIsotope": "Tl-205",
     "maxNeutrons": 1,
-    "maxElectrons": 0
+    "maxElectrons": 0,
+    "i18n": {
+      "en": {
+        "title": "Level 4: The Radioactive Cascade",
+        "description": "Lead-208 is nature's heaviest stable nuclide. Add a neutron (⚛) to turn it into unstable Lead-209. It will first undergo Beta- decay (to Bismuth-209), followed by Alpha decay to stable Thallium-205!"
+      },
+      "es": {
+        "title": "Nivel 4: La cascada radiactiva",
+        "description": "El Plomo 208 es el elemento estable más pesado de la naturaleza. Añádele un neutrón (⚛) para transformarlo en Plomo 209 inestable. ¡Sufrirá primero una desintegración Beta- (hacia Bismuto 209) y luego una desintegración Alfa hacia el Talio 205 estable!"
+      },
+      "zh": {
+        "title": "第 4 关：放射性级联衰变",
+        "description": "铅-208 是自然界中最重的稳定核素。添加一个中子 (⚛) 将其变为不稳定的铅-209。它会先发生 β⁻ 衰变（变为铋-209），随后发生 α 衰变成为稳定的铊-205！"
+      }
+    }
   },
   {
     "id": 5,
@@ -42,7 +98,21 @@
     "startIsotope": "Ca-46",
     "targetIsotope": "Ti-48",
     "maxNeutrons": 2,
-    "maxElectrons": 0
+    "maxElectrons": 0,
+    "i18n": {
+      "en": {
+        "title": "Level 5: Reactive Calcium",
+        "description": "Calcium-46 is stable. Add a neutron (⚛) to form Calcium-47, and wait for it to decay into unstable Scandium-47. As soon as it appears, quickly fire a second neutron (⚛) before it decays to get Scandium-48, which will stabilize into Titanium-48!"
+      },
+      "es": {
+        "title": "Nivel 5: El Calcio reactivo",
+        "description": "El Calcio 46 es estable. Añádele un neutrón (⚛) para formar Calcio 47 y espera su desintegración en Escandio 47 inestable. En cuanto aparezca, dispara rápidamente un segundo neutrón (⚛) antes de que se desintegre para obtener Escandio 48, ¡que se estabilizará en Titanio 48!"
+      },
+      "zh": {
+        "title": "第 5 关：活跃的钙",
+        "description": "钙-46 是稳定的。添加一个中子 (⚛) 形成钙-47，等待它衰变为不稳定的钪-47。一旦出现，在它衰变前迅速发射第二个中子 (⚛) 得到钪-48，随后它将衰变为稳定的钛-48！"
+      }
+    }
   },
   {
     "id": 6,
@@ -51,7 +121,21 @@
     "startIsotope": "Kr-86",
     "targetIsotope": "Sr-88",
     "maxNeutrons": 2,
-    "maxElectrons": 0
+    "maxElectrons": 0,
+    "i18n": {
+      "en": {
+        "title": "Level 6: Hurried Krypton",
+        "description": "Krypton-86 is stable. Add a neutron (⚛) to form unstable Krypton-87, which decays into Rubidium-87. As soon as it appears, quickly shoot a second neutron (⚛) before it decays to get Rubidium-88, which decays into stable Strontium-88!"
+      },
+      "es": {
+        "title": "Nivel 6: El Kriptón apresurado",
+        "description": "El Kriptón 86 es estable. Añádele un neutrón (⚛) para formar Kriptón 87 inestable, que se desintegrará en Rubidio 87. En cuanto aparezca, dispárale rápidamente un segundo neutrón (⚛) antes de su desintegración para obtener Rubidio 88, ¡que se desintegrará hacia el Estroncio 88 estable!"
+      },
+      "zh": {
+        "title": "第 6 关：争分夺秒的氪",
+        "description": "氪-86 是稳定的。添加一个中子 (⚛) 形成不稳定的氪-87，它会衰变为铷-87。一旦出现，在它衰变前迅速发射第二个中子 (⚛) 得到铷-88，最终衰变为稳定的锶-88！"
+      }
+    }
   },
   {
     "id": 7,
@@ -60,7 +144,21 @@
     "startIsotope": "Ar-29",
     "targetIsotope": "Cl-30",
     "maxNeutrons": 1,
-    "maxElectrons": 1
+    "maxElectrons": 1,
+    "i18n": {
+      "en": {
+        "title": "Level 7: The Ar-29 Exchange",
+        "description": "Argon-29 is stable in this simulator. Add a neutron (⚛) to create unstable Argon-30. Immediately fire an electron (⚡) before it decays to transmute it into stable Chlorine-30!"
+      },
+      "es": {
+        "title": "Nivel 7: El intercambio de Ar-29",
+        "description": "El Argón 29 es estable en este simulador. Añádele un neutrón (⚛) para crear Argón 30 inestable. ¡Dispárale inmediatamente un electrón (⚡) antes de su desintegración para transmutarlo hacia el Cloro 30 estable!"
+      },
+      "zh": {
+        "title": "第 7 关：氩-29 的转换",
+        "description": "在此模拟器中氩-29 是稳定的。添加一个中子 (⚛) 生成不稳定的氩-30，在它衰变前立即发射一个电子 (⚡)，将其嬗变为稳定的氯-30！"
+      }
+    }
   },
   {
     "id": 8,
@@ -69,7 +167,21 @@
     "startIsotope": "Si-30",
     "targetIsotope": "S-33",
     "maxNeutrons": 3,
-    "maxElectrons": 0
+    "maxElectrons": 0,
+    "i18n": {
+      "en": {
+        "title": "Level 8: Precision Silicon",
+        "description": "Silicon-30 is stable. Add a neutron (⚛) to create Silicon-31, which decays into stable Phosphorus-31. Wait for it to stabilize, then add a second neutron (⚛) to create unstable Phosphorus-32. Quickly shoot a third neutron (⚛) before it decays to reach stable Sulfur-33!"
+      },
+      "es": {
+        "title": "Nivel 8: El Silicio de precisión",
+        "description": "El Silicio 30 es estable. Añádele un neutrón (⚛) para crear Silicio 31, que se desintegra en Fósforo 31 estable. Espera su estabilización, añade un segundo neutrón (⚛) para crear Fósforo 32 inestable y dispara rápidamente un tercer neutrón (⚛) antes de su desintegración para alcanzar el Azufre 33 estable."
+      },
+      "zh": {
+        "title": "第 8 关：精准硅嬗变",
+        "description": "硅-30 是稳定的。添加一个中子 (⚛) 生成硅-31，它会衰变为稳定的磷-31。待其稳定后，添加第二个中子 (⚛) 生成不稳定的磷-32，并在它衰变前迅速发射第三个中子 (⚛)，最终到达稳定的硫-33！"
+      }
+    }
   },
   {
     "id": 9,
@@ -78,7 +190,21 @@
     "startIsotope": "Ar-40",
     "targetIsotope": "Ca-43",
     "maxNeutrons": 3,
-    "maxElectrons": 0
+    "maxElectrons": 0,
+    "i18n": {
+      "en": {
+        "title": "Level 9: Fast Argon",
+        "description": "Argon-40 is stable. Add a neutron (⚛) to create Argon-41, which decays into stable Potassium-41. Once stable, add a second neutron (⚛) to form unstable Potassium-42, then quickly fire a third neutron (⚛) before it decays to reach stable Calcium-43!"
+      },
+      "es": {
+        "title": "Nivel 9: El Argón rápido",
+        "description": "El Argón 40 es estable. Añádele un neutrón (⚛) para crear Argón 41, que se desintegra en Potasio 41 estable. En cuanto se estabilice, añade un segundo neutrón (⚛) para formar Potasio 42 inestable y dispara rápidamente un tercer neutrón (⚛) antes de su desintegración para alcanzar el Calcio 43 estable."
+      },
+      "zh": {
+        "title": "第 9 关：极速氩反应",
+        "description": "氩-40 是稳定的。添加一个中子 (⚛) 生成氩-41，它会衰变为稳定的钾-41。稳定后添加第二个中子 (⚛) 形成不稳定的钾-42，再迅速发射第三个中子 (⚛) 使其最终衰变为稳定的钙-43！"
+      }
+    }
   },
   {
     "id": 10,
@@ -87,7 +213,21 @@
     "startIsotope": "Ni-62",
     "targetIsotope": "Cu-65",
     "maxNeutrons": 3,
-    "maxElectrons": 0
+    "maxElectrons": 0,
+    "i18n": {
+      "en": {
+        "title": "Level 10: Reactive Nickel",
+        "description": "Nickel-62 is stable. Add a neutron (⚛) to get unstable Nickel-63. Immediately shoot a second neutron (⚛) before it decays to stabilize it into Nickel-64. Finally, add a third neutron (⚛) to form unstable Nickel-65, which will decay into stable Copper-65!"
+      },
+      "es": {
+        "title": "Nivel 10: El Níquel reactivo",
+        "description": "El Níquel 62 es estable. Añádele un neutrón (⚛) para obtener Níquel 63 inestable. Dispárale inmediatamente un segundo neutrón (⚛) antes de que se desintegre para estabilizarlo en Níquel 64. Finalmente, añade un tercer neutrón (⚛) para formar Níquel 65 inestable, ¡que se desintegrará hacia el Cobre 65 estable!"
+      },
+      "zh": {
+        "title": "第 10 关：反应性镍",
+        "description": "镍-62 是稳定的。添加一个中子 (⚛) 得到不稳定的镍-63，立即发射第二个中子 (⚛) 使其稳定为镍-64。最后添加第三个中子 (⚛) 形成不稳定的镍-65，它将衰变为稳定的铜-65！"
+      }
+    }
   },
   {
     "id": 11,
@@ -96,7 +236,21 @@
     "startIsotope": "S-34",
     "targetIsotope": "Cl-37",
     "maxNeutrons": 3,
-    "maxElectrons": 1
+    "maxElectrons": 1,
+    "i18n": {
+      "en": {
+        "title": "Level 11: Sulfur Alchemy",
+        "description": "Sulfur-34 is stable. Add a neutron (⚛) to create Sulfur-35, which decays into stable Chlorine-35. Add a second neutron (⚛) to form unstable Chlorine-36 and let it decay into stable Argon-36. Finally, add a third neutron (⚛) to form unstable Argon-37, and quickly fire an electron (⚡) before it decays to reach stable Chlorine-37!"
+      },
+      "es": {
+        "title": "Nivel 11: La alquimia del Azufre",
+        "description": "El Azufre 34 es estable. Añádele un neutrón (⚛) para crear Azufre 35, que se desintegra en Cloro 35 estable. Añade un segundo neutrón (⚛) para formar Cloro 36 inestable y déjalo desintegrarse en Argón 36 estable. Finalmente, añade un tercer neutrón (⚛) para formar Argón 37 inestable y dispárale rápidamente un electrón (⚡) para alcanzar el Cloro 37 estable."
+      },
+      "zh": {
+        "title": "第 11 关：硫的炼金术",
+        "description": "硫-34 是稳定的。添加一个中子 (⚛) 生成硫-35，它会衰变为稳定的氯-35。添加第二个中子 (⚛) 形成氯-36 并让它衰变为稳定的氩-36。最后添加第三个中子 (⚛) 形成不稳定的氩-37，并在衰变前迅速发射一个电子 (⚡) 到达稳定的氯-37！"
+      }
+    }
   },
   {
     "id": 12,
@@ -105,7 +259,21 @@
     "startIsotope": "Pb-208",
     "targetIsotope": "Tl-205",
     "maxNeutrons": 1,
-    "maxElectrons": 3
+    "maxElectrons": 3,
+    "i18n": {
+      "en": {
+        "title": "Level 12: Lead Juggling",
+        "description": "Lead-208 is stable. Add a neutron (⚛) to get unstable Lead-209, which decays into Bismuth-209. As soon as Bismuth appears, quickly shoot an electron (⚡) to turn it back into Lead-209. Repeat this juggling 3 times to use up all your electrons, then let the cascade stabilize into Thallium-205!"
+      },
+      "es": {
+        "title": "Nivel 12: El malabarismo del Plomo",
+        "description": "El Plomo 208 es estable. Añádele un neutrón (⚛) para obtener Plomo 209 inestable, que se desintegra en Bismuto 209. En cuanto aparezca el Bismuto, dispárale rápidamente un electrón (⚡) para volver a transformarlo en Plomo 209. ¡Repite este malabarismo 3 veces para agotar tus electrones y deja que la cascada se estabilice en Talio 205!"
+      },
+      "zh": {
+        "title": "第 12 关：铅铋杂耍",
+        "description": "铅-208 是稳定的。添加一个中子 (⚛) 得到不稳定的铅-209，它会衰变为铋-209。一旦铋出现，迅速发射一个电子 (⚡) 将其变回铅-209。重复此操作 3 次用完所有电子，最后让级联衰变稳定到铊-205！"
+      }
+    }
   },
   {
     "id": 13,
@@ -114,6 +282,20 @@
     "startIsotope": "Ne-22",
     "targetIsotope": "Mg-24",
     "maxNeutrons": 3,
-    "maxElectrons": 2
+    "maxElectrons": 2,
+    "i18n": {
+      "en": {
+        "title": "Level 13: The Great Neon Race",
+        "description": "Neon-22 is stable. Add a neutron (⚛), then very rapidly fire two more neutrons (⚛, ⚛) and two electrons (⚡, ⚡) without waiting for intermediate isotopes to decay. You will reach unstable Oxygen-25, which will undergo a spectacular decay cascade all the way to stable Magnesium-24!"
+      },
+      "es": {
+        "title": "Nivel 13: La gran carrera del Neón",
+        "description": "El Neón 22 es estable. Añade un neutrón (⚛), luego dispara muy rápidamente otros dos neutrones (⚛, ⚛) y dos electrones (⚡, ⚡) sin esperar a que los isótopos intermedios se desintegren. ¡Alcanzarás el Oxígeno 25 inestable, que sufrirá una cascada de desintegraciones espectacular hasta el Magnesio 24 estable!"
+      },
+      "zh": {
+        "title": "第 13 关：氖之极速冲刺",
+        "description": "氖-22 是稳定的。添加一个中子 (⚛)，然后不等中间同位素衰变，极快地连续发射两个中子 (⚛, ⚛) 和两个电子 (⚡, ⚡)。你将到达不稳定的氧-25，随后经历壮观的级联衰变直达稳定的镁-24！"
+      }
+    }
   }
 ]

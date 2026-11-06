@@ -2,6 +2,7 @@ import React from 'react';
 import { LevelData, DecayMode } from '../types/isotope';
 import { getDecayColor } from '../utils/physics';
 import { X, BookOpen, Atom, ArrowRight, Lightbulb } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface LevelStoryModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export const LevelStoryModal: React.FC<LevelStoryModalProps> = ({
   level,
   isotopesDB,
 }) => {
+  const { t, getLevelTitle, getLevelDescription } = useI18n();
   if (!isOpen) return null;
 
   const startData = isotopesDB[level.startIsotope];
@@ -34,9 +36,9 @@ export const LevelStoryModal: React.FC<LevelStoryModalProps> = ({
             </div>
             <div>
               <div className="text-[11px] font-bold text-amber-400 uppercase tracking-wider">
-                Niveau {level.id}
+                {t('level')} {level.id}
               </div>
-              <h2 className="text-lg font-bold text-white">{level.title}</h2>
+              <h2 className="text-lg font-bold text-white">{getLevelTitle(level)}</h2>
             </div>
           </div>
           <button
@@ -59,7 +61,7 @@ export const LevelStoryModal: React.FC<LevelStoryModalProps> = ({
                 {level.startIsotope.split('-')[0]}
               </div>
               <div>
-                <span className="text-[10px] text-zinc-400 block uppercase font-bold">Départ</span>
+                <span className="text-[10px] text-zinc-400 block uppercase font-bold">{t('start')}</span>
                 <span className="text-sm font-mono font-bold text-white">{level.startIsotope}</span>
               </div>
             </div>
@@ -74,7 +76,7 @@ export const LevelStoryModal: React.FC<LevelStoryModalProps> = ({
                 {level.targetIsotope.split('-')[0]}
               </div>
               <div>
-                <span className="text-[10px] text-amber-400 block uppercase font-bold">Cible</span>
+                <span className="text-[10px] text-amber-400 block uppercase font-bold">{t('target')}</span>
                 <span className="text-sm font-mono font-bold text-amber-300">{level.targetIsotope}</span>
               </div>
             </div>
@@ -84,25 +86,25 @@ export const LevelStoryModal: React.FC<LevelStoryModalProps> = ({
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
               <Lightbulb className="w-4 h-4 text-amber-400" />
-              Explication & Stratégie Nucléaire
+              {t('storyHeading')}
             </h3>
             <p className="text-sm leading-relaxed text-zinc-300 bg-zinc-950/60 p-4 rounded-2xl border border-zinc-800/80">
-              {level.description}
+              {getLevelDescription(level)}
             </p>
           </div>
 
           {/* Resources & Rules */}
           <div className="grid grid-cols-2 gap-3 text-xs">
             <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-              <span className="text-zinc-400 block mb-1">Neutrons alloués :</span>
+              <span className="text-zinc-400 block mb-1">{t('allocatedNeutrons')}</span>
               <span className="font-mono font-bold text-sky-400 text-sm">
-                {level.maxNeutrons} ⚛ ({level.maxNeutrons > 0 ? 'Disponible' : 'Aucun'})
+                {level.maxNeutrons} ⚛ ({level.maxNeutrons > 0 ? t('available') : t('none')})
               </span>
             </div>
             <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-              <span className="text-zinc-400 block mb-1">Électrons alloués :</span>
+              <span className="text-zinc-400 block mb-1">{t('allocatedElectrons')}</span>
               <span className="font-mono font-bold text-fuchsia-400 text-sm">
-                {level.maxElectrons} ⚡ ({level.maxElectrons > 0 ? 'Disponible' : 'Aucun'})
+                {level.maxElectrons} ⚡ ({level.maxElectrons > 0 ? t('available') : t('none')})
               </span>
             </div>
           </div>
@@ -111,7 +113,7 @@ export const LevelStoryModal: React.FC<LevelStoryModalProps> = ({
           <div className="bg-sky-950/30 border border-sky-800/50 p-3 rounded-xl text-sky-200 text-xs flex items-center gap-2">
             <Atom className="w-4 h-4 text-sky-400 flex-shrink-0" />
             <span>
-              <strong>Astuce :</strong> Utilisez la touche <kbd className="px-1.5 py-0.5 bg-zinc-800 rounded font-mono text-[11px]">N</kbd> pour le neutron, <kbd className="px-1.5 py-0.5 bg-zinc-800 rounded font-mono text-[11px]">E</kbd> pour l'électron, et <kbd className="px-1.5 py-0.5 bg-zinc-800 rounded font-mono text-[11px]">Espace</kbd> pour la pause.
+              <strong>{t('tipLabel')}</strong> {t('tipText')}
             </span>
           </div>
         </div>
@@ -122,7 +124,7 @@ export const LevelStoryModal: React.FC<LevelStoryModalProps> = ({
             onClick={onClose}
             className="px-5 py-2 rounded-xl text-xs font-bold bg-sky-500 hover:bg-sky-400 text-black shadow-lg shadow-sky-500/20 transition-all"
           >
-            Compris, c'est parti !
+            {t('gotItBtn')}
           </button>
         </div>
       </div>

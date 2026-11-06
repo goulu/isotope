@@ -1,5 +1,6 @@
 import React from 'react';
-import { RotateCcw, ArrowRight, Sparkles, BookOpen, Atom } from 'lucide-react';
+import { RotateCcw, ArrowRight, Sparkles } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface ControlPanelProps {
   remainingNeutrons: number;
@@ -40,6 +41,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   hasNextLevel,
   isSandbox,
 }) => {
+  const { t } = useI18n();
   const canShootNeutron = !isGameOver && (isSandbox || remainingNeutrons > 0);
   const canShootElectron = !isGameOver && (isSandbox || remainingElectrons > 0);
   const canShootProton = !isGameOver && (isSandbox || remainingProtons > 0);
@@ -57,11 +59,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 ? 'bg-gradient-to-b from-sky-600 to-sky-700 hover:from-sky-500 hover:to-sky-600 text-white shadow-sky-600/30 ring-1 ring-sky-400 cursor-pointer'
                 : 'bg-zinc-800/60 text-zinc-500 border border-zinc-800 cursor-not-allowed opacity-50'
             }`}
-            title="Bombarder avec un neutron : N augmente de 1 (Touche N)"
+            title={t('addNeutronTooltip')}
           >
             <div className="flex items-center gap-1 font-bold text-xs sm:text-base">
               <span className="text-sm sm:text-lg">⚛</span>
-              <span>+ Neutron</span>
+              <span>{t('addNeutron')}</span>
             </div>
             <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-sky-100 font-mono">
               <span>(N+1)</span>
@@ -83,11 +85,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 ? 'bg-gradient-to-b from-fuchsia-600 to-fuchsia-700 hover:from-fuchsia-500 hover:to-fuchsia-600 text-white shadow-fuchsia-600/30 ring-1 ring-fuchsia-400 cursor-pointer'
                 : 'bg-zinc-800/60 text-zinc-500 border border-zinc-800 cursor-not-allowed opacity-50'
             }`}
-            title="Capture Électronique : p + e⁻ ➔ n + ν (Z - 1, N + 1) (Touche E)"
+            title={t('addElectronTooltip')}
           >
             <div className="flex items-center gap-1 font-bold text-xs sm:text-base">
               <span className="text-sm sm:text-lg">⚡</span>
-              <span>+ Électron</span>
+              <span>{t('addElectron')}</span>
             </div>
             <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-fuchsia-100 font-mono">
               <span>(Z-1,N+1)</span>
@@ -109,11 +111,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 ? 'bg-gradient-to-b from-orange-600 to-orange-700 hover:from-orange-500 hover:to-orange-600 text-white shadow-orange-600/30 ring-1 ring-orange-400 cursor-pointer'
                 : 'bg-zinc-800/60 text-zinc-500 border border-zinc-800 cursor-not-allowed opacity-50'
             }`}
-            title="Ajouter un proton : Z augmente de 1 (Touche P)"
+            title={t('addProtonTooltip')}
           >
             <div className="flex items-center gap-1 font-bold text-xs sm:text-base">
               <span className="text-sm sm:text-lg">🔴</span>
-              <span>+ Proton</span>
+              <span>{t('addProton')}</span>
             </div>
             <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-orange-100 font-mono">
               <span>(Z+1)</span>
@@ -127,10 +129,10 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         <button
           onClick={onRestart}
           className="px-3 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 text-xs font-semibold transition-all flex items-center justify-center gap-1.5"
-          title="Recommencer ce niveau (R)"
+          title={t('restartTooltip')}
         >
           <RotateCcw className="w-4 h-4" />
-          <span className="hidden sm:inline">Recommencer</span>
+          <span className="hidden sm:inline">{t('restart')}</span>
         </button>
 
         {/* Victory Next Level Button */}
@@ -140,7 +142,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             className="px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-black font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-xl shadow-emerald-500/30 ring-2 ring-emerald-300 animate-bounce active:scale-95"
           >
             <Sparkles className="w-4 h-4 fill-current" />
-            <span>Suivant</span>
+            <span>{t('next')}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         )}

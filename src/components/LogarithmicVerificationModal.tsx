@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Isotope, DecaySettings } from '../types/isotope';
-import { calculateGameDecayTime, formatHalfLife } from '../utils/physics';
+import { calculateGameDecayTime, formatHalfLife, getElementName } from '../utils/physics';
 import { X, CheckCircle2, Sliders, RefreshCw, Calculator, HelpCircle } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface LogarithmicVerificationModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
   settings,
   onUpdateSettings,
 }) => {
+  const { t, lang } = useI18n();
   const [testHalfLife, setTestHalfLife] = useState<number>(currentIsotope.halfLife > 0 ? currentIsotope.halfLife : 10);
   const [tempSettings, setTempSettings] = useState<DecaySettings>({ ...settings });
 
@@ -25,14 +27,14 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
 
   // Key benchmarks for demonstration
   const benchmarks = [
-    { name: 'Oxygène-12 (¹²O)', hl: 1e-3, desc: 'Extrêmement instable' },
-    { name: 'Argon-30 (³⁰Ar)', hl: 1.0, desc: 'Court (1 seconde)' },
-    { name: 'Oxygène-19 (¹⁹O)', hl: 26.47, desc: 'Moyen (26,5 s)' },
-    { name: 'Plomb-209 (²⁰⁹Pb)', hl: 11646, desc: '3,2 heures' },
-    { name: 'Calcium-47 (⁴⁷Ca)', hl: 391824, desc: '4,5 jours' },
-    { name: 'Tritium (³H)', hl: 388500000, desc: '12,3 ans' },
-    { name: 'Carbone-14 (¹⁴C)', hl: 1.8e11, desc: '5 730 ans' },
-    { name: 'Uranium-238 (²³⁸U)', hl: 1.4e17, desc: '4,5 milliards d\'années' },
+    { z: 8, mass: 12, sym: 'O', hl: 1e-3 },
+    { z: 18, mass: 30, sym: 'Ar', hl: 1.0 },
+    { z: 8, mass: 19, sym: 'O', hl: 26.47 },
+    { z: 82, mass: 209, sym: 'Pb', hl: 11646 },
+    { z: 20, mass: 47, sym: 'Ca', hl: 391824 },
+    { z: 1, mass: 3, sym: 'H', hl: 388500000 },
+    { z: 6, mass: 14, sym: 'C', hl: 1.8e11 },
+    { z: 92, mass: 238, sym: 'U', hl: 1.4e17 },
   ];
 
   const simulatedGameTime = calculateGameDecayTime(testHalfLife, tempSettings);
@@ -77,10 +79,10 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
             </div>
             <div>
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <span>Vérification de la Loi Logarithmique</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Conforme</span>
+                <span>{t('logModalTitle')}</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">{t('logModalBadge')}</span>
               </h2>
-              <p className="text-xs text-zinc-400">Règle de transposition physique du temps de désintégration nucléaire</p>
+              <p className="text-xs text-zinc-400">{t('logModalSub')}</p>
             </div>
           </div>
           <button
@@ -97,17 +99,21 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
           <div className="bg-emerald-950/30 border border-emerald-600/40 rounded-2xl p-4 text-emerald-200 text-sm space-y-2">
             <div className="flex items-center gap-2 font-bold text-emerald-300">
               <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-              <span>Démonstration mathématique de la loi logarithmique</span>
+              <span>{t('logMathTitle')}</span>
             </div>
             <p className="text-xs leading-relaxed text-emerald-100/90">
-              En physique nucléaire, les demi-vies (T₁/₂) s'étalent sur plus de <strong>35 ordres de grandeur</strong> : de quelques microsecondes (10⁻⁶ s) à des milliards d'années (10¹⁷ s pour l'U-238).
-              Pour être jouable par un humain en temps réel, le temps en jeu suit strictement une <strong>fonction affine du logarithme décimal</strong> :
+              {t('logMathDesc')}
             </p>
             <div className="p-2.5 rounded-xl bg-black/50 border border-emerald-500/30 font-mono text-center text-sm font-bold text-white tracking-wide">
-              t_jeu = t_base + pente × log₁₀( T₁/₂ )
+              {t('logFormula')}
             </div>
             <p className="text-[11px] text-emerald-200/80">
-              Avec les paramètres actuels : <strong className="text-white">t_base = {tempSettings.baseTime}s</strong> (temps à T₁/₂ = 1s), <strong className="text-white">pente = {tempSettings.slope}s / décade</strong>, et un encadrement ergonomique [{tempSettings.minTime}s ; {tempSettings.maxTime}s].
+              {t('logCurrentParams', {
+                base: tempSettings.baseTime,
+                slope: tempSettings.slope,
+                min: tempSettings.minTime,
+                max: tempSettings.maxTime,
+              })}
             </p>
           </div>
 
@@ -116,9 +122,9 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
                 <Calculator className="w-4 h-4 text-sky-400" />
-                Courbe Logarithmique Semi-Log (t_jeu en fonction de log₁₀ T₁/₂)
+                {t('logCurveTitle')}
               </span>
-              <span className="text-xs font-mono text-zinc-400">Pente constante = {tempSettings.slope} s/décade</span>
+              <span className="text-xs font-mono text-zinc-400">{t('logSlopeConst', { slope: tempSettings.slope })}</span>
             </div>
 
             <div className="w-full overflow-x-auto">
@@ -220,16 +226,16 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
             </div>
 
             <div className="flex items-center justify-between text-[11px] text-zinc-400 mt-2 px-1">
-              <span>← Très rapide (millisecondes)</span>
-              <span className="text-zinc-500">Axe logarithmique</span>
-              <span>Très lent (siècles / milliards d'années) →</span>
+              <span>{t('logAxisFast')}</span>
+              <span className="text-zinc-500">{t('logAxisLabel')}</span>
+              <span>{t('logAxisSlow')}</span>
             </div>
           </div>
 
           {/* Interactive Benchmark Samples */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-300 mb-3 flex items-center gap-1.5">
-              <span>Étalonnage sur des isotopes réels de référence</span>
+              <span>{t('logBenchmarksTitle')}</span>
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5">
               {benchmarks.map((item, idx) => {
@@ -245,10 +251,11 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
                         : 'bg-zinc-800/60 hover:bg-zinc-800 border-zinc-700 text-zinc-200'
                     }`}
                   >
-                    <div className="text-xs font-bold text-white truncate">{item.name}</div>
-                    <div className="text-[11px] text-zinc-400 font-mono mt-0.5">T½ = {formatHalfLife(item.hl)}</div>
+                    <div className="text-xs font-bold text-white truncate">
+                      {getElementName(item.z, lang)}-{item.mass} ({item.sym}-{item.mass})
+                    </div>
                     <div className="mt-1 flex items-center justify-between">
-                      <span className="text-[10px] text-zinc-400">{item.desc}</span>
+                      <span className="text-[11px] text-zinc-400 font-mono">T½ = {formatHalfLife(item.hl, lang)}</span>
                       <span className="font-mono text-xs font-extrabold text-sky-400">{gameSec.toFixed(2)} s</span>
                     </div>
                   </button>
@@ -262,10 +269,10 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-zinc-200 flex items-center gap-1.5">
                 <Sliders className="w-4 h-4 text-amber-400" />
-                Simulateur de Demi-vie Personnalisée
+                {t('logSimTitle')}
               </span>
               <span className="text-xs font-mono text-amber-400 font-bold">
-                T½ = {formatHalfLife(testHalfLife)} ➔ t_jeu = {simulatedGameTime.toFixed(2)} s
+                T½ = {formatHalfLife(testHalfLife, lang)} ➔ {simulatedGameTime.toFixed(2)} s
               </span>
             </div>
 
@@ -283,8 +290,8 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
                 <span>1 ms (10⁻³ s)</span>
                 <span>1 s (10⁰ s)</span>
                 <span>1 h (10³ s)</span>
-                <span>1 an (10⁷ s)</span>
-                <span>300 ans (10¹⁰ s)</span>
+                <span>10⁷ s</span>
+                <span>10¹⁰ s</span>
               </div>
             </div>
           </div>
@@ -293,13 +300,13 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
           <div className="border-t border-zinc-800 pt-4 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
               <HelpCircle className="w-4 h-4 text-purple-400" />
-              Réglage fin des Paramètres de Décroissance
+              {t('logSettingsTitle')}
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="text-[11px] text-zinc-400 block mb-1">
-                  Temps de base t_base (pour T½ = 1s) : <strong className="text-white">{tempSettings.baseTime}s</strong>
+                  {t('logBaseTimeLabel')} <strong className="text-white">{tempSettings.baseTime}s</strong>
                 </label>
                 <input
                   type="range"
@@ -314,7 +321,7 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
 
               <div>
                 <label className="text-[11px] text-zinc-400 block mb-1">
-                  Pente logarithmique (s / décade) : <strong className="text-white">{tempSettings.slope}s</strong>
+                  {t('logSlopeLabel')} <strong className="text-white">{tempSettings.slope}s</strong>
                 </label>
                 <input
                   type="range"
@@ -329,7 +336,7 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
 
               <div>
                 <label className="text-[11px] text-zinc-400 block mb-1">
-                  Mode physique quantique :
+                  {t('logQuantumModeLabel')}
                 </label>
                 <button
                   type="button"
@@ -340,7 +347,7 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
                       : 'bg-zinc-800 border-zinc-700 text-zinc-300'
                   }`}
                 >
-                  {tempSettings.isStochastic ? 'Stochastique (Poisson)' : 'Déterministe (Pur Log)'}
+                  {tempSettings.isStochastic ? t('logStochastic') : t('logDeterministic')}
                 </button>
               </div>
             </div>
@@ -356,7 +363,7 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
             className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            Réinitialiser valeurs par défaut
+            {t('logResetBtn')}
           </button>
 
           <div className="flex items-center gap-2">
@@ -364,7 +371,7 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
               onClick={onClose}
               className="px-4 py-2 text-xs font-semibold text-zinc-300 hover:text-white transition-colors"
             >
-              Fermer
+              {t('closeBtn')}
             </button>
             <button
               onClick={() => {
@@ -373,7 +380,7 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
               }}
               className="px-5 py-2 rounded-xl text-xs font-bold bg-sky-500 hover:bg-sky-400 text-black shadow-lg shadow-sky-500/20 transition-all"
             >
-              Appliquer les Réglages
+              {t('applySettingsBtn')}
             </button>
           </div>
         </div>

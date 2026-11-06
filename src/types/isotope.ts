@@ -14,6 +14,13 @@ export interface Isotope extends IsotopeData {
   mass: number; // protons + neutrons, e.g. 19
 }
 
+export type Language = 'fr' | 'en' | 'es' | 'zh';
+
+export interface LevelTranslation {
+  title: string;
+  description: string;
+}
+
 export interface LevelData {
   id: number;
   title: string;
@@ -23,6 +30,7 @@ export interface LevelData {
   maxNeutrons: number;
   maxElectrons: number;
   maxProtons?: number;
+  i18n?: Partial<Record<Language, LevelTranslation>>;
 }
 
 export interface DecaySettings {

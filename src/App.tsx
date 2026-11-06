@@ -22,8 +22,11 @@ import { LevelSelectorModal } from './components/LevelSelectorModal';
 import { LevelStoryModal } from './components/LevelStoryModal';
 import { SandboxModal } from './components/SandboxModal';
 import { Volume2, VolumeX } from 'lucide-react';
+import { useI18n, LANGUAGES } from './i18n';
+import { Language } from './types/isotope';
 
 export default function App() {
+  const { t, lang, setLang } = useI18n();
   // Database state
   const [isotopesDB, setIsotopesDB] = useState<Record<string, { protons: number; neutrons: number; halfLife: number; decayMode: DecayMode; name: string }>>({});
   const [levels, setLevels] = useState<LevelData[]>([]);
@@ -349,8 +352,8 @@ export default function App() {
     return (
       <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-6 text-white font-mono">
         <div className="w-12 h-12 border-4 border-sky-400 border-t-transparent rounded-full animate-spin mb-4" />
-        <h2 className="text-lg font-bold">Chargement de la Carte des Nucléides...</h2>
-        <p className="text-xs text-zinc-500 mt-1">Initialisation des 3 557 isotopes et des lois de décroissance</p>
+        <h2 className="text-lg font-bold">{t('loadingTitle')}</h2>
+        <p className="text-xs text-zinc-500 mt-1">{t('loadingSubtitle')}</p>
       </div>
     );
   }
@@ -369,7 +372,20 @@ export default function App() {
             />
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <select
+              value={lang}
+              onChange={(e) => setLang(e.target.value as Language)}
+              aria-label="Language"
+              className="px-1.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 text-[11px] sm:text-xs font-mono font-bold cursor-pointer focus:outline-none focus:ring-1 focus:ring-sky-500"
+            >
+              {LANGUAGES.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
+
             <button
               onClick={() => {
                 const nextMuted = !isMuted;
@@ -377,7 +393,7 @@ export default function App() {
                 sound.setMuted(nextMuted);
               }}
               className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-colors"
-              title={isMuted ? 'Activer le son' : 'Couper le son'}
+              title={isMuted ? t('unmute') : t('mute')}
             >
               {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
             </button>
@@ -385,10 +401,10 @@ export default function App() {
             <button
               onClick={() => setIsPhysicsModalOpen(true)}
               className="px-2 sm:px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sky-400 border border-sky-500/30 text-[11px] sm:text-xs font-mono font-bold transition-all shadow-sm flex items-center gap-1.5"
-              title="Vérifier la loi logarithmique du temps de désintégration"
+              title={t('logLawTooltip')}
             >
               <span>f(log T½)</span>
-              <span className="hidden sm:inline">Loi Logarithmique</span>
+              <span className="hidden md:inline">{t('logLawBtn')}</span>
             </button>
 
             <button
@@ -404,7 +420,7 @@ export default function App() {
                   : 'bg-zinc-900 text-zinc-300 hover:text-white border-zinc-700'
               }`}
             >
-              {isSandbox ? 'Quitter Sandbox' : 'Mode Libre'}
+              {isSandbox ? t('exitSandbox') : t('freeMode')}
             </button>
           </div>
         </div>
@@ -468,11 +484,11 @@ export default function App() {
       {/* Footer / Control Hints (Desktop only) */}
       <footer className="hidden sm:block border-t border-zinc-900 bg-zinc-950 px-4 py-2 text-center text-[11px] text-zinc-500 font-mono">
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
-          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">N</kbd> ou Clic : +Neutron</span>
-          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">E</kbd> ou Clic Droit : +Électron</span>
-          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">Espace</kbd> : Pause</span>
-          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">R</kbd> : Recommencer</span>
-          <span className="text-zinc-600">Projet Isotope par Philippe Guglielmetti (Dr. Goulu)</span>
+          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">N</kbd> {t('footerNeutron')}</span>
+          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">E</kbd> {t('footerElectron')}</span>
+          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">{t('footerPause')}</kbd></span>
+          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">R</kbd> : {t('footerRestart')}</span>
+          <span className="text-zinc-600">{t('footerAuthor')}</span>
         </div>
       </footer>
 

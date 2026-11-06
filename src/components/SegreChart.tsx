@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Isotope, DecayMode } from '../types/isotope';
-import { getDecayColor, ELEMENT_SYMBOLS, formatHalfLife } from '../utils/physics';
-import { Target, Compass, Maximize2, Minimize2 } from 'lucide-react';
+import { getDecayColor, ELEMENT_SYMBOLS, formatHalfLife, getElementName } from '../utils/physics';
+import { Target, Maximize2, Minimize2 } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface SegreChartProps {
   currentIsotope: Isotope;
@@ -26,6 +27,7 @@ export const SegreChart: React.FC<SegreChartProps> = ({
   onSelectIsotope,
   projectileAnim,
 }) => {
+  const { t, lang } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const [gridSpan, setGridSpan] = useState<number>(7); // 7x7 standard or 9x9 expanded
   const [hoveredIso, setHoveredIso] = useState<Isotope | null>(null);
@@ -97,7 +99,7 @@ export const SegreChart: React.FC<SegreChartProps> = ({
         <div className="flex items-center gap-2 sm:gap-3">
           <span className="flex items-center gap-1.5 font-mono text-[10px] sm:text-[11px] bg-zinc-900 border border-zinc-800 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg">
             <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-            <strong className="text-zinc-200">{currentIsotope.name}</strong> ({currentIsotope.symbol}-{currentIsotope.mass})
+            <strong className="text-zinc-200">{getElementName(currP, lang, currentIsotope.name)}</strong> ({currentIsotope.symbol}-{currentIsotope.mass})
           </span>
           <span className="hidden sm:inline font-mono text-[11px] text-zinc-400">
             Z={currP}, N={currN}
@@ -108,7 +110,7 @@ export const SegreChart: React.FC<SegreChartProps> = ({
           <button
             onClick={() => setGridSpan(gridSpan === 5 ? 7 : gridSpan === 7 ? (window.innerWidth < 640 ? 5 : 9) : 7)}
             className="flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-[10px] sm:text-[11px] transition-colors"
-            title="Ajuster la taille de la grille"
+            title={t('adjustGridSize')}
           >
             {gridSpan <= 7 ? <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> : <Minimize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
             <span>{gridSpan}×{gridSpan}</span>
@@ -198,7 +200,7 @@ export const SegreChart: React.FC<SegreChartProps> = ({
                         {/* Start badge indicator */}
                         {isStart && !isTarget && !isCenter && (
                           <div className="absolute -top-1.5 -left-1.5 bg-emerald-500 text-black rounded-full px-1 py-0.2 text-[8px] font-bold shadow-md">
-                            DÉPART
+                            {t('startBadge')}
                           </div>
                         )}
 
@@ -302,7 +304,7 @@ export const SegreChart: React.FC<SegreChartProps> = ({
         >
           <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-zinc-800">
             <span className="font-bold text-white text-sm">
-              {hoveredIso.name} ({hoveredIso.symbol}-{hoveredIso.mass})
+              {getElementName(hoveredIso.protons, lang, hoveredIso.name)} ({hoveredIso.symbol}-{hoveredIso.mass})
             </span>
             <span
               className="px-1.5 py-0.5 rounded text-[10px] font-bold"
@@ -311,24 +313,24 @@ export const SegreChart: React.FC<SegreChartProps> = ({
                 color: getDecayColor(hoveredIso.decayMode).hex,
               }}
             >
-              {hoveredIso.decayMode === 'None' ? 'Stable' : hoveredIso.decayMode}
+              {hoveredIso.decayMode === 'None' ? t('stable') : hoveredIso.decayMode}
             </span>
           </div>
 
           <div className="grid grid-cols-2 gap-1 text-[11px] text-zinc-300 font-mono mb-2">
-            <div>Protons (Z) : <strong className="text-white">{hoveredIso.protons}</strong></div>
-            <div>Neutrons (N) : <strong className="text-white">{hoveredIso.neutrons}</strong></div>
-            <div>Masse (A) : <strong className="text-white">{hoveredIso.mass}</strong></div>
-            <div>Électrons : <strong className="text-white">{hoveredIso.protons}</strong></div>
+            <div>{t('protons')} : <strong className="text-white">{hoveredIso.protons}</strong></div>
+            <div>{t('neutrons')} : <strong className="text-white">{hoveredIso.neutrons}</strong></div>
+            <div>{t('mass')} : <strong className="text-white">{hoveredIso.mass}</strong></div>
+            <div>{t('electrons')} : <strong className="text-white">{hoveredIso.protons}</strong></div>
           </div>
 
           <div className="pt-1.5 border-t border-zinc-800 text-[11px] space-y-0.5">
             <div className="text-zinc-400">
-              Demi-vie réelle : <span className="text-sky-300 font-mono font-medium">{formatHalfLife(hoveredIso.halfLife)}</span>
+              {t('realHalfLife')} : <span className="text-sky-300 font-mono font-medium">{formatHalfLife(hoveredIso.halfLife, lang)}</span>
             </div>
             {hoveredIso.halfLife !== -1 && (
               <div className="text-zinc-400">
-                Mode de décroissance : <span className="text-amber-300 font-medium">{getDecayColor(hoveredIso.decayMode).nameFr}</span>
+                {t('decayMode')} : <span className="text-amber-300 font-medium">{hoveredIso.decayMode}</span>
               </div>
             )}
           </div>

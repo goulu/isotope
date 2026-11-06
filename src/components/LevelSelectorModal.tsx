@@ -2,6 +2,7 @@ import React from 'react';
 import { LevelData, DecayMode } from '../types/isotope';
 import { getDecayColor } from '../utils/physics';
 import { X, CheckCircle, ArrowRight, Atom } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface LevelSelectorModalProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
   onSelectLevel,
   isotopesDB,
 }) => {
+  const { t, getLevelTitle } = useI18n();
   if (!isOpen) return null;
 
   return (
@@ -34,8 +36,8 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
               <Atom className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white">Sélection des Niveaux</h2>
-              <p className="text-xs text-zinc-400">Progression des transmutations ({completedLevels.size}/{levels.length} réussis)</p>
+              <h2 className="text-lg font-bold text-white">{t('levelSelectTitle')}</h2>
+              <p className="text-xs text-zinc-400">{t('levelSelectSub', { done: completedLevels.size, total: levels.length })}</p>
             </div>
           </div>
           <button
@@ -87,13 +89,13 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
 
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-white line-clamp-1">{lvl.title}</span>
+                      <span className="text-xs font-bold text-white line-clamp-1">{getLevelTitle(lvl)}</span>
                       {isCurrent && (
-                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500 text-black font-bold">Actuel</span>
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500 text-black font-bold">{t('currentBadge')}</span>
                       )}
                     </div>
                     <div className="text-[11px] text-zinc-400 line-clamp-1 mt-0.5">
-                      Ressources : {lvl.maxNeutrons} ⚛ neutrons • {lvl.maxElectrons} ⚡ électrons
+                      {t('resourcesLabel', { n: lvl.maxNeutrons, e: lvl.maxElectrons })}
                     </div>
                   </div>
                 </div>
