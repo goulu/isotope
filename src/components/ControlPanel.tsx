@@ -47,7 +47,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const canShootProton = !isGameOver && (isSandbox || remainingProtons > 0);
 
   return (
-    <div className="bg-zinc-900/95 border border-zinc-800 rounded-2xl sm:rounded-3xl p-2 sm:p-4 shadow-2xl backdrop-blur-md">
+    <div className="w-full bg-zinc-900/95 border border-zinc-800 rounded-2xl p-2 sm:p-4 shadow-2xl backdrop-blur-md">
       <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
         {/* Neutron Button (⚛ +n) */}
         {(maxNeutrons > 0 || isSandbox) && (

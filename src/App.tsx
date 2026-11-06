@@ -53,6 +53,9 @@ export default function App() {
   const [isGameOver, setIsGameOver] = useState(false);
   const [isVictory, setIsVictory] = useState(false);
   const [completedLevels, setCompletedLevels] = useState<Set<number>>(new Set());
+  const [gridSpan, setGridSpan] = useState<number>(() =>
+    typeof window !== 'undefined' && window.innerWidth < 640 ? 5 : 7
+  );
   const [isSandbox, setIsSandbox] = useState(false);
 
   // Settings & Logs
@@ -323,10 +326,7 @@ export default function App() {
       // Avoid if user is typing in search
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
-      if (e.key === ' ' || e.code === 'Space') {
-        e.preventDefault();
-        setIsPaused((p) => !p);
-      } else if (e.key === 'n' || e.key === 'N' || e.key === 'ArrowRight') {
+      if (e.key === 'n' || e.key === 'N' || e.key === 'ArrowRight') {
         handleShootNeutron();
       } else if (e.key === 'e' || e.key === 'E' || e.key === 'ArrowDown') {
         handleShootElectron();
@@ -359,59 +359,89 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-zinc-100 flex flex-col justify-between selection:bg-sky-500 selection:text-black">
-      {/* Top Navigation & Brand Header */}
-      <header className="border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md px-2 sm:px-4 py-1 sm:py-2 sticky top-0 z-30">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-1">
-          <div className="flex items-center gap-2">
-            <TitleBanner
-              isotopesDB={isotopesDB}
-              onInspectIsotope={(id) => {
-                if (isSandbox) setElement(id);
-              }}
-            />
+    <div className="min-h-screen bg-black text-zinc-100 flex flex-col selection:bg-sky-500 selection:text-black">
+      {/* Main Game Shell Container - 100% width on smartphone, identical width for all blocks */}
+      <main className="w-full max-w-6xl mx-auto px-0 sm:px-3 py-1 sm:py-2 flex-1 flex flex-col gap-1.5 sm:gap-2.5 justify-start">
+        {/* Top Navigation & Brand Header */}
+        <header className="w-full border border-zinc-800/80 bg-zinc-950/90 backdrop-blur-md rounded-2xl px-2.5 sm:px-4 py-1.5 sm:py-2 sticky top-0 z-30 shadow-lg">
+          <div className="w-full flex items-center justify-between gap-1">
+            <div className="flex items-center gap-2">
+              <TitleBanner
+                isotopesDB={isotopesDB}
+                onInspectIsotope={(id) => {
+                  if (isSandbox) setElement(id);
+                }}
+              />
+            </div>
+
+            <div className="flex items-center gap-1 sm:gap-2">
+              <button
+                onClick={() =>
+                  setGridSpan((prev) => (prev === 5 ? 7 : prev === 7 ? (window.innerWidth < 640 ? 5 : 9) : 7))
+                }
+                className="px-2 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-[11px] sm:text-xs font-mono font-bold transition-colors flex items-center justify-center"
+                title={t('adjustGridSize')}
+              >
+                <span>{gridSpan}×{gridSpan}</span>
+              </button>
+
+              <select
+                value={lang}
+                onChange={(e) => setLang(e.target.value as Language)}
+                aria-label="Language"
+                className="px-1.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 text-[11px] sm:text-xs font-mono font-bold cursor-pointer focus:outline-none focus:ring-1 focus:ring-sky-500"
+              >
+                {LANGUAGES.map((l) => (
+                  <option key={l.code} value={l.code}>
+                    {l.label}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                onClick={() => {
+                  const nextMuted = !isMuted;
+                  setIsMuted(nextMuted);
+                  sound.setMuted(nextMuted);
+                }}
+                className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-colors"
+                title={isMuted ? t('unmute') : t('mute')}
+              >
+                {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+              </button>
+
+              <button
+                onClick={() => setIsPhysicsModalOpen(true)}
+                className="w-8 h-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sky-400 border border-sky-500/30 text-sm font-mono font-extrabold transition-all shadow-sm flex items-center justify-center"
+                title="?"
+              >
+                ?
+              </button>
+            </div>
           </div>
+        </header>
 
-          <div className="flex items-center gap-1 sm:gap-2">
-            <select
-              value={lang}
-              onChange={(e) => setLang(e.target.value as Language)}
-              aria-label="Language"
-              className="px-1.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 text-[11px] sm:text-xs font-mono font-bold cursor-pointer focus:outline-none focus:ring-1 focus:ring-sky-500"
-            >
-              {LANGUAGES.map((l) => (
-                <option key={l.code} value={l.code}>
-                  {l.label}
-                </option>
-              ))}
-            </select>
+        {/* 1. Level Status & Objective Bar (Entre la barre de titre et la grille de jeu) */}
+        <LevelBar
+          currentLevel={currentLevel}
+          levelIndex={currentLevelIndex}
+          totalLevels={levels.length}
+          isSandbox={isSandbox}
+          onToggleSandbox={() => setIsSandbox((prev) => !prev)}
+          onOpenStory={() => {
+            if (isSandbox) {
+              setIsSandboxModalOpen(true);
+            } else {
+              setIsStoryModalOpen(true);
+            }
+          }}
+          onOpenLevelSelector={() => setIsLevelSelectorOpen(true)}
+          isGameOver={isGameOver}
+          isVictory={isVictory}
+          isotopesDB={isotopesDB}
+        />
 
-            <button
-              onClick={() => {
-                const nextMuted = !isMuted;
-                setIsMuted(nextMuted);
-                sound.setMuted(nextMuted);
-              }}
-              className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-colors"
-              title={isMuted ? t('unmute') : t('mute')}
-            >
-              {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
-            </button>
-
-            <button
-              onClick={() => setIsPhysicsModalOpen(true)}
-              className="w-8 h-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sky-400 border border-sky-500/30 text-sm font-mono font-extrabold transition-all shadow-sm flex items-center justify-center"
-              title="?"
-            >
-              ?
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Game Shell Container */}
-      <main className="max-w-6xl w-full mx-auto px-2 sm:px-4 py-1.5 sm:py-3 flex-1 flex flex-col gap-2 sm:gap-3 justify-start">
-        {/* 1. Central Segre Chart (Grille du jeu juste sous la barre de titre) */}
+        {/* 2. Central Segre Chart (Grille du jeu) */}
         {currentIsotope && (
           <SegreChart
             currentIsotope={currentIsotope}
@@ -422,13 +452,14 @@ export default function App() {
             decayTimeTotal={decayTimeTotal}
             decayFlash={decayFlash}
             projectileAnim={projectileAnim}
+            gridSpan={gridSpan}
             onSelectIsotope={(id) => {
               if (isSandbox) setElement(id);
             }}
           />
         )}
 
-        {/* 2. Action & Bombardment Controls (Boutons d'action particules en dessous) */}
+        {/* 3. Action & Bombardment Controls (Boutons d'action particules en dessous) */}
         <ControlPanel
           remainingNeutrons={remainingNeutrons}
           maxNeutrons={maxNeutrons}
@@ -448,38 +479,7 @@ export default function App() {
           hasNextLevel={currentLevelIndex < levels.length - 1}
           isSandbox={isSandbox}
         />
-
-        {/* 3. Level Status & Objective Bar (Infos du niveau encore en dessous) */}
-        <LevelBar
-          currentLevel={currentLevel}
-          levelIndex={currentLevelIndex}
-          totalLevels={levels.length}
-          isSandbox={isSandbox}
-          onToggleSandbox={() => setIsSandbox((prev) => !prev)}
-          onOpenStory={() => {
-            if (isSandbox) {
-              setIsSandboxModalOpen(true);
-            } else {
-              setIsStoryModalOpen(true);
-            }
-          }}
-          onOpenLevelSelector={() => setIsLevelSelectorOpen(true)}
-          isGameOver={isGameOver}
-          isVictory={isVictory}
-          isotopesDB={isotopesDB}
-        />
       </main>
-
-      {/* Footer / Control Hints (Desktop only) */}
-      <footer className="hidden sm:block border-t border-zinc-900 bg-zinc-950 px-4 py-2 text-center text-[11px] text-zinc-500 font-mono">
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
-          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">N</kbd> {t('footerNeutron')}</span>
-          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">E</kbd> {t('footerElectron')}</span>
-          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">{t('footerPause')}</kbd></span>
-          <span><kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">R</kbd> : {t('footerRestart')}</span>
-          <span className="text-zinc-600">{t('footerAuthor')}</span>
-        </div>
-      </footer>
 
       {/* Modals */}
       {currentIsotope && (

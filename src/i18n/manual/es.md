@@ -37,7 +37,7 @@ Cada casilla de la cuadrícula está coloreada según el comportamiento físico 
 
 ## 🧭 4. Niveles y Modo Libre (Nivel 0)
 
-- **Explicación del nivel**: Haz clic en cualquier lugar del **bloque de descripción del nivel** (en la parte inferior de la pantalla) para abrir el informe científico e histórico de la misión.
+- **Explicación del nivel**: Haz clic en cualquier lugar del **bloque de descripción del nivel** (situado debajo de la barra de título) para abrir el informe científico e histórico de la misión.
 - **Selector de niveles**: Haz clic en el botón numerado (ej. `1/13`) a la izquierda del bloque de nivel para cambiar de misión.
 - **Nivel 0 — Modo Libre (Sandbox)**: Situado en la parte superior de la lista de niveles, te ofrece partículas ilimitadas (`∞`) y te permite hacer clic directamente en cualquier casilla de la cuadrícula o del título `I S O Th O P E` para explorar la carta de nucleidos.
 

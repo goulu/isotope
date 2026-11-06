@@ -44,7 +44,7 @@ export const LevelBar: React.FC<LevelBarProps> = ({
           }
         }}
         title={t('detailsTooltip')}
-        className="bg-zinc-900/90 hover:bg-zinc-800/90 border border-purple-500/40 hover:border-purple-400/60 rounded-2xl p-2.5 sm:p-3.5 shadow-xl backdrop-blur-md flex flex-wrap items-center justify-between gap-2 cursor-pointer transition-colors"
+        className="w-full bg-zinc-900/90 hover:bg-zinc-800/90 border border-purple-500/40 hover:border-purple-400/60 rounded-2xl p-2.5 sm:p-3.5 shadow-xl backdrop-blur-md flex flex-wrap items-center justify-between gap-2 cursor-pointer transition-colors"
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <button
@@ -106,7 +106,7 @@ export const LevelBar: React.FC<LevelBarProps> = ({
         }
       }}
       title={t('detailsTooltip')}
-      className="bg-zinc-900/90 hover:bg-zinc-800/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-2.5 sm:p-3.5 shadow-xl backdrop-blur-md flex flex-wrap items-center justify-between gap-2 sm:gap-3 cursor-pointer transition-colors"
+      className="w-full bg-zinc-900/90 hover:bg-zinc-800/90 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-2.5 sm:p-3.5 shadow-xl backdrop-blur-md flex flex-wrap items-center justify-between gap-2 sm:gap-3 cursor-pointer transition-colors"
     >
       {/* Left: Level title and ID */}
       <div className="flex items-center gap-2.5 min-w-0">

@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { Isotope, DecayMode } from '../types/isotope';
 import { getDecayColor, ELEMENT_SYMBOLS, formatHalfLife, getElementName } from '../utils/physics';
-import { Target, Maximize2, Minimize2 } from 'lucide-react';
+import { Target } from 'lucide-react';
 import { useI18n } from '../i18n';
 
 interface SegreChartProps {
@@ -14,6 +14,7 @@ interface SegreChartProps {
   decayFlash: boolean;
   onSelectIsotope?: (isoId: string) => void;
   projectileAnim: { type: 'neutron' | 'electron' | 'proton'; active: boolean } | null;
+  gridSpan: number;
 }
 
 export const SegreChart: React.FC<SegreChartProps> = ({
@@ -26,28 +27,12 @@ export const SegreChart: React.FC<SegreChartProps> = ({
   decayFlash,
   onSelectIsotope,
   projectileAnim,
+  gridSpan,
 }) => {
   const { t, lang } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [gridSpan, setGridSpan] = useState<number>(7); // 7x7 standard or 9x9 expanded
   const [hoveredIso, setHoveredIso] = useState<Isotope | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
-
-  // Auto-adjust grid span on mobile vs large desktop
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setGridSpan(5); // 5x5 for compact phones
-      } else if (window.innerWidth < 1024) {
-        setGridSpan(7); // 7x7 for tablets
-      } else {
-        setGridSpan(7); // 7x7 standard
-      }
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const halfSpan = Math.floor(gridSpan / 2);
   const currP = currentIsotope.protons;
@@ -87,36 +72,12 @@ export const SegreChart: React.FC<SegreChartProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full rounded-2xl sm:rounded-3xl bg-zinc-950/90 border border-zinc-800/80 p-2 sm:p-4 shadow-2xl backdrop-blur-md overflow-hidden select-none transition-all duration-200 ${
+      className={`relative w-full rounded-2xl bg-zinc-950/90 border border-zinc-800/80 p-2 sm:p-4 shadow-2xl backdrop-blur-md overflow-hidden select-none transition-all duration-200 ${
         decayFlash ? 'ring-4 ring-red-500/80 bg-red-950/30' : ''
       }`}
     >
       {/* Background Subtle Tech Grid & Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(#38bdf812_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none opacity-50" />
-
-      {/* Header controls: Coordinate axes legend & zoom toggle */}
-      <div className="relative z-10 flex items-center justify-between mb-1.5 sm:mb-3 text-xs text-zinc-400">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <span className="flex items-center gap-1.5 font-mono text-[10px] sm:text-[11px] bg-zinc-900 border border-zinc-800 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg">
-            <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-            <strong className="text-zinc-200">{getElementName(currP, lang, currentIsotope.name)}</strong> ({currentIsotope.symbol}-{currentIsotope.mass})
-          </span>
-          <span className="hidden sm:inline font-mono text-[11px] text-zinc-400">
-            Z={currP}, N={currN}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setGridSpan(gridSpan === 5 ? 7 : gridSpan === 7 ? (window.innerWidth < 640 ? 5 : 9) : 7)}
-            className="flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-[10px] sm:text-[11px] transition-colors"
-            title={t('adjustGridSize')}
-          >
-            {gridSpan <= 7 ? <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> : <Minimize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
-            <span>{gridSpan}×{gridSpan}</span>
-          </button>
-        </div>
-      </div>
 
       {/* Main Segre Chart Grid */}
       <div className="relative z-10 flex flex-col items-center justify-center overflow-x-auto py-1">
