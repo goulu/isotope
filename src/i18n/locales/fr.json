@@ -55,7 +55,7 @@
   "available": "Disponible",
   "none": "Aucun",
   "tipLabel": "Astuce :",
-  "tipText": "Utilisez N pour le neutron, E pour l'électron, et Espace pour la pause.",
+  "tipText": "Utilisez N pour le neutron, E pour l'électron, et R pour recommencer.",
   "gotItBtn": "Compris, c'est parti !",
   "explorerTitle": "Explorateur d'Isotopes",
   "explorerSub": "Rechercher parmi plus de 3 500 nucléides réels",

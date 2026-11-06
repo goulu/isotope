@@ -55,7 +55,7 @@
   "available": "可用",
   "none": "无",
   "tipLabel": "提示：",
-  "tipText": "按 N 发射中子，按 E 发射电子，按空格键暂停。",
+  "tipText": "按 N 发射中子，按 E 发射电子，按 R 重新开始。",
   "gotItBtn": "明白了，开始！",
   "explorerTitle": "同位素浏览器",
   "explorerSub": "在 3,500 多种真实核素中搜索",
