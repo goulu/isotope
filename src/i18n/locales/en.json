@@ -93,6 +93,19 @@
   "unitInfinite": "Stable (Infinite)",
   "unitDays": "days",
   "unitYears": "yrs",
-  "unitBillionYears": "Ga (billion yrs)"
+  "unitBillionYears": "Ga (billion yrs)",
+  "menu": "Menu",
+  "menuOptions": "Options",
+  "menuManual": "Manual",
+  "menuAbout": "About...",
+  "optionsTitle": "Options",
+  "generalSettings": "General",
+  "soundTitle": "Sound effects",
+  "soundOn": "Enabled",
+  "soundOff": "Muted",
+  "gridSizeTitle": "Grid format",
+  "languageTitle": "Language",
+  "decaySettingsTitle": "Exponential Decay Time Settings",
+  "decaySettingsDesc": "Adjusts in-game lifetime of isotopes according to the logarithmic law"
 }
 

@@ -47,4 +47,4 @@ Dans la réalité, les demi-vies (`T½`) des isotopes s'étendent de quelques mi
 
 `Temps_Jeu = clamp(Base + Pente × log10(T½), Min, Max)`
 
-Vous pouvez visualiser la courbe et ajuster les paramètres physiques ci-dessous :
+Vous pouvez visualiser la courbe ci-dessous (les paramètres de décroissance sont réglables dans les Options) :

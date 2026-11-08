@@ -93,6 +93,19 @@
   "unitInfinite": "稳定 (无限)",
   "unitDays": "天",
   "unitYears": "年",
-  "unitBillionYears": "Ga (十亿年)"
+  "unitBillionYears": "Ga (十亿年)",
+  "menu": "菜单",
+  "menuOptions": "选项",
+  "menuManual": "手册",
+  "menuAbout": "About...",
+  "optionsTitle": "选项",
+  "generalSettings": "通用",
+  "soundTitle": "音效",
+  "soundOn": "已开启",
+  "soundOff": "已静音",
+  "gridSizeTitle": "网格尺寸",
+  "languageTitle": "语言",
+  "decaySettingsTitle": "指数衰变时间设置",
+  "decaySettingsDesc": "根据对数规律调整游戏内同位素的存活时间"
 }
 

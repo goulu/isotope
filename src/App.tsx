@@ -18,10 +18,11 @@ import { LevelBar } from './components/LevelBar';
 import { SegreChart } from './components/SegreChart';
 import { ControlPanel } from './components/ControlPanel';
 import { LogarithmicVerificationModal } from './components/LogarithmicVerificationModal';
+import { OptionsModal } from './components/OptionsModal';
 import { LevelSelectorModal } from './components/LevelSelectorModal';
 import { LevelStoryModal } from './components/LevelStoryModal';
 import { SandboxModal } from './components/SandboxModal';
-import { Volume2, VolumeX } from 'lucide-react';
+import { Menu, Sliders, BookOpen, ExternalLink } from 'lucide-react';
 import { useI18n, LANGUAGES } from './i18n';
 import { Language } from './types/isotope';
 
@@ -64,16 +65,41 @@ export default function App() {
   const [decayHistory, setDecayHistory] = useState<DecayEvent[]>([]);
   const [projectileAnim, setProjectileAnim] = useState<{ type: 'neutron' | 'electron' | 'proton'; active: boolean } | null>(null);
 
-  // Modals
-  const [isPhysicsModalOpen, setIsPhysicsModalOpen] = useState(false);
+  // Modals & Navigation Menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOptionsModalOpen, setIsOptionsModalOpen] = useState(false);
+  const [isManualModalOpen, setIsManualModalOpen] = useState(false);
   const [isLevelSelectorOpen, setIsLevelSelectorOpen] = useState(false);
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
   const [isSandboxModalOpen, setIsSandboxModalOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   // Geiger ticking timer reference
   const lastGeigerTickRef = useRef<number>(0);
   const animFrameRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number | null>(null);
+
+  // Close dropdown menu when clicking outside or pressing Escape
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    }
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMenuOpen]);
 
   // Load datasets on mount
   useEffect(() => {
@@ -364,8 +390,70 @@ export default function App() {
       <main className="w-full max-w-6xl mx-auto px-0 sm:px-3 py-1 sm:py-2 flex-1 flex flex-col gap-1.5 sm:gap-2.5 justify-start">
         {/* Top Navigation & Brand Header */}
         <header className="w-full border border-zinc-800/80 bg-zinc-950/90 backdrop-blur-md rounded-2xl px-2.5 sm:px-4 py-1.5 sm:py-2 sticky top-0 z-30 shadow-lg">
-          <div className="w-full flex items-center justify-between gap-1">
-            <div className="flex items-center gap-2">
+          <div className="w-full flex items-center justify-between gap-1 sm:gap-2">
+            {/* Left: Dropdown Menu Button (3 horizontal bars) */}
+            <div className="relative" ref={menuRef}>
+              <button
+                type="button"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-zinc-900 hover:bg-zinc-800 active:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-800 transition-colors flex items-center justify-center focus:outline-none focus:ring-1 focus:ring-sky-500 shadow-sm"
+                aria-label={t('menu')}
+                title={t('menu')}
+              >
+                <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+
+              {/* Dropdown Menu */}
+              {isMenuOpen && (
+                <div
+                  className="absolute left-0 mt-2 w-52 sm:w-56 bg-zinc-900/95 border border-zinc-700/80 rounded-2xl shadow-2xl py-1.5 z-50 backdrop-blur-md animate-in fade-in zoom-in-95 duration-100"
+                  role="menu"
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsOptionsModalOpen(true);
+                    }}
+                    role="menuitem"
+                    className="w-full px-3.5 py-2.5 flex items-center gap-3 text-sm font-semibold text-zinc-200 hover:text-white hover:bg-zinc-800/80 transition-colors text-left"
+                  >
+                    <Sliders className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                    <span>{t('menuOptions')}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsManualModalOpen(true);
+                    }}
+                    role="menuitem"
+                    className="w-full px-3.5 py-2.5 flex items-center gap-3 text-sm font-semibold text-zinc-200 hover:text-white hover:bg-zinc-800/80 transition-colors text-left"
+                  >
+                    <BookOpen className="w-4 h-4 text-sky-400 flex-shrink-0" />
+                    <span>{t('menuManual')}</span>
+                  </button>
+
+                  <div className="my-1 border-t border-zinc-800" />
+
+                  <a
+                    href="https://drgoulu.com/en/2026/11/06/isothope-my-radioactive-game/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMenuOpen(false)}
+                    role="menuitem"
+                    className="w-full px-3.5 py-2.5 flex items-center gap-3 text-sm font-semibold text-zinc-200 hover:text-white hover:bg-zinc-800/80 transition-colors text-left"
+                  >
+                    <ExternalLink className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <span className="flex-1">{t('menuAbout')}</span>
+                  </a>
+                </div>
+              )}
+            </div>
+
+            {/* Center: Title Banner */}
+            <div className="flex-1 flex justify-center">
               <TitleBanner
                 isotopesDB={isotopesDB}
                 onInspectIsotope={(id) => {
@@ -374,50 +462,8 @@ export default function App() {
               />
             </div>
 
-            <div className="flex items-center gap-1 sm:gap-2">
-              <button
-                onClick={() =>
-                  setGridSpan((prev) => (prev === 5 ? 7 : prev === 7 ? (window.innerWidth < 640 ? 5 : 9) : 7))
-                }
-                className="px-2 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-[11px] sm:text-xs font-mono font-bold transition-colors flex items-center justify-center"
-                title={t('adjustGridSize')}
-              >
-                <span>{gridSpan}×{gridSpan}</span>
-              </button>
-
-              <select
-                value={lang}
-                onChange={(e) => setLang(e.target.value as Language)}
-                aria-label="Language"
-                className="px-1.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 text-[11px] sm:text-xs font-mono font-bold cursor-pointer focus:outline-none focus:ring-1 focus:ring-sky-500"
-              >
-                {LANGUAGES.map((l) => (
-                  <option key={l.code} value={l.code}>
-                    {l.label}
-                  </option>
-                ))}
-              </select>
-
-              <button
-                onClick={() => {
-                  const nextMuted = !isMuted;
-                  setIsMuted(nextMuted);
-                  sound.setMuted(nextMuted);
-                }}
-                className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-colors"
-                title={isMuted ? t('unmute') : t('mute')}
-              >
-                {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
-              </button>
-
-              <button
-                onClick={() => setIsPhysicsModalOpen(true)}
-                className="w-8 h-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sky-400 border border-sky-500/30 text-sm font-mono font-extrabold transition-all shadow-sm flex items-center justify-center"
-                title="?"
-              >
-                ?
-              </button>
-            </div>
+            {/* Right: Spacer to keep TitleBanner centered */}
+            <div className="w-8 sm:w-10 h-8 sm:h-10 flex-shrink-0 pointer-events-none" />
           </div>
         </header>
 
@@ -482,20 +528,36 @@ export default function App() {
       </main>
 
       {/* Modals */}
+      <OptionsModal
+        isOpen={isOptionsModalOpen}
+        onClose={() => setIsOptionsModalOpen(false)}
+        isMuted={isMuted}
+        onToggleMute={() => {
+          const nextMuted = !isMuted;
+          setIsMuted(nextMuted);
+          sound.setMuted(nextMuted);
+        }}
+        gridSpan={gridSpan}
+        onSetGridSpan={(span) => setGridSpan(span)}
+        lang={lang}
+        onSetLang={setLang}
+        settings={decaySettings}
+        onUpdateSettings={(newSettings) => {
+          setDecaySettings(newSettings);
+          if (currentIsotope && currentIsotope.halfLife !== -1) {
+            const t = calculateGameDecayTime(currentIsotope.halfLife, newSettings);
+            setDecayTimeTotal(t);
+            setDecayTimeLeft(t);
+          }
+        }}
+      />
+
       {currentIsotope && (
         <LogarithmicVerificationModal
-          isOpen={isPhysicsModalOpen}
-          onClose={() => setIsPhysicsModalOpen(false)}
+          isOpen={isManualModalOpen}
+          onClose={() => setIsManualModalOpen(false)}
           currentIsotope={currentIsotope}
           settings={decaySettings}
-          onUpdateSettings={(newSettings) => {
-            setDecaySettings(newSettings);
-            if (currentIsotope.halfLife !== -1) {
-              const t = calculateGameDecayTime(currentIsotope.halfLife, newSettings);
-              setDecayTimeTotal(t);
-              setDecayTimeLeft(t);
-            }
-          }}
         />
       )}
 

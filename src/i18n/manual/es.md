@@ -47,4 +47,4 @@ En la naturaleza, las semividas (`T½`) de los isótopos abarcan desde microsegu
 
 `Tiempo_Juego = clamp(Base + Pendiente × log10(T½), Mín, Máx)`
 
-Puedes visualizar la curva y ajustar los parámetros físicos a continuación:
+Puedes visualizar la curva a continuación (los parámetros de desintegración se ajustan en las Opciones):

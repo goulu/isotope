@@ -47,4 +47,4 @@ In nature, isotope half-lives (`T½`) span from microseconds (`10⁻⁶ s`) to b
 
 `Game_Time = clamp(Base + Slope × log10(T½), Min, Max)`
 
-You can inspect the curve and customize the physical parameters below:
+You can inspect the curve below (decay parameters can be adjusted in the Options menu):

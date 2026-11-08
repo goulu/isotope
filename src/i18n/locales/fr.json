@@ -93,6 +93,19 @@
   "unitInfinite": "Stable (Infini)",
   "unitDays": "jours",
   "unitYears": "ans",
-  "unitBillionYears": "Ga (milliards d'années)"
+  "unitBillionYears": "Ga (milliards d'années)",
+  "menu": "Menu",
+  "menuOptions": "Options",
+  "menuManual": "Manuel",
+  "menuAbout": "About...",
+  "optionsTitle": "Options",
+  "generalSettings": "Général",
+  "soundTitle": "Effets sonores",
+  "soundOn": "Activé",
+  "soundOff": "Coupé",
+  "gridSizeTitle": "Format de la grille",
+  "languageTitle": "Langue",
+  "decaySettingsTitle": "Réglage du temps exponentiel",
+  "decaySettingsDesc": "Ajuste la durée de vie des isotopes en jeu selon la loi logarithmique"
 }
 

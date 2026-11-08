@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Isotope, DecaySettings, Language } from '../types/isotope';
 import { calculateGameDecayTime, formatHalfLife, getElementName } from '../utils/physics';
-import { X, Sliders, RefreshCw, Calculator, HelpCircle, BookOpen } from 'lucide-react';
+import { X, Sliders, Calculator, BookOpen } from 'lucide-react';
 import { useI18n } from '../i18n';
 
 import frManual from '../i18n/manual/fr.md?raw';
@@ -21,7 +21,7 @@ interface LogarithmicVerificationModalProps {
   onClose: () => void;
   currentIsotope: Isotope;
   settings: DecaySettings;
-  onUpdateSettings: (newSettings: DecaySettings) => void;
+  onUpdateSettings?: (newSettings: DecaySettings) => void;
 }
 
 interface ParsedManual {
@@ -547,80 +547,6 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
                         })}
                       </div>
                     </div>
-
-                    {/* Settings Customization */}
-                    <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-3.5 space-y-3">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                          <HelpCircle className="w-4 h-4 text-purple-400" />
-                          {t('logSettingsTitle')}
-                        </h4>
-                        <button
-                          onClick={() => {
-                            setTempSettings({
-                              baseTime: 2.0,
-                              slope: 0.5,
-                              minTime: 0.5,
-                              maxTime: 8.0,
-                              isStochastic: false,
-                            });
-                          }}
-                          className="flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors"
-                        >
-                          <RefreshCw className="w-3 h-3" />
-                          {t('logResetBtn')}
-                        </button>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                          <label className="text-[11px] text-zinc-400 block mb-1">
-                            {t('logBaseTimeLabel')} <strong className="text-white">{tempSettings.baseTime}s</strong>
-                          </label>
-                          <input
-                            type="range"
-                            min="1.0"
-                            max="4.0"
-                            step="0.1"
-                            value={tempSettings.baseTime}
-                            onChange={(e) => setTempSettings({ ...tempSettings, baseTime: parseFloat(e.target.value) })}
-                            className="w-full accent-purple-500"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="text-[11px] text-zinc-400 block mb-1">
-                            {t('logSlopeLabel')} <strong className="text-white">{tempSettings.slope}s</strong>
-                          </label>
-                          <input
-                            type="range"
-                            min="0.2"
-                            max="1.0"
-                            step="0.05"
-                            value={tempSettings.slope}
-                            onChange={(e) => setTempSettings({ ...tempSettings, slope: parseFloat(e.target.value) })}
-                            className="w-full accent-purple-500"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="text-[11px] text-zinc-400 block mb-1">
-                            {t('logQuantumModeLabel')}
-                          </label>
-                          <button
-                            type="button"
-                            onClick={() => setTempSettings({ ...tempSettings, isStochastic: !tempSettings.isStochastic })}
-                            className={`w-full py-1.5 px-3 rounded-lg text-xs font-semibold border transition-all ${
-                              tempSettings.isStochastic
-                                ? 'bg-purple-950 border-purple-400 text-purple-200'
-                                : 'bg-zinc-800 border-zinc-700 text-zinc-300'
-                            }`}
-                          >
-                            {tempSettings.isStochastic ? t('logStochastic') : t('logDeterministic')}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 )}
               </section>
@@ -632,18 +558,9 @@ export const LogarithmicVerificationModal: React.FC<LogarithmicVerificationModal
         <div className="px-4 sm:px-6 py-3 border-t border-zinc-800 bg-zinc-950/80 flex items-center justify-end gap-2 flex-shrink-0">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-xs font-semibold text-zinc-300 hover:text-white transition-colors"
-          >
-            {t('closeBtn')}
-          </button>
-          <button
-            onClick={() => {
-              onUpdateSettings(tempSettings);
-              onClose();
-            }}
             className="px-5 py-2 rounded-xl text-xs font-bold bg-sky-500 hover:bg-sky-400 text-black shadow-lg shadow-sky-500/20 transition-all"
           >
-            {t('applySettingsBtn')}
+            {t('closeBtn')}
           </button>
         </div>
       </div>
