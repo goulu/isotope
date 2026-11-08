@@ -145,7 +145,9 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
                       )}
                     </div>
                     <div className="text-[11px] text-zinc-400 line-clamp-1 mt-0.5">
-                      {t('resourcesLabel', { n: lvl.maxNeutrons, e: lvl.maxElectrons })}
+                      {lvl.maxProtons && lvl.maxProtons > 0
+                        ? t('resourcesLabelWithP', { n: lvl.maxNeutrons, e: lvl.maxElectrons, p: lvl.maxProtons })
+                        : t('resourcesLabel', { n: lvl.maxNeutrons, e: lvl.maxElectrons })}
                     </div>
                   </div>
                 </div>

@@ -94,7 +94,7 @@ export const LevelStoryModal: React.FC<LevelStoryModalProps> = ({
           </div>
 
           {/* Resources & Rules */}
-          <div className="grid grid-cols-2 gap-3 text-xs">
+          <div className={`grid gap-3 text-xs ${level.maxProtons && level.maxProtons > 0 ? 'grid-cols-3' : 'grid-cols-2'}`}>
             <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
               <span className="text-zinc-400 block mb-1">{t('allocatedNeutrons')}</span>
               <span className="font-mono font-bold text-sky-400 text-sm">
@@ -107,6 +107,14 @@ export const LevelStoryModal: React.FC<LevelStoryModalProps> = ({
                 {level.maxElectrons} ⚡ ({level.maxElectrons > 0 ? t('available') : t('none')})
               </span>
             </div>
+            {level.maxProtons && level.maxProtons > 0 ? (
+              <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+                <span className="text-zinc-400 block mb-1">{t('allocatedProtons')}</span>
+                <span className="font-mono font-bold text-orange-400 text-sm">
+                  {level.maxProtons} 🔺 ({t('available')})
+                </span>
+              </div>
+            ) : null}
           </div>
 
           {/* Hotkey reminder */}

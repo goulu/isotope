@@ -297,5 +297,245 @@
         "description": "氖-22 是稳定的。添加一个中子 (⚛)，然后不等中间同位素衰变，极快地连续发射两个中子 (⚛, ⚛) 和两个电子 (⚡, ⚡)。你将到达不稳定的氧-25，随后经历壮观的级联衰变直达稳定的镁-24！"
       }
     }
+  },
+  {
+    "id": 14,
+    "title": "Niveau 14 : L'Échappée Alpha",
+    "description": "Le Samarium 144 est stable. L'ordre des particules est ici crucial : tirez d'abord un électron (⚡) pour obtenir du Prométhium 144, qui subira une désintégration Beta+ vers le Néodyme 144, puis une désintégration Alpha (🟨) vers le Cérium 140 ! Attendez qu'il se stabilise, puis ajoutez un neutron (⚛) : le Cérium 141 se désintègrera en Praséodyme 141 stable. Si vous aviez tiré le neutron en premier, vous seriez resté piégé dans la vallée du Néodyme 145 !",
+    "startIsotope": "Sm-144",
+    "targetIsotope": "Pr-141",
+    "maxNeutrons": 1,
+    "maxElectrons": 1,
+    "maxProtons": 0,
+    "i18n": {
+      "en": {
+        "title": "Level 14: The Alpha Escape",
+        "description": "Samarium-144 is stable. Particle order is critical here: first fire an electron (⚡) to produce Promethium-144, which will undergo Beta+ decay to Neodymium-144, followed by an Alpha decay (🟨) to Cerium-140! Wait for it to stabilize, then add a neutron (⚛): Cerium-141 will Beta- decay into stable Praseodymium-141. Firing the neutron first would have trapped you forever in the Neodymium-145 valley!"
+      },
+      "es": {
+        "title": "Nivel 14: La escapada Alfa",
+        "description": "El Samario 144 es estable. El orden de las partículas es crucial aquí: dispara primero un electrón (⚡) para obtener Prometio 144, que sufrirá una desintegración Beta+ hacia el Neodimio 144, seguida de una desintegración Alfa (🟨) hacia el Cerio 140. Espera a que se estabilice y luego añade un neutrón (⚛): el Cerio 141 se desintegrará en Praseodimio 141 estable. ¡Disparar el neutrón primero te habría atrapado para siempre en el valle del Neodimio 145!"
+      },
+      "zh": {
+        "title": "第 14 关：α 衰变突围",
+        "description": "钐-144 是稳定的。此时发射粒子的顺序至关重要：首先发射一个电子 (⚡) 生成钷-144，它会发生 β⁺ 衰变成为钕-144，紧接着发生 α 衰变 (🟨) 跃迁至铈-140！等待其稳定后发射一个中子 (⚛)，生成的铈-141 会自发 β⁻ 衰变为稳定的镨-141。如果先发射中子，核素将坠入钕-145 的死亡陷阱！"
+      }
+    }
+  },
+  {
+    "id": 15,
+    "title": "Niveau 15 : Le Réflexe du Proton",
+    "description": "L'Hélium 4 est le noyau le plus stable. Tirez un proton (🔺/Touche P) pour créer du Lithium 5, ou un neutron (⚛) pour créer de l'Hélium 5. Attention : ces deux noyaux sont des émetteurs spontanés ultra-rapides qui recracheront instantanément la particule si vous tardez ! Tirez la seconde particule en une fraction de seconde pour stabiliser le noyau en Lithium 6 !",
+    "startIsotope": "He-4",
+    "targetIsotope": "Li-6",
+    "maxNeutrons": 1,
+    "maxElectrons": 0,
+    "maxProtons": 1,
+    "i18n": {
+      "en": {
+        "title": "Level 15: The Proton Reflex",
+        "description": "Helium-4 is extraordinarily stable. Fire a proton (🔺/Key P) to form Lithium-5, or a neutron (⚛) to form Helium-5. Beware: both isotopes are ultra-fast spontaneous emitters that will immediately spit the particle back out if you hesitate! Fire the second particle in a fraction of a second to stabilize the nucleus into Lithium-6!"
+      },
+      "es": {
+        "title": "Nivel 15: El reflejo del protón",
+        "description": "El Helio 4 es extraordinariamente estable. Dispara un protón (🔺/Tecla P) para crear Litio 5, o un neutrón (⚛) para crear Helio 5. ¡Cuidado: ambos son emisores espontáneos ultrarrápidos que expulsarán la partícula si dudas! ¡Dispara la segunda partícula en una fracción de segundo para estabilizar el núcleo en Litio 6!"
+      },
+      "zh": {
+        "title": "第 15 关：质子极速反射",
+        "description": "氦-4 具有极高的结合能。发射一个质子 (🔺/按键 P) 生成锂-5，或发射一个中子 (⚛) 生成氦-5。注意：这两个核素是寿命极短的自发发射体，稍有迟疑就会将粒子喷吐回去！必须在半秒内迅速补射第二颗粒子，才能将其锁定为稳定的锂-6！"
+      }
+    }
+  },
+  {
+    "id": 16,
+    "title": "Niveau 16 : Interception Cératienne",
+    "description": "Le Samarium 144 doit transmuter vers le Cérium 142. Tirez un électron (⚡), laissez la cascade Beta+ puis Alpha descendre vers le Cérium 140. Tirez un premier neutron (⚛) pour former le Cérium 141, et interceptez-le immédiatement avec un deuxième neutron (⚛) avant qu'il n'ait le temps de se désintégrer en Praséodyme 141 !",
+    "startIsotope": "Sm-144",
+    "targetIsotope": "Ce-142",
+    "maxNeutrons": 2,
+    "maxElectrons": 1,
+    "maxProtons": 0,
+    "i18n": {
+      "en": {
+        "title": "Level 16: Cerium Interception",
+        "description": "Samarium-144 must transmute into Cerium-142. Fire an electron (⚡), let the Beta+ and Alpha cascade descend to Cerium-140. Fire a first neutron (⚛) to form Cerium-141, and immediately intercept it with a second neutron (⚛) before it has time to decay into Praseodymium-141!"
+      },
+      "es": {
+        "title": "Nivel 16: Intercepción Ceriática",
+        "description": "El Samario 144 debe transmutarse en Cerio 142. Dispara un electrón (⚡), deja que la cascada Beta+ y Alfa descienda hasta el Cerio 140. ¡Dispara un primer neutrón (⚛) para formar Cerio 141 e interceptalo inmediatamente con un segundo neutrón (⚛) antes de que se desintegre en Praseodimio 141!"
+      },
+      "zh": {
+        "title": "第 16 关：极速拦截铈-141",
+        "description": "目标是将钐-144 转化为铈-142。发射一个电子 (⚡)，等待经历 β⁺ 衰变与 α 衰变下落至铈-140。发射第一颗中子 (⚛) 生成不稳定的铈-141，必须在其自发衰变为镨-141 之前极快地射入第二颗中子 (⚛)，方可合成稳定的铈-142！"
+      }
+    }
+  },
+  {
+    "id": 17,
+    "title": "Niveau 17 : Le Raccourci Quantique",
+    "description": "Le Lithium 7 peut atteindre l'Hélium 3 par une réaction spectaculaire. Injectez un proton (🔺) pour former du Béryllium 8 qui subit une désintégration Alpha instantanée vers l'Hélium 4. Capturez alors un électron (⚡) pour atteindre l'Hydrogène 4 : il émettra un neutron vers le Tritium (H-3), qui se désintégrera Beta- vers l'Hélium 3 stable !",
+    "startIsotope": "Li-7",
+    "targetIsotope": "He-3",
+    "maxNeutrons": 0,
+    "maxElectrons": 1,
+    "maxProtons": 1,
+    "i18n": {
+      "en": {
+        "title": "Level 17: The Quantum Shortcut",
+        "description": "Lithium-7 can reach Helium-3 through a spectacular nuclear pathway. Inject a proton (🔺) to form Beryllium-8, which undergoes instant Alpha decay into Helium-4. Then capture an electron (⚡) to reach Hydrogen-4: it will spontaneously emit a neutron to form Tritium (H-3), decaying Beta- into stable Helium-3!"
+      },
+      "es": {
+        "title": "Nivel 17: El atajo cuántico",
+        "description": "El Litio 7 puede alcanzar el Helio 3 mediante una reacción espectacular. Inyecta un protón (🔺) para formar Berilio 8, que sufre una desintegración Alfa instantánea hacia el Helio 4. Captura luego un electrón (⚡) para llegar al Hidrógeno 4: ¡emitirá un neutrón hacia el Tritio (H-3), que se desintegrará por Beta- en Helio 3 estable!"
+      },
+      "zh": {
+        "title": "第 17 关：量子奇径",
+        "description": "锂-7 能以一条惊奇的核反应路径到达氦-3。注入一个质子 (🔺) 生成铍-8，它会瞬间发生 α 衰变分裂为氦-4。随后俘获一个电子 (⚡) 达到氢-4：它会自发发射一个中子跃迁为氚 (H-3)，最终通过 β⁻ 衰变稳定为稀有的氦-3！"
+      }
+    }
+  },
+  {
+    "id": 18,
+    "title": "Niveau 18 : La Vallée du Néodyme",
+    "description": "Le Néodyme 143 est entouré de gouffres d'isobares. Si vous ajoutez des neutrons, vous plongerez irréversiblement dans le Néodyme 146. Vous devez impérativement tirer le proton (🔺) en premier pour passer par le Prométhium 144, attendre la désintégration Alpha du Néodyme 144, puis enchaîner deux neutrons rapides (⚛, ⚛) sur le Cérium !",
+    "startIsotope": "Nd-143",
+    "targetIsotope": "Ce-142",
+    "maxNeutrons": 2,
+    "maxElectrons": 0,
+    "maxProtons": 1,
+    "i18n": {
+      "en": {
+        "title": "Level 18: Neodymium Valley",
+        "description": "Neodymium-143 is surrounded by isobaric traps. Adding neutrons first will plunge you irreversibly into stable Neodymium-146. You must fire the proton (🔺) first to pass through Promethium-144, await Alpha decay from Neodymium-144, then quickly chain two neutrons (⚛, ⚛) on Cerium!"
+      },
+      "es": {
+        "title": "Nivel 18: El valle del Neodimio",
+        "description": "El Neodimio 143 está rodeado de trampas isobáricas. Añadir neutrones primero te llevará irremediablemente al Neodimio 146. ¡Debes disparar el protón (🔺) primero para pasar por el Prometio 144, esperar la desintegración Alfa del Neodimio 144 y luego encadenar dos neutrones rápidos (⚛, ⚛) sobre el Cerio!"
+      },
+      "zh": {
+        "title": "第 18 关：钕核幽谷",
+        "description": "钕-143 周围环绕着同量异位素陷阱。若先发射中子，核素将无可挽回地坠入稳定的钕-146 死局。必须首先发射质子 (🔺) 借道钷-144，静候钕-144 发生 α 衰变下落至铈，随后极速连发两颗中子 (⚛, ⚛) 截击达标！"
+      }
+    }
+  },
+  {
+    "id": 19,
+    "title": "Niveau 19 : L'Orgue du Thallium",
+    "description": "Le Thallium 205 doit être converti en Plomb 204. Ajoutez d'abord un neutron (⚛) pour former le Thallium 206 et laissez-le se transmuter en Plomb 206. Injectez ensuite deux protons consécutifs (🔺, 🔺) pour franchir le Bismuth 207 et créer le Polonium 208, qui expulsera un noyau d'hélium (Alpha) directement vers le Plomb 204 stable !",
+    "startIsotope": "Tl-205",
+    "targetIsotope": "Pb-204",
+    "maxNeutrons": 1,
+    "maxElectrons": 0,
+    "maxProtons": 2,
+    "i18n": {
+      "en": {
+        "title": "Level 19: Thallium Pipe Organ",
+        "description": "Thallium-205 must be converted into Lead-204. First add a neutron (⚛) to form Thallium-206 and let it transmute into Lead-206. Then inject two consecutive protons (🔺, 🔺) to climb through Bismuth-207 into Polonium-208, which will eject an Alpha particle directly into stable Lead-204!"
+      },
+      "es": {
+        "title": "Nivel 19: El órgano de Talio",
+        "description": "El Talio 205 debe convertirse en Plomo 204. Añade primero un neutrón (⚛) para formar Talio 206 y déjalo transmutar en Plomo 206. Luego inyecta dos protones consecutivos (🔺, 🔺) para ascender por el Bismuto 207 y crear Polonio 208, ¡que expulsará una partícula Alfa directamente hacia el Plomo 204 estable!"
+      },
+      "zh": {
+        "title": "第 19 关：铊管风琴",
+        "description": "任务是将铊-205 转化为稀有的轻铅-204。首先添加一个中子 (⚛) 形成铊-206 并等待其自发 β⁻ 衰变为铅-206。随后连续注入两个质子 (🔺, 🔺) 借道铋-207 冲入钋-208，它将放射出一颗 α 粒子并精确着陆在稳定的铅-204！"
+      }
+    }
+  },
+  {
+    "id": 20,
+    "title": "Niveau 20 : Le Double Saut du Tungstène",
+    "description": "Le Tungstène 182 est une forteresse métallique. Tirez deux protons consécutifs (🔺, 🔺) pour créer l'Osmium 184 instable. Observez la nature exécuter une double désintégration Alpha consécutive (Os-184 ➔ W-180 ➔ Hf-176) ! Une fois stabilisé en Hafnium 176, ajoutez le neutron final (⚛) pour atteindre l'Hafnium 177.",
+    "startIsotope": "W-182",
+    "targetIsotope": "Hf-177",
+    "maxNeutrons": 1,
+    "maxElectrons": 0,
+    "maxProtons": 2,
+    "i18n": {
+      "en": {
+        "title": "Level 20: Tungsten Double Jump",
+        "description": "Tungsten-182 is a metallic fortress. Fire two consecutive protons (🔺, 🔺) to create unstable Osmium-184. Watch nature trigger a back-to-back double Alpha decay cascade (Os-184 ➔ W-180 ➔ Hf-176)! Once stabilized in Hafnium-176, add the final neutron (⚛) to reach Hafnium-177."
+      },
+      "es": {
+        "title": "Nivel 20: El doble salto del Wolframio",
+        "description": "El Wolframio 182 es una fortaleza metálica. Dispara dos protones consecutivos (🔺, 🔺) para crear Osmio 184 inestable. ¡Observa a la naturaleza ejecutar una doble desintegración Alfa consecutiva (Os-184 ➔ W-180 ➔ Hf-176)! Una vez estabilizado en Hafnio 176, añade el neutrón final (⚛) para alcanzar el Hafnio 177."
+      },
+      "zh": {
+        "title": "第 20 关：钨核双重跃迁",
+        "description": "钨-182 是一座重金属堡垒。连续发射两个质子 (🔺, 🔺) 合成不稳定的锇-184。静观大自然演绎壮观的连续双重 α 衰变 (Os-184 ➔ W-180 ➔ Hf-176)！一旦在铪-176 稳定，立即补入最后一颗中子 (⚛) 达成铪-177。"
+      }
+    }
+  },
+  {
+    "id": 21,
+    "title": "Niveau 21 : Le Piège du Tantale",
+    "description": "Le Tantale 181 offre plus de 20 chemins trompeurs. Vous devez obligatoirement activer le neutron (⚛) en premier vers le Tantale 182, attendre sa désintégration Beta- vers le Tungstène 182, puis injecter deux protons (🔺, 🔺) pour déclencher la double cascade Alpha vers l'Hafnium 176 stable !",
+    "startIsotope": "Ta-181",
+    "targetIsotope": "Hf-176",
+    "maxNeutrons": 1,
+    "maxElectrons": 0,
+    "maxProtons": 2,
+    "i18n": {
+      "en": {
+        "title": "Level 21: The Tantalum Trap",
+        "description": "Tantalum-181 offers over 20 deceptive paths. You must activate the neutron (⚛) first into Tantalum-182, await its Beta- decay into Tungsten-182, then inject two protons (🔺, 🔺) to trigger the double Alpha cascade to stable Hafnium-176!"
+      },
+      "es": {
+        "title": "Nivel 21: La trampa del Tántalo",
+        "description": "El Tántalo 181 ofrece más de 20 caminos engañosos. Debes activar obligatoriamente el neutrón (⚛) primero hacia el Tántalo 182, esperar su desintegración Beta- hacia el Wolframio 182 y luego inyectar dos protones (🔺, 🔺) para desencadenar la doble cascada Alfa hacia el Hafnio 176 estable."
+      },
+      "zh": {
+        "title": "第 21 关：钽核迷阵",
+        "description": "钽-181 潜藏着 20 多条虚假歧途。必须严格先发射中子 (⚛) 活化为钽-182，等待其 β⁻ 衰变为钨-182，随后注入两个质子 (🔺, 🔺) 引发连续双重 α 衰变级联，直达稳定的铪-176！"
+      }
+    }
+  },
+  {
+    "id": 22,
+    "title": "Niveau 22 : La Grande Cascade du Rhénium",
+    "description": "Le Rhénium 185 ouvre la voie à une triple désintégration Alpha ! Tirez d'abord un neutron (⚛), attendez la désintégration Beta- vers l'Osmium 186, puis sa première désintégration Alpha vers le Tungstène 182. Injectez ensuite deux protons (🔺, 🔺) vers l'Osmium 184 : deux autres Alpha consécutifs vous mèneront au Hafnium 176 stable !",
+    "startIsotope": "Re-185",
+    "targetIsotope": "Hf-176",
+    "maxNeutrons": 1,
+    "maxElectrons": 0,
+    "maxProtons": 2,
+    "i18n": {
+      "en": {
+        "title": "Level 22: The Grand Rhenium Cascade",
+        "description": "Rhenium-185 unlocks a triple Alpha decay chain! First fire a neutron (⚛), wait for Beta- decay into Osmium-186, then its first Alpha decay to Tungsten-182. Then inject two protons (🔺, 🔺) into Osmium-184: two more consecutive Alpha decays will carry you to stable Hafnium-176!"
+      },
+      "es": {
+        "title": "Nivel 22: La gran cascada del Renio",
+        "description": "¡El Renio 185 abre el camino a una triple desintegración Alfa! Dispara primero un neutrón (⚛), espera la desintegración Beta- hacia el Osmio 186 y luego su primera desintegración Alfa hacia el Wolframio 182. Luego inyecta dos protones (🔺, 🔺) hacia el Osmio 184: ¡dos Alfas consecutivas más te llevarán al Hafnio 176 estable!"
+      },
+      "zh": {
+        "title": "第 22 关：铼之三重 α 大瀑布",
+        "description": "铼-185 蕴藏着跨越 4 种元素的极罕见三重 α 衰变链！首先发射一颗中子 (⚛)，等待 β⁻ 衰变至锇-186，接着等待第一重 α 衰变下落至钨-182。此时连续注入两个质子 (🔺, 🔺) 冲上锇-184：紧随其后的连续双重 α 衰变将送你抵达稳定的铪-176！"
+      }
+    }
+  },
+  {
+    "id": 23,
+    "title": "Niveau 23 : L'Alchimie Ultime",
+    "description": "Le sommet de la physique nucléaire : 86 pièges mortels ! À partir du Rhénium 185, utilisez les 3 types de particules (1⚛, 1⚡, 2🔺) dans l'ordre parfait. Neutre d'abord, attendez la cascade Osmium ➔ Tungstène, injectez les deux protons vers l'Osmium 184, laissez la cascade Alpha descendre sur le Tungstène 180, et capturez enfin l'électron pour vous stabiliser en Hafnium 180 !",
+    "startIsotope": "Re-185",
+    "targetIsotope": "Hf-180",
+    "maxNeutrons": 1,
+    "maxElectrons": 1,
+    "maxProtons": 2,
+    "i18n": {
+      "en": {
+        "title": "Level 23: The Ultimate Alchemy",
+        "description": "The pinnacle of nuclear physics: 86 fatal traps! Starting from Rhenium-185, deploy all 3 particle types (1⚛, 1⚡, 2🔺) in flawless sequence. Neutron first, wait through the Osmium ➔ Tungsten cascade, inject both protons toward Osmium-184, let the Alpha cascade descend onto Tungsten-180, and finally capture the electron to stabilize into Hafnium-180!"
+      },
+      "es": {
+        "title": "Nivel 23: La alquimia definitiva",
+        "description": "La cumbre de la física nuclear: ¡86 trampas mortales! A partir del Renio 185, utiliza los 3 tipos de partículas (1⚛, 1⚡, 2🔺) en una secuencia perfecta. Neutrón primero, espera la cascada Osmio ➔ Wolframio, inyecta los dos protones hacia el Osmio 184, deja que la cascada Alfa descienda sobre el Wolframio 180 y ¡captura finalmente el electrón para estabilizarte en Hafnio 180!"
+      },
+      "zh": {
+        "title": "第 23 关：终极核炼金术",
+        "description": "核物理智斗的巅峰之作：86 个致命陷阱！从铼-185 出发，必须以完美的时序与节奏调动全部三种粒子 (1⚛, 1⚡, 2🔺)。先发射中子，耐受锇 ➔ 钨的漫长级联，双质子冲向锇-184，等待 α 衰变精准着陆于钨-180，最后以一记电光石火的电子俘获锁定稳定的铪-180！"
+      }
+    }
   }
 ]
