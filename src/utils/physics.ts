@@ -1,4 +1,4 @@
-import { DecayMode, DecaySettings, Isotope, Language } from '../types/isotope';
+import { DecayMode, DecaySettings, Isotope, Language, CompressedIsotopesFile, IsotopeData } from '../types/isotope';
 
 export const ELEMENT_SYMBOLS: Record<
   number,
@@ -178,6 +178,21 @@ export function formatHalfLife(seconds: number, lang: Language = 'fr'): string {
   if (seconds === -1 || seconds === null || seconds === undefined) {
     return units.inf;
   }
+  if (seconds < 1e-21) {
+    return `${(seconds * 1e24).toFixed(1)} ys`;
+  }
+  if (seconds < 1e-18) {
+    return `${(seconds * 1e21).toFixed(1)} zs`;
+  }
+  if (seconds < 1e-15) {
+    return `${(seconds * 1e18).toFixed(1)} as`;
+  }
+  if (seconds < 1e-12) {
+    return `${(seconds * 1e15).toFixed(1)} fs`;
+  }
+  if (seconds < 1e-9) {
+    return `${(seconds * 1e12).toFixed(1)} ps`;
+  }
   if (seconds < 1e-6) {
     return `${(seconds * 1e9).toFixed(1)} ns`;
   }
@@ -200,8 +215,11 @@ export function formatHalfLife(seconds: number, lang: Language = 'fr'): string {
     return `${(seconds / 86400).toFixed(1)} ${units.d}`;
   }
   const years = seconds / 31557600;
-  if (years < 1e6) {
+  if (years < 1e3) {
     return `${years.toFixed(1)} ${units.y}`;
+  }
+  if (years < 1e6) {
+    return `${(years / 1e3).toFixed(1)} ka`;
   }
   if (years < 1e9) {
     return `${(years / 1e6).toFixed(2)} Ma`;
@@ -347,4 +365,48 @@ export function getDecayReaction(
     emittedParticle: emitted,
     reactionFormula,
   };
+}
+
+/**
+ * Decompresses the optimized compact isotopes dataset into the in-memory lookup table.
+ * Supports both compressed format (modes + elements) and legacy raw format.
+ */
+export function decompressIsotopes(
+  data: CompressedIsotopesFile | Record<string, IsotopeData>
+): Record<string, IsotopeData> {
+  if (!('elements' in data)) {
+    return data as Record<string, IsotopeData>;
+  }
+
+  const db: Record<string, IsotopeData> = {};
+  const { modes, elements, logHalfLife } = data as CompressedIsotopesFile;
+
+  for (const [sym, el] of Object.entries(elements)) {
+    const { z, name, n0, iso } = el;
+    for (let i = 0; i < iso.length; i++) {
+      const [val, modeIdx] = iso[i];
+      const neutrons = n0 + i;
+      const mass = z + neutrons;
+      const id = `${sym}-${mass}`;
+
+      let halfLife: number;
+      if (val === null || val === -1) {
+        halfLife = -1;
+      } else if (logHalfLife) {
+        halfLife = Math.pow(10, val);
+      } else {
+        halfLife = val;
+      }
+
+      db[id] = {
+        name,
+        protons: z,
+        neutrons,
+        halfLife,
+        decayMode: modes[modeIdx] ?? 'None',
+      };
+    }
+  }
+
+  return db;
 }

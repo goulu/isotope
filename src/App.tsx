@@ -11,6 +11,7 @@ import {
   DEFAULT_DECAY_SETTINGS,
   ELEMENT_SYMBOLS,
   getDecayReaction,
+  decompressIsotopes,
 } from './utils/physics';
 import { sound } from './utils/audio';
 import { TitleBanner } from './components/TitleBanner';
@@ -109,10 +110,10 @@ export default function App() {
           fetch(`${import.meta.env.BASE_URL}isotopes.json`),
           fetch(`${import.meta.env.BASE_URL}levels.json`),
         ]);
-        const isoData = await isoRes.json();
+        const isoRaw = await isoRes.json();
         const lvlData = await lvlRes.json();
 
-        setIsotopesDB(isoData);
+        setIsotopesDB(decompressIsotopes(isoRaw));
         setLevels(lvlData);
         setIsLoading(false);
       } catch (err) {

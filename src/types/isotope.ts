@@ -14,6 +14,19 @@ export interface Isotope extends IsotopeData {
   mass: number; // protons + neutrons, e.g. 19
 }
 
+export interface CompressedIsotopeElement {
+  z: number;
+  name: string;
+  n0: number;
+  iso: [number | null, number][]; // [halfLife (or log10(T1/2) in seconds, null for stable), decayModeIndex]
+}
+
+export interface CompressedIsotopesFile {
+  logHalfLife?: boolean;
+  modes: DecayMode[];
+  elements: Record<string, CompressedIsotopeElement>;
+}
+
 export type Language = 'fr' | 'en' | 'es' | 'zh';
 
 export interface LevelTranslation {
