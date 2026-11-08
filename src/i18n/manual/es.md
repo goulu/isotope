@@ -28,12 +28,11 @@ Usa los botones situados debajo de la cuadrícula para bombardear tu núcleo ant
 Cada casilla de la cuadrícula está coloreada según el comportamiento físico real del isótopo:
 
 - **⬛ Negro (Estable)**: El núcleo no se desintegra. El cronómetro se detiene y tienes todo el tiempo para pensar. *Atención: ¡si aterrizas en un isótopo estable que no es tu objetivo y te quedas sin partículas, pierdes la partida!*
-- **🟦 Azul (β⁻ — Beta menos)**: Exceso de neutrones. Un neutrón se transforma en protón (`Z + 1, N - 1` ➔ movimiento en **↖ diagonal arriba-izquierda**).
-- **🟧 Naranja (β⁺ / ε — Beta más o Captura electrónica)**: Exceso de protones. Un protón se transforma en neutrón (`Z - 1, N + 1` ➔ movimiento en **↘ diagonal abajo-derecha**).
+- **🟦 Azul cielo (β⁻ — Beta menos)**: Exceso de neutrones. Un neutrón se transforma en protón (`Z + 1, N - 1` ➔ movimiento en **↖ diagonal arriba-izquierda**).
+- **🟥 Rosa (β⁺ — Beta más o Captura electrónica)**: Exceso de protones. Un protón se transforma en neutrón (`Z - 1, N + 1` ➔ movimiento en **↘ diagonal abajo-derecha**).
 - **🟨 Amarillo (α — Alfa)**: Núcleo pesado que expulsa una partícula alfa (`⁴He`) compuesta por 2 protones y 2 neutrones (`Z - 2, N - 2` ➔ retrocede **↙ 2 casillas abajo y 2 a la izquierda**).
-- **🟥 Rojo (p — Emisión de protón)**: Núcleo extremadamente rico en protones que expulsa directamente 1 protón (`Z - 1` ➔ **↓ 1 casilla hacia abajo**).
+- **🟧 Naranja (p — Emisión de protón)**: Núcleo extremadamente rico en protones que expulsa directamente 1 protón (`Z - 1` ➔ **↓ 1 casilla hacia abajo**).
 - **🟪 Morado (n — Emisión de neutrón)**: Núcleo extremadamente rico en neutrones que expulsa directamente 1 neutrón (`N - 1` ➔ **← 1 casilla hacia la izquierda**).
-- **🟩 Verde (SF — Fisión espontánea)**: El núcleo demasiado pesado se fragmenta espontáneamente.
 
 ## 🧭 4. Niveles y Modo Libre (Nivel 0)
 

@@ -28,12 +28,11 @@ Use the buttons below the grid to bombard your nucleus before it decays:
 Each cell on the grid is colored according to the real physical behavior of the isotope:
 
 - **⬛ Black (Stable)**: The nucleus does not decay. The timer stops and you have unlimited time to think. *Warning: if you land on a stable isotope that is not your target and run out of particles, it's Game Over!*
-- **🟦 Blue (β⁻ — Beta minus)**: Neutron excess. A neutron turns into a proton (`Z + 1, N - 1` ➔ moves **↖ top-left diagonal**).
-- **🟧 Orange (β⁺ / ε — Beta plus or Electron capture)**: Proton excess. A proton turns into a neutron (`Z - 1, N + 1` ➔ moves **↘ bottom-right diagonal**).
+- **🟦 Sky Blue (β⁻ — Beta minus)**: Neutron excess. A neutron turns into a proton (`Z + 1, N - 1` ➔ moves **↖ top-left diagonal**).
+- **🟥 Pink (β⁺ — Beta plus or Electron capture)**: Proton excess. A proton turns into a neutron (`Z - 1, N + 1` ➔ moves **↘ bottom-right diagonal**).
 - **🟨 Yellow (α — Alpha)**: Heavy nucleus that ejects an alpha particle (`⁴He`) made of 2 protons and 2 neutrons (`Z - 2, N - 2` ➔ moves **↙ 2 cells down and 2 left**).
-- **🟥 Red (p — Proton emission)**: Extremely proton-rich nucleus that directly ejects 1 proton (`Z - 1` ➔ **↓ 1 cell down**).
+- **🟧 Orange (p — Proton emission)**: Extremely proton-rich nucleus that directly ejects 1 proton (`Z - 1` ➔ **↓ 1 cell down**).
 - **🟪 Purple (n — Neutron emission)**: Extremely neutron-rich nucleus that directly ejects 1 neutron (`N - 1` ➔ **← 1 cell left**).
-- **🟩 Green (SF — Spontaneous fission)**: The heavy nucleus splits apart spontaneously.
 
 ## 🧭 4. Levels and Free Mode (Level 0)
 

@@ -28,12 +28,11 @@ Utilisez les boutons situés sous la grille pour bombarder votre noyau avant qu'
 Chaque case de la grille est colorée selon le comportement physique réel de l'isotope :
 
 - **⬛ Noir (Stable)** : Le noyau ne se désintègre pas. Le chronomètre s'arrête et vous avez tout le temps de réfléchir. *Attention : si vous atterrissez sur un isotope stable qui n'est pas la cible et que vous n'avez plus de particules, la partie est perdue !*
-- **🟦 Bleu (β⁻ — Bêta moins)** : Excès de neutrons. Un neutron se transforme en proton (`Z + 1, N - 1` ➔ déplacement en **↖ diagonale haut-gauche**).
-- **🟧 Orange (β⁺ / ε — Bêta plus ou Capture électronique)** : Excès de protons. Un proton se transforme en neutron (`Z - 1, N + 1` ➔ déplacement en **↘ diagonale bas-droite**).
+- **🟦 Bleu ciel (β⁻ — Bêta moins)** : Excès de neutrons. Un neutron se transforme en proton (`Z + 1, N - 1` ➔ déplacement en **↖ diagonale haut-gauche**).
+- **🟥 Rose (β⁺ — Bêta plus ou Capture électronique)** : Excès de protons. Un proton se transforme en neutron (`Z - 1, N + 1` ➔ déplacement en **↘ diagonale bas-droite**).
 - **🟨 Jaune (α — Alpha)** : Noyau lourd qui éjecte une particule alpha (`⁴He`) composée de 2 protons et 2 neutrons (`Z - 2, N - 2` ➔ recul de **↙ 2 cases en bas à gauche**).
-- **🟥 Rouge (p — Émission de proton)** : Noyau extrêmement riche en protons qui éjecte directement 1 proton (`Z - 1` ➔ **↓ 1 case vers le bas**).
+- **🟧 Orange (p — Émission de proton)** : Noyau extrêmement riche en protons qui éjecte directement 1 proton (`Z - 1` ➔ **↓ 1 case vers le bas**).
 - **🟪 Violet (n — Émission de neutron)** : Noyau extrêmement riche en neutrons qui éjecte directement 1 neutron (`N - 1` ➔ **← 1 case vers la gauche**).
-- **🟩 Vert (SF — Fission spontanée)** : Le noyau trop lourd se brise spontanément.
 
 ## 🧭 4. Niveaux et Mode Libre (Niveau 0)
 

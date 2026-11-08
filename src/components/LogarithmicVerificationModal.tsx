@@ -75,9 +75,18 @@ function parseManualMarkdown(md: string): ParsedManual {
  * Renders inline Markdown formatting: **bold**, *italic*, `code`
  */
 function renderInline(text: string): React.ReactNode {
-  const tokenRegex = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+  const tokenRegex = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|🟥)/g;
   const parts = text.split(tokenRegex);
   return parts.map((part, idx) => {
+    if (part === '🟥') {
+      return (
+        <span
+          key={idx}
+          className="inline-block w-3.5 h-3.5 rounded-[3px] bg-pink-400 border border-pink-300 align-[-1.5px] mr-1 shadow-sm"
+          title="Rose (Beta+)"
+        />
+      );
+    }
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
         <strong key={idx} className="font-bold text-white">
