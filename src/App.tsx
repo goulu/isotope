@@ -362,7 +362,8 @@ export default function App() {
       } else if (e.key === 'r' || e.key === 'R') {
         loadLevel(currentLevelIndex);
       } else if (e.key === 'Escape') {
-        setIsPhysicsModalOpen(false);
+        setIsOptionsModalOpen(false);
+        setIsManualModalOpen(false);
         setIsLevelSelectorOpen(false);
         setIsStoryModalOpen(false);
         setIsSandboxModalOpen(false);

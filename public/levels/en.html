@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Levels Guide — ISOThOPE</title>
+  <meta name="description" content="Levels Guide — ISOThOPE pour ISOThOPE, le jeu scientifique de transmutation nucléaire.">
+  <link rel="icon" href="../favicon.ico">
+  
+  <style>
+    
+  :root {
+    --bg-main: #09090b;
+    --bg-card: #121215;
+    --bg-card-alt: #18181b;
+    --border-color: #27272a;
+    --border-accent: #38bdf8;
+    --text-main: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --text-heading: #ffffff;
+    --accent-sky: #38bdf8;
+    --accent-sky-hover: #7dd3fc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a { color: var(--accent-sky); text-decoration: none; transition: color 0.15s; }
+  a:hover { color: var(--accent-sky-hover); text-decoration: underline; }
+
+  /* Navigation Bar */
+  header.nav-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: rgba(9, 9, 11, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+  }
+  .nav-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .brand-badge {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #fff;
+    background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover {
+    background-color: var(--bg-card-alt);
+    border-color: #3f3f46;
+    color: #fff;
+  }
+  .nav-btn.active {
+    background-color: #0284c7;
+    border-color: #38bdf8;
+    color: #fff;
+  }
+  .nav-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 0.2rem;
+    gap: 0.2rem;
+  }
+  .lang-btn {
+    padding: 0.25rem 0.55rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover {
+    color: #fff;
+  }
+  .lang-btn.active {
+    background-color: #27272a;
+    color: var(--accent-sky);
+  }
+
+  /* Main Document Container */
+  main.doc-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    flex: 1;
+    width: 100%;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-heading);
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #1f1f23;
+    padding-bottom: 0.4rem;
+  }
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e4e4e7;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    margin-bottom: 1rem;
+    color: #d4d4d8;
+  }
+  ul, ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+  li {
+    margin-bottom: 0.4rem;
+    color: #d4d4d8;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+  }
+  code {
+    background-color: #18181b;
+    border: 1px solid var(--border-color);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.35rem;
+    font-size: 0.85em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: #38bdf8;
+  }
+  blockquote {
+    border-left: 4px solid var(--border-accent);
+    background-color: #0f172a;
+    padding: 0.75rem 1rem;
+    border-radius: 0 0.75rem 0.75rem 0;
+    margin: 1.25rem 0;
+    color: #cbd5e1;
+  }
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+  th {
+    background-color: #1c1c21;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #1c1c20;
+    color: #d4d4d8;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Footer */
+  footer.doc-footer {
+    border-top: 1px solid var(--border-color);
+    background-color: #060608;
+    padding: 1.5rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  </style>
+</head>
+<body>
+  <header class="nav-header">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="../" class="brand-badge">⚛ ISOThOPE</a>
+        <a href="../" class="nav-btn">← Play Game</a>
+      </div>
+      <div class="nav-group">
+        <a href="../manual/en.html" class="nav-btn ">📖 Manual</a>
+        <a href="en.html" class="nav-btn active">🎯 Levels</a>
+        <div class="lang-switcher">
+          <a href="fr.html" class="lang-btn ">Français</a><a href="en.html" class="lang-btn active">English</a><a href="es.html" class="lang-btn ">Español</a><a href="zh.html" class="lang-btn ">中文</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-content">
+    <h1>Levels Guide — ISOThOPE</h1>
+<p>Detailed descriptions, historical background, and nuclear strategies for all 23 levels of <strong>ISOThOPE</strong>.</p>
+<hr>
+<h2>Tutorial 1: Electron Capture</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Te-123</code> ➔ <code>Sb-123</code></li>
+<li><strong>Resources:</strong> 1 ⚡ electron(s)</li>
+</ul>
+<p>The Tellurium-123 atom (Te-123) is a special case of a stable isobar. Add an electron (Right Click or Down Arrow) to transmute a proton into a neutron. You will instantly obtain stable Antimony!</p>
+<hr>
+<h2>Tutorial 2: Beta- Radioactivity</h2>
+<ul>
+<li><strong>Mission:</strong> <code>O-18</code> ➔ <code>F-19</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s)</li>
+</ul>
+<p>Oxygen-18 is stable. Add a neutron (Left Click or Right Arrow) to turn it into Oxygen-19. It will become unstable and spontaneously decay (Beta-) into Fluorine-19!</p>
+<hr>
+<h2>Level 3: The Alchemist&#39;s Dream</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Hg-196</code> ➔ <code>Au-197</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 1 ⚡ electron(s)</li>
+</ul>
+<p>Transmutation of Mercury-196 into stable Gold. This reaction was achieved in 1941 by Sherr, Bainbridge, and Anderson by bombarding mercury with neutrons.</p>
+<hr>
+<h2>Level 4: The Radioactive Cascade</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Pb-208</code> ➔ <code>Tl-205</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s)</li>
+</ul>
+<p>Lead-208 is nature&#39;s heaviest stable nuclide. Add a neutron (⚛) to turn it into unstable Lead-209. It will first undergo Beta- decay (to Bismuth-209), followed by Alpha decay to stable Thallium-205!</p>
+<hr>
+<h2>Level 5: Reactive Calcium</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Ca-46</code> ➔ <code>Ti-48</code></li>
+<li><strong>Resources:</strong> 2 ⚛ neutron(s)</li>
+</ul>
+<p>Calcium-46 is stable. Add a neutron (⚛) to form Calcium-47, and wait for it to decay into unstable Scandium-47. As soon as it appears, quickly fire a second neutron (⚛) before it decays to get Scandium-48, which will stabilize into Titanium-48!</p>
+<hr>
+<h2>Level 6: Hurried Krypton</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Kr-86</code> ➔ <code>Sr-88</code></li>
+<li><strong>Resources:</strong> 2 ⚛ neutron(s)</li>
+</ul>
+<p>Krypton-86 is stable. Add a neutron (⚛) to form unstable Krypton-87, which decays into Rubidium-87. As soon as it appears, quickly shoot a second neutron (⚛) before it decays to get Rubidium-88, which decays into stable Strontium-88!</p>
+<hr>
+<h2>Level 7: The Ar-29 Exchange</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Ar-29</code> ➔ <code>Cl-30</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 1 ⚡ electron(s)</li>
+</ul>
+<p>Argon-29 is stable in this simulator. Add a neutron (⚛) to create unstable Argon-30. Immediately fire an electron (⚡) before it decays to transmute it into stable Chlorine-30!</p>
+<hr>
+<h2>Level 8: Precision Silicon</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Si-30</code> ➔ <code>S-33</code></li>
+<li><strong>Resources:</strong> 3 ⚛ neutron(s)</li>
+</ul>
+<p>Silicon-30 is stable. Add a neutron (⚛) to create Silicon-31, which decays into stable Phosphorus-31. Wait for it to stabilize, then add a second neutron (⚛) to create unstable Phosphorus-32. Quickly shoot a third neutron (⚛) before it decays to reach stable Sulfur-33!</p>
+<hr>
+<h2>Level 9: Fast Argon</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Ar-40</code> ➔ <code>Ca-43</code></li>
+<li><strong>Resources:</strong> 3 ⚛ neutron(s)</li>
+</ul>
+<p>Argon-40 is stable. Add a neutron (⚛) to create Argon-41, which decays into stable Potassium-41. Once stable, add a second neutron (⚛) to form unstable Potassium-42, then quickly fire a third neutron (⚛) before it decays to reach stable Calcium-43!</p>
+<hr>
+<h2>Level 10: Reactive Nickel</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Ni-62</code> ➔ <code>Cu-65</code></li>
+<li><strong>Resources:</strong> 3 ⚛ neutron(s)</li>
+</ul>
+<p>Nickel-62 is stable. Add a neutron (⚛) to get unstable Nickel-63. Immediately shoot a second neutron (⚛) before it decays to stabilize it into Nickel-64. Finally, add a third neutron (⚛) to form unstable Nickel-65, which will decay into stable Copper-65!</p>
+<hr>
+<h2>Level 11: Sulfur Alchemy</h2>
+<ul>
+<li><strong>Mission:</strong> <code>S-34</code> ➔ <code>Cl-37</code></li>
+<li><strong>Resources:</strong> 3 ⚛ neutron(s) • 1 ⚡ electron(s)</li>
+</ul>
+<p>Sulfur-34 is stable. Add a neutron (⚛) to create Sulfur-35, which decays into stable Chlorine-35. Add a second neutron (⚛) to form unstable Chlorine-36 and let it decay into stable Argon-36. Finally, add a third neutron (⚛) to form unstable Argon-37, and quickly fire an electron (⚡) before it decays to reach stable Chlorine-37!</p>
+<hr>
+<h2>Level 12: Lead Juggling</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Pb-208</code> ➔ <code>Tl-205</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 3 ⚡ electron(s)</li>
+</ul>
+<p>Lead-208 is stable. Add a neutron (⚛) to get unstable Lead-209, which decays into Bismuth-209. As soon as Bismuth appears, quickly shoot an electron (⚡) to turn it back into Lead-209. Repeat this juggling 3 times to use up all your electrons, then let the cascade stabilize into Thallium-205!</p>
+<hr>
+<h2>Level 13: The Great Neon Race</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Ne-22</code> ➔ <code>Mg-24</code></li>
+<li><strong>Resources:</strong> 3 ⚛ neutron(s) • 2 ⚡ electron(s)</li>
+</ul>
+<p>Neon-22 is stable. Add a neutron (⚛), then very rapidly fire two more neutrons (⚛, ⚛) and two electrons (⚡, ⚡) without waiting for intermediate isotopes to decay. You will reach unstable Oxygen-25, which will undergo a spectacular decay cascade all the way to stable Magnesium-24!</p>
+<hr>
+<h2>Level 14: The Alpha Escape</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Sm-144</code> ➔ <code>Pr-141</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 1 ⚡ electron(s)</li>
+</ul>
+<p>Samarium-144 is stable. Particle order is critical here: first fire an electron (⚡) to produce Promethium-144, which will undergo Beta+ decay to Neodymium-144, followed by an Alpha decay (🟨) to Cerium-140! Wait for it to stabilize, then add a neutron (⚛): Cerium-141 will Beta- decay into stable Praseodymium-141. Firing the neutron first would have trapped you forever in the Neodymium-145 valley!</p>
+<hr>
+<h2>Level 15: The Proton Reflex</h2>
+<ul>
+<li><strong>Mission:</strong> <code>He-4</code> ➔ <code>Li-6</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 1 🔺 proton(s)</li>
+</ul>
+<p>Helium-4 is extraordinarily stable. Fire a proton (🔺/Key P) to form Lithium-5, or a neutron (⚛) to form Helium-5. Beware: both isotopes are ultra-fast spontaneous emitters that will immediately spit the particle back out if you hesitate! Fire the second particle in a fraction of a second to stabilize the nucleus into Lithium-6!</p>
+<hr>
+<h2>Level 16: Cerium Interception</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Sm-144</code> ➔ <code>Ce-142</code></li>
+<li><strong>Resources:</strong> 2 ⚛ neutron(s) • 1 ⚡ electron(s)</li>
+</ul>
+<p>Samarium-144 must transmute into Cerium-142. Fire an electron (⚡), let the Beta+ and Alpha cascade descend to Cerium-140. Fire a first neutron (⚛) to form Cerium-141, and immediately intercept it with a second neutron (⚛) before it has time to decay into Praseodymium-141!</p>
+<hr>
+<h2>Level 17: The Quantum Shortcut</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Li-7</code> ➔ <code>He-3</code></li>
+<li><strong>Resources:</strong> 1 ⚡ electron(s) • 1 🔺 proton(s)</li>
+</ul>
+<p>Lithium-7 can reach Helium-3 through a spectacular nuclear pathway. Inject a proton (🔺) to form Beryllium-8, which undergoes instant Alpha decay into Helium-4. Then capture an electron (⚡) to reach Hydrogen-4: it will spontaneously emit a neutron to form Tritium (H-3), decaying Beta- into stable Helium-3!</p>
+<hr>
+<h2>Level 18: Neodymium Valley</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Nd-143</code> ➔ <code>Ce-142</code></li>
+<li><strong>Resources:</strong> 2 ⚛ neutron(s) • 1 🔺 proton(s)</li>
+</ul>
+<p>Neodymium-143 is surrounded by isobaric traps. Adding neutrons first will plunge you irreversibly into stable Neodymium-146. You must fire the proton (🔺) first to pass through Promethium-144, await Alpha decay from Neodymium-144, then quickly chain two neutrons (⚛, ⚛) on Cerium!</p>
+<hr>
+<h2>Level 19: Thallium Pipe Organ</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Tl-205</code> ➔ <code>Pb-204</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 2 🔺 proton(s)</li>
+</ul>
+<p>Thallium-205 must be converted into Lead-204. First add a neutron (⚛) to form Thallium-206 and let it transmute into Lead-206. Then inject two consecutive protons (🔺, 🔺) to climb through Bismuth-207 into Polonium-208, which will eject an Alpha particle directly into stable Lead-204!</p>
+<hr>
+<h2>Level 20: Tungsten Double Jump</h2>
+<ul>
+<li><strong>Mission:</strong> <code>W-182</code> ➔ <code>Hf-177</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 2 🔺 proton(s)</li>
+</ul>
+<p>Tungsten-182 is a metallic fortress. Fire two consecutive protons (🔺, 🔺) to create unstable Osmium-184. Watch nature trigger a back-to-back double Alpha decay cascade (Os-184 ➔ W-180 ➔ Hf-176)! Once stabilized in Hafnium-176, add the final neutron (⚛) to reach Hafnium-177.</p>
+<hr>
+<h2>Level 21: The Tantalum Trap</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Ta-181</code> ➔ <code>Hf-176</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 2 🔺 proton(s)</li>
+</ul>
+<p>Tantalum-181 offers over 20 deceptive paths. You must activate the neutron (⚛) first into Tantalum-182, await its Beta- decay into Tungsten-182, then inject two protons (🔺, 🔺) to trigger the double Alpha cascade to stable Hafnium-176!</p>
+<hr>
+<h2>Level 22: The Grand Rhenium Cascade</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Re-185</code> ➔ <code>Hf-176</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 2 🔺 proton(s)</li>
+</ul>
+<p>Rhenium-185 unlocks a triple Alpha decay chain! First fire a neutron (⚛), wait for Beta- decay into Osmium-186, then its first Alpha decay to Tungsten-182. Then inject two protons (🔺, 🔺) into Osmium-184: two more consecutive Alpha decays will carry you to stable Hafnium-176!</p>
+<hr>
+<h2>Level 23: The Ultimate Alchemy</h2>
+<ul>
+<li><strong>Mission:</strong> <code>Re-185</code> ➔ <code>Hf-180</code></li>
+<li><strong>Resources:</strong> 1 ⚛ neutron(s) • 1 ⚡ electron(s) • 2 🔺 proton(s)</li>
+</ul>
+<p>The pinnacle of nuclear physics: 86 fatal traps! Starting from Rhenium-185, deploy all 3 particle types (1⚛, 1⚡, 2🔺) in flawless sequence. Neutron first, wait through the Osmium ➔ Tungsten cascade, inject both protons toward Osmium-184, let the Alpha cascade descend onto Tungsten-180, and finally capture the electron to stabilize into Hafnium-180!</p>
+<hr>
+
+  </main>
+
+  <footer class="doc-footer">
+    <p>ISOThOPE — Interactive nuclear physics game • Designed by Philippe Guglielmetti (Dr. Goulu)</p>
+    <div class="footer-links">
+      <a href="https://drgoulu.com/en/2026/11/06/isothope-my-radioactive-game/" target="_blank" rel="noopener noreferrer">About the game</a>
+      <span>•</span>
+      <a href="https://github.com/goulu/isotope" target="_blank" rel="noopener noreferrer">GitHub source</a>
+      <span>•</span>
+      <a href="../">ISOThOPE Game</a>
+    </div>
+  </footer>
+</body>
+</html>

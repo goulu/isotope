@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual de usuario — ISOThOPE</title>
+  <meta name="description" content="Manual de usuario — ISOThOPE pour ISOThOPE, le jeu scientifique de transmutation nucléaire.">
+  <link rel="icon" href="../favicon.ico">
+  
+  <style>
+    
+  :root {
+    --bg-main: #09090b;
+    --bg-card: #121215;
+    --bg-card-alt: #18181b;
+    --border-color: #27272a;
+    --border-accent: #38bdf8;
+    --text-main: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --text-heading: #ffffff;
+    --accent-sky: #38bdf8;
+    --accent-sky-hover: #7dd3fc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a { color: var(--accent-sky); text-decoration: none; transition: color 0.15s; }
+  a:hover { color: var(--accent-sky-hover); text-decoration: underline; }
+
+  /* Navigation Bar */
+  header.nav-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: rgba(9, 9, 11, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+  }
+  .nav-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .brand-badge {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #fff;
+    background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover {
+    background-color: var(--bg-card-alt);
+    border-color: #3f3f46;
+    color: #fff;
+  }
+  .nav-btn.active {
+    background-color: #0284c7;
+    border-color: #38bdf8;
+    color: #fff;
+  }
+  .nav-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 0.2rem;
+    gap: 0.2rem;
+  }
+  .lang-btn {
+    padding: 0.25rem 0.55rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover {
+    color: #fff;
+  }
+  .lang-btn.active {
+    background-color: #27272a;
+    color: var(--accent-sky);
+  }
+
+  /* Main Document Container */
+  main.doc-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    flex: 1;
+    width: 100%;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-heading);
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #1f1f23;
+    padding-bottom: 0.4rem;
+  }
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e4e4e7;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    margin-bottom: 1rem;
+    color: #d4d4d8;
+  }
+  ul, ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+  li {
+    margin-bottom: 0.4rem;
+    color: #d4d4d8;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+  }
+  code {
+    background-color: #18181b;
+    border: 1px solid var(--border-color);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.35rem;
+    font-size: 0.85em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: #38bdf8;
+  }
+  blockquote {
+    border-left: 4px solid var(--border-accent);
+    background-color: #0f172a;
+    padding: 0.75rem 1rem;
+    border-radius: 0 0.75rem 0.75rem 0;
+    margin: 1.25rem 0;
+    color: #cbd5e1;
+  }
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+  th {
+    background-color: #1c1c21;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #1c1c20;
+    color: #d4d4d8;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Footer */
+  footer.doc-footer {
+    border-top: 1px solid var(--border-color);
+    background-color: #060608;
+    padding: 1.5rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  </style>
+</head>
+<body>
+  <header class="nav-header">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="../" class="brand-badge">⚛ ISOThOPE</a>
+        <a href="../" class="nav-btn">← Jugar</a>
+      </div>
+      <div class="nav-group">
+        <a href="es.html" class="nav-btn active">📖 Manual</a>
+        <a href="../levels/es.html" class="nav-btn ">🎯 Niveles</a>
+        <div class="lang-switcher">
+          <a href="fr.html" class="lang-btn ">Français</a><a href="en.html" class="lang-btn ">English</a><a href="es.html" class="lang-btn active">Español</a><a href="zh.html" class="lang-btn ">中文</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-content">
+    <h1>Manual de usuario — ISOThOPE</h1>
+<p>Bienvenido a <strong>ISOThOPE</strong>, el juego de puzles y transmutación nuclear basado en datos científicos reales del OIEA (NUBASE / LiveChart).</p>
+<h2>🎯 1. Objetivo del juego</h2>
+<p>Controlas un núcleo atómico representado en el centro de la <strong>carta de Segrè</strong> (la tabla periódica de los físicos nucleares):</p>
+<ul>
+<li>El eje horizontal representa el <strong>número de neutrones (<code>N</code>)</strong>.</li>
+<li>El eje vertical representa el <strong>número de protones (<code>Z</code>)</strong>, que define el elemento químico.</li>
+</ul>
+<p>En cada nivel, partes de un <strong>isótopo inicial</strong> y debes alcanzar un <strong>isótopo objetivo</strong> (marcado con un borde dorado en la cuadrícula) combinando con astucia el bombardeo de partículas y las desintegraciones radiactivas naturales.</p>
+<blockquote>
+<p><strong>Consejo:</strong> ¡A veces deja que la naturaleza trabaje por ti! Una desintegración radiactiva natural ahorra tus valiosas partículas.</p>
+</blockquote>
+<h2>⚡ 2. Acciones y controles</h2>
+<p>Usa los botones situados debajo de la cuadrícula para bombardear tu núcleo antes de que se desintegre:</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="left">Acción</th>
+<th align="left">Efecto en el núcleo</th>
+<th align="left">Movimiento en la cuadrícula</th>
+<th align="left">Atajo en PC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>⚛ +n</strong> (Neutrón)</td>
+<td align="left">Añade 1 neutrón (<code>N + 1</code>)</td>
+<td align="left"><strong>➔ Derecha</strong> (mismo elemento, más pesado)</td>
+<td align="left"><code>N</code> o <code>→</code></td>
+</tr>
+<tr>
+<td align="left"><strong>⚡ +e⁻</strong> (Electrón)</td>
+<td align="left">Captura electrónica (<code>Z - 1, N + 1</code>)</td>
+<td align="left"><strong>↘ Diagonal abajo-derecha</strong></td>
+<td align="left"><code>E</code> o <code>↓</code></td>
+</tr>
+<tr>
+<td align="left"><strong>🔴 +p</strong> (Protón)</td>
+<td align="left">Añade 1 protón (<code>Z + 1</code>)</td>
+<td align="left"><strong>↑ Arriba</strong> (elemento siguiente)</td>
+<td align="left"><code>P</code> o <code>↑</code></td>
+</tr>
+<tr>
+<td align="left"><strong>Reiniciar</strong></td>
+<td align="left">Reinicia el nivel actual</td>
+<td align="left">Vuelve al núcleo inicial</td>
+<td align="left"><code>R</code></td>
+</tr>
+</tbody></table></div>
+<h2>☢️ 3. Estabilidad y desintegraciones radiactivas</h2>
+<p>Cada casilla de la cuadrícula está coloreada según el comportamiento físico real del isótopo:</p>
+<ul>
+<li><strong>⬛ Negro (Estable)</strong>: El núcleo no se desintegra. El cronómetro se detiene y tienes todo el tiempo para pensar. <em>Atención: ¡si aterrizas en un isótopo estable que no es tu objetivo y te quedas sin partículas, pierdes la partida!</em></li>
+<li><strong>🟦 Azul cielo (β⁻ — Beta menos)</strong>: Exceso de neutrones. Un neutrón se transforma en protón (<code>Z + 1, N - 1</code> ➔ movimiento en <strong>↖ diagonal arriba-izquierda</strong>).</li>
+<li><strong>🟥 Rosa (β⁺ — Beta más o Captura electrónica)</strong>: Exceso de protones. Un protón se transforma en neutrón (<code>Z - 1, N + 1</code> ➔ movimiento en <strong>↘ diagonal abajo-derecha</strong>).</li>
+<li><strong>🟨 Amarillo (α — Alfa)</strong>: Núcleo pesado que expulsa una partícula alfa (<code>⁴He</code>) compuesta por 2 protones y 2 neutrones (<code>Z - 2, N - 2</code> ➔ retrocede <strong>↙ 2 casillas abajo y 2 a la izquierda</strong>).</li>
+<li><strong>🟧 Naranja (p — Emisión de protón)</strong>: Núcleo extremadamente rico en protones que expulsa directamente 1 protón (<code>Z - 1</code> ➔ <strong>↓ 1 casilla hacia abajo</strong>).</li>
+<li><strong>🟪 Morado (n — Emisión de neutrón)</strong>: Núcleo extremadamente rico en neutrones que expulsa directamente 1 neutrón (<code>N - 1</code> ➔ <strong>← 1 casilla hacia la izquierda</strong>).</li>
+</ul>
+<h2>🧭 4. Niveles y Modo Libre (Nivel 0)</h2>
+<ul>
+<li><strong>Explicación del nivel</strong>: Haz clic en cualquier lugar del <strong>bloque de descripción del nivel</strong> (situado debajo de la barra de título) para abrir el informe científico e histórico de la misión.</li>
+<li><strong>Selector de niveles</strong>: Haz clic en el botón numerado (ej. <code>1/13</code>) a la izquierda del bloque de nivel para cambiar de misión.</li>
+<li><strong>Nivel 0 — Modo Libre (Sandbox)</strong>: Situado en la parte superior de la lista de niveles, te ofrece partículas ilimitadas (<code>∞</code>) y te permite hacer clic directamente en cualquier casilla de la cuadrícula o del título <code>ISOThOPE</code> para explorar la carta de nucleidos.</li>
+</ul>
+<h2>📈 5. La Ley Logarítmica del Tiempo</h2>
+<p>En la naturaleza, las semividas (<code>T½</code>) de los isótopos abarcan desde microsegundos (<code>10⁻⁶ s</code>) hasta miles de millones de años (<code>10¹⁷ s</code>). Para comprimir estos 23 órdenes de magnitud en unos pocos segundos de juego respetando la jerarquía de estabilidad real de cada isótopo, <strong>ISOThOPE</strong> aplica una ley logarítmica:</p>
+<p><code>Tiempo_Juego = clamp(Base + Pendiente × log10(T½), Mín, Máx)</code></p>
+<p>Puedes visualizar la curva a continuación (los parámetros de desintegración se ajustan en las Opciones):</p>
+
+  </main>
+
+  <footer class="doc-footer">
+    <p>ISOThOPE — Juego científico interactivo de física nuclear • Creado por Philippe Guglielmetti (Dr. Goulu)</p>
+    <div class="footer-links">
+      <a href="https://drgoulu.com/en/2026/11/06/isothope-my-radioactive-game/" target="_blank" rel="noopener noreferrer">Artículo de presentación</a>
+      <span>•</span>
+      <a href="https://github.com/goulu/isotope" target="_blank" rel="noopener noreferrer">Código fuente GitHub</a>
+      <span>•</span>
+      <a href="../">ISOThOPE Game</a>
+    </div>
+  </footer>
+</body>
+</html>

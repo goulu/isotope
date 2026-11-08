@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Niveles — ISOThOPE</title>
+  <meta name="description" content="Guía de Niveles — ISOThOPE pour ISOThOPE, le jeu scientifique de transmutation nucléaire.">
+  <link rel="icon" href="../favicon.ico">
+  
+  <style>
+    
+  :root {
+    --bg-main: #09090b;
+    --bg-card: #121215;
+    --bg-card-alt: #18181b;
+    --border-color: #27272a;
+    --border-accent: #38bdf8;
+    --text-main: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --text-heading: #ffffff;
+    --accent-sky: #38bdf8;
+    --accent-sky-hover: #7dd3fc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a { color: var(--accent-sky); text-decoration: none; transition: color 0.15s; }
+  a:hover { color: var(--accent-sky-hover); text-decoration: underline; }
+
+  /* Navigation Bar */
+  header.nav-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: rgba(9, 9, 11, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+  }
+  .nav-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .brand-badge {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #fff;
+    background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover {
+    background-color: var(--bg-card-alt);
+    border-color: #3f3f46;
+    color: #fff;
+  }
+  .nav-btn.active {
+    background-color: #0284c7;
+    border-color: #38bdf8;
+    color: #fff;
+  }
+  .nav-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 0.2rem;
+    gap: 0.2rem;
+  }
+  .lang-btn {
+    padding: 0.25rem 0.55rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover {
+    color: #fff;
+  }
+  .lang-btn.active {
+    background-color: #27272a;
+    color: var(--accent-sky);
+  }
+
+  /* Main Document Container */
+  main.doc-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    flex: 1;
+    width: 100%;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-heading);
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #1f1f23;
+    padding-bottom: 0.4rem;
+  }
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e4e4e7;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    margin-bottom: 1rem;
+    color: #d4d4d8;
+  }
+  ul, ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+  li {
+    margin-bottom: 0.4rem;
+    color: #d4d4d8;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+  }
+  code {
+    background-color: #18181b;
+    border: 1px solid var(--border-color);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.35rem;
+    font-size: 0.85em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: #38bdf8;
+  }
+  blockquote {
+    border-left: 4px solid var(--border-accent);
+    background-color: #0f172a;
+    padding: 0.75rem 1rem;
+    border-radius: 0 0.75rem 0.75rem 0;
+    margin: 1.25rem 0;
+    color: #cbd5e1;
+  }
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+  th {
+    background-color: #1c1c21;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #1c1c20;
+    color: #d4d4d8;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Footer */
+  footer.doc-footer {
+    border-top: 1px solid var(--border-color);
+    background-color: #060608;
+    padding: 1.5rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  </style>
+</head>
+<body>
+  <header class="nav-header">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="../" class="brand-badge">⚛ ISOThOPE</a>
+        <a href="../" class="nav-btn">← Jugar</a>
+      </div>
+      <div class="nav-group">
+        <a href="../manual/es.html" class="nav-btn ">📖 Manual</a>
+        <a href="es.html" class="nav-btn active">🎯 Niveles</a>
+        <div class="lang-switcher">
+          <a href="fr.html" class="lang-btn ">Français</a><a href="en.html" class="lang-btn ">English</a><a href="es.html" class="lang-btn active">Español</a><a href="zh.html" class="lang-btn ">中文</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-content">
+    <h1>Guía de Niveles — ISOThOPE</h1>
+<p>Descripción detallada, contexto histórico y estrategias nucleares para cada uno de los 23 niveles de <strong>ISOThOPE</strong>.</p>
+<hr>
+<h2>Tutorial 1: Captura Electrónica</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Te-123</code> ➔ <code>Sb-123</code></li>
+<li><strong>Recursos:</strong> 1 ⚡ electrón(es)</li>
+</ul>
+<p>El átomo de Telurio 123 (Te-123) es un caso especial de isóbaro estable. Añádele un electrón (Clic Derecho o Flecha Abajo) para transmutar un protón en neutrón. ¡Obtendrás Antimonio estable al instante!</p>
+<hr>
+<h2>Tutorial 2: Radiactividad Beta-</h2>
+<ul>
+<li><strong>Misión:</strong> <code>O-18</code> ➔ <code>F-19</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es)</li>
+</ul>
+<p>El Oxígeno 18 es estable. Añádele un neutrón (Clic Izquierdo o Flecha Derecha) para transformarlo en Oxígeno 19. ¡Se volverá inestable y se desintegrará por sí solo (Beta-) hacia el Flúor 19!</p>
+<hr>
+<h2>Nivel 3: El sueño del alquimista</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Hg-196</code> ➔ <code>Au-197</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 1 ⚡ electrón(es)</li>
+</ul>
+<p>Transmutación del Mercurio 196 en Oro estable. Esta es la reacción lograda en 1941 por Sherr, Bainbridge y Anderson bombardeando mercurio con neutrones.</p>
+<hr>
+<h2>Nivel 4: La cascada radiactiva</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Pb-208</code> ➔ <code>Tl-205</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es)</li>
+</ul>
+<p>El Plomo 208 es el elemento estable más pesado de la naturaleza. Añádele un neutrón (⚛) para transformarlo en Plomo 209 inestable. ¡Sufrirá primero una desintegración Beta- (hacia Bismuto 209) y luego una desintegración Alfa hacia el Talio 205 estable!</p>
+<hr>
+<h2>Nivel 5: El Calcio reactivo</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Ca-46</code> ➔ <code>Ti-48</code></li>
+<li><strong>Recursos:</strong> 2 ⚛ neutrón(es)</li>
+</ul>
+<p>El Calcio 46 es estable. Añádele un neutrón (⚛) para formar Calcio 47 y espera su desintegración en Escandio 47 inestable. En cuanto aparezca, dispara rápidamente un segundo neutrón (⚛) antes de que se desintegre para obtener Escandio 48, ¡que se estabilizará en Titanio 48!</p>
+<hr>
+<h2>Nivel 6: El Kriptón apresurado</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Kr-86</code> ➔ <code>Sr-88</code></li>
+<li><strong>Recursos:</strong> 2 ⚛ neutrón(es)</li>
+</ul>
+<p>El Kriptón 86 es estable. Añádele un neutrón (⚛) para formar Kriptón 87 inestable, que se desintegrará en Rubidio 87. En cuanto aparezca, dispárale rápidamente un segundo neutrón (⚛) antes de su desintegración para obtener Rubidio 88, ¡que se desintegrará hacia el Estroncio 88 estable!</p>
+<hr>
+<h2>Nivel 7: El intercambio de Ar-29</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Ar-29</code> ➔ <code>Cl-30</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 1 ⚡ electrón(es)</li>
+</ul>
+<p>El Argón 29 es estable en este simulador. Añádele un neutrón (⚛) para crear Argón 30 inestable. ¡Dispárale inmediatamente un electrón (⚡) antes de su desintegración para transmutarlo hacia el Cloro 30 estable!</p>
+<hr>
+<h2>Nivel 8: El Silicio de precisión</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Si-30</code> ➔ <code>S-33</code></li>
+<li><strong>Recursos:</strong> 3 ⚛ neutrón(es)</li>
+</ul>
+<p>El Silicio 30 es estable. Añádele un neutrón (⚛) para crear Silicio 31, que se desintegra en Fósforo 31 estable. Espera su estabilización, añade un segundo neutrón (⚛) para crear Fósforo 32 inestable y dispara rápidamente un tercer neutrón (⚛) antes de su desintegración para alcanzar el Azufre 33 estable.</p>
+<hr>
+<h2>Nivel 9: El Argón rápido</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Ar-40</code> ➔ <code>Ca-43</code></li>
+<li><strong>Recursos:</strong> 3 ⚛ neutrón(es)</li>
+</ul>
+<p>El Argón 40 es estable. Añádele un neutrón (⚛) para crear Argón 41, que se desintegra en Potasio 41 estable. En cuanto se estabilice, añade un segundo neutrón (⚛) para formar Potasio 42 inestable y dispara rápidamente un tercer neutrón (⚛) antes de su desintegración para alcanzar el Calcio 43 estable.</p>
+<hr>
+<h2>Nivel 10: El Níquel reactivo</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Ni-62</code> ➔ <code>Cu-65</code></li>
+<li><strong>Recursos:</strong> 3 ⚛ neutrón(es)</li>
+</ul>
+<p>El Níquel 62 es estable. Añádele un neutrón (⚛) para obtener Níquel 63 inestable. Dispárale inmediatamente un segundo neutrón (⚛) antes de que se desintegre para estabilizarlo en Níquel 64. Finalmente, añade un tercer neutrón (⚛) para formar Níquel 65 inestable, ¡que se desintegrará hacia el Cobre 65 estable!</p>
+<hr>
+<h2>Nivel 11: La alquimia del Azufre</h2>
+<ul>
+<li><strong>Misión:</strong> <code>S-34</code> ➔ <code>Cl-37</code></li>
+<li><strong>Recursos:</strong> 3 ⚛ neutrón(es) • 1 ⚡ electrón(es)</li>
+</ul>
+<p>El Azufre 34 es estable. Añádele un neutrón (⚛) para crear Azufre 35, que se desintegra en Cloro 35 estable. Añade un segundo neutrón (⚛) para formar Cloro 36 inestable y déjalo desintegrarse en Argón 36 estable. Finalmente, añade un tercer neutrón (⚛) para formar Argón 37 inestable y dispárale rápidamente un electrón (⚡) para alcanzar el Cloro 37 estable.</p>
+<hr>
+<h2>Nivel 12: El malabarismo del Plomo</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Pb-208</code> ➔ <code>Tl-205</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 3 ⚡ electrón(es)</li>
+</ul>
+<p>El Plomo 208 es estable. Añádele un neutrón (⚛) para obtener Plomo 209 inestable, que se desintegra en Bismuto 209. En cuanto aparezca el Bismuto, dispárale rápidamente un electrón (⚡) para volver a transformarlo en Plomo 209. ¡Repite este malabarismo 3 veces para agotar tus electrones y deja que la cascada se estabilice en Talio 205!</p>
+<hr>
+<h2>Nivel 13: La gran carrera del Neón</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Ne-22</code> ➔ <code>Mg-24</code></li>
+<li><strong>Recursos:</strong> 3 ⚛ neutrón(es) • 2 ⚡ electrón(es)</li>
+</ul>
+<p>El Neón 22 es estable. Añade un neutrón (⚛), luego dispara muy rápidamente otros dos neutrones (⚛, ⚛) y dos electrones (⚡, ⚡) sin esperar a que los isótopos intermedios se desintegren. ¡Alcanzarás el Oxígeno 25 inestable, que sufrirá una cascada de desintegraciones espectacular hasta el Magnesio 24 estable!</p>
+<hr>
+<h2>Nivel 14: La escapada Alfa</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Sm-144</code> ➔ <code>Pr-141</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 1 ⚡ electrón(es)</li>
+</ul>
+<p>El Samario 144 es estable. El orden de las partículas es crucial aquí: dispara primero un electrón (⚡) para obtener Prometio 144, que sufrirá una desintegración Beta+ hacia el Neodimio 144, seguida de una desintegración Alfa (🟨) hacia el Cerio 140. Espera a que se estabilice y luego añade un neutrón (⚛): el Cerio 141 se desintegrará en Praseodimio 141 estable. ¡Disparar el neutrón primero te habría atrapado para siempre en el valle del Neodimio 145!</p>
+<hr>
+<h2>Nivel 15: El reflejo del protón</h2>
+<ul>
+<li><strong>Misión:</strong> <code>He-4</code> ➔ <code>Li-6</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 1 🔺 protón(es)</li>
+</ul>
+<p>El Helio 4 es extraordinariamente estable. Dispara un protón (🔺/Tecla P) para crear Litio 5, o un neutrón (⚛) para crear Helio 5. ¡Cuidado: ambos son emisores espontáneos ultrarrápidos que expulsarán la partícula si dudas! ¡Dispara la segunda partícula en una fracción de segundo para estabilizar el núcleo en Litio 6!</p>
+<hr>
+<h2>Nivel 16: Intercepción Ceriática</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Sm-144</code> ➔ <code>Ce-142</code></li>
+<li><strong>Recursos:</strong> 2 ⚛ neutrón(es) • 1 ⚡ electrón(es)</li>
+</ul>
+<p>El Samario 144 debe transmutarse en Cerio 142. Dispara un electrón (⚡), deja que la cascada Beta+ y Alfa descienda hasta el Cerio 140. ¡Dispara un primer neutrón (⚛) para formar Cerio 141 e interceptalo inmediatamente con un segundo neutrón (⚛) antes de que se desintegre en Praseodimio 141!</p>
+<hr>
+<h2>Nivel 17: El atajo cuántico</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Li-7</code> ➔ <code>He-3</code></li>
+<li><strong>Recursos:</strong> 1 ⚡ electrón(es) • 1 🔺 protón(es)</li>
+</ul>
+<p>El Litio 7 puede alcanzar el Helio 3 mediante una reacción espectacular. Inyecta un protón (🔺) para formar Berilio 8, que sufre una desintegración Alfa instantánea hacia el Helio 4. Captura luego un electrón (⚡) para llegar al Hidrógeno 4: ¡emitirá un neutrón hacia el Tritio (H-3), que se desintegrará por Beta- en Helio 3 estable!</p>
+<hr>
+<h2>Nivel 18: El valle del Neodimio</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Nd-143</code> ➔ <code>Ce-142</code></li>
+<li><strong>Recursos:</strong> 2 ⚛ neutrón(es) • 1 🔺 protón(es)</li>
+</ul>
+<p>El Neodimio 143 está rodeado de trampas isobáricas. Añadir neutrones primero te llevará irremediablemente al Neodimio 146. ¡Debes disparar el protón (🔺) primero para pasar por el Prometio 144, esperar la desintegración Alfa del Neodimio 144 y luego encadenar dos neutrones rápidos (⚛, ⚛) sobre el Cerio!</p>
+<hr>
+<h2>Nivel 19: El órgano de Talio</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Tl-205</code> ➔ <code>Pb-204</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 2 🔺 protón(es)</li>
+</ul>
+<p>El Talio 205 debe convertirse en Plomo 204. Añade primero un neutrón (⚛) para formar Talio 206 y déjalo transmutar en Plomo 206. Luego inyecta dos protones consecutivos (🔺, 🔺) para ascender por el Bismuto 207 y crear Polonio 208, ¡que expulsará una partícula Alfa directamente hacia el Plomo 204 estable!</p>
+<hr>
+<h2>Nivel 20: El doble salto del Wolframio</h2>
+<ul>
+<li><strong>Misión:</strong> <code>W-182</code> ➔ <code>Hf-177</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 2 🔺 protón(es)</li>
+</ul>
+<p>El Wolframio 182 es una fortaleza metálica. Dispara dos protones consecutivos (🔺, 🔺) para crear Osmio 184 inestable. ¡Observa a la naturaleza ejecutar una doble desintegración Alfa consecutiva (Os-184 ➔ W-180 ➔ Hf-176)! Una vez estabilizado en Hafnio 176, añade el neutrón final (⚛) para alcanzar el Hafnio 177.</p>
+<hr>
+<h2>Nivel 21: La trampa del Tántalo</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Ta-181</code> ➔ <code>Hf-176</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 2 🔺 protón(es)</li>
+</ul>
+<p>El Tántalo 181 ofrece más de 20 caminos engañosos. Debes activar obligatoriamente el neutrón (⚛) primero hacia el Tántalo 182, esperar su desintegración Beta- hacia el Wolframio 182 y luego inyectar dos protones (🔺, 🔺) para desencadenar la doble cascada Alfa hacia el Hafnio 176 estable.</p>
+<hr>
+<h2>Nivel 22: La gran cascada del Renio</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Re-185</code> ➔ <code>Hf-176</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 2 🔺 protón(es)</li>
+</ul>
+<p>¡El Renio 185 abre el camino a una triple desintegración Alfa! Dispara primero un neutrón (⚛), espera la desintegración Beta- hacia el Osmio 186 y luego su primera desintegración Alfa hacia el Wolframio 182. Luego inyecta dos protones (🔺, 🔺) hacia el Osmio 184: ¡dos Alfas consecutivas más te llevarán al Hafnio 176 estable!</p>
+<hr>
+<h2>Nivel 23: La alquimia definitiva</h2>
+<ul>
+<li><strong>Misión:</strong> <code>Re-185</code> ➔ <code>Hf-180</code></li>
+<li><strong>Recursos:</strong> 1 ⚛ neutrón(es) • 1 ⚡ electrón(es) • 2 🔺 protón(es)</li>
+</ul>
+<p>La cumbre de la física nuclear: ¡86 trampas mortales! A partir del Renio 185, utiliza los 3 tipos de partículas (1⚛, 1⚡, 2🔺) en una secuencia perfecta. Neutrón primero, espera la cascada Osmio ➔ Wolframio, inyecta los dos protones hacia el Osmio 184, deja que la cascada Alfa descienda sobre el Wolframio 180 y ¡captura finalmente el electrón para estabilizarte en Hafnio 180!</p>
+<hr>
+
+  </main>
+
+  <footer class="doc-footer">
+    <p>ISOThOPE — Juego científico interactivo de física nuclear • Creado por Philippe Guglielmetti (Dr. Goulu)</p>
+    <div class="footer-links">
+      <a href="https://drgoulu.com/en/2026/11/06/isothope-my-radioactive-game/" target="_blank" rel="noopener noreferrer">Artículo de presentación</a>
+      <span>•</span>
+      <a href="https://github.com/goulu/isotope" target="_blank" rel="noopener noreferrer">Código fuente GitHub</a>
+      <span>•</span>
+      <a href="../">ISOThOPE Game</a>
+    </div>
+  </footer>
+</body>
+</html>

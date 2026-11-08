@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关卡指南 — ISOThOPE</title>
+  <meta name="description" content="关卡指南 — ISOThOPE pour ISOThOPE, le jeu scientifique de transmutation nucléaire.">
+  <link rel="icon" href="../favicon.ico">
+  
+  <style>
+    
+  :root {
+    --bg-main: #09090b;
+    --bg-card: #121215;
+    --bg-card-alt: #18181b;
+    --border-color: #27272a;
+    --border-accent: #38bdf8;
+    --text-main: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --text-heading: #ffffff;
+    --accent-sky: #38bdf8;
+    --accent-sky-hover: #7dd3fc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a { color: var(--accent-sky); text-decoration: none; transition: color 0.15s; }
+  a:hover { color: var(--accent-sky-hover); text-decoration: underline; }
+
+  /* Navigation Bar */
+  header.nav-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: rgba(9, 9, 11, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+  }
+  .nav-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .brand-badge {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #fff;
+    background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover {
+    background-color: var(--bg-card-alt);
+    border-color: #3f3f46;
+    color: #fff;
+  }
+  .nav-btn.active {
+    background-color: #0284c7;
+    border-color: #38bdf8;
+    color: #fff;
+  }
+  .nav-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 0.2rem;
+    gap: 0.2rem;
+  }
+  .lang-btn {
+    padding: 0.25rem 0.55rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover {
+    color: #fff;
+  }
+  .lang-btn.active {
+    background-color: #27272a;
+    color: var(--accent-sky);
+  }
+
+  /* Main Document Container */
+  main.doc-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    flex: 1;
+    width: 100%;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-heading);
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #1f1f23;
+    padding-bottom: 0.4rem;
+  }
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e4e4e7;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    margin-bottom: 1rem;
+    color: #d4d4d8;
+  }
+  ul, ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+  li {
+    margin-bottom: 0.4rem;
+    color: #d4d4d8;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+  }
+  code {
+    background-color: #18181b;
+    border: 1px solid var(--border-color);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.35rem;
+    font-size: 0.85em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: #38bdf8;
+  }
+  blockquote {
+    border-left: 4px solid var(--border-accent);
+    background-color: #0f172a;
+    padding: 0.75rem 1rem;
+    border-radius: 0 0.75rem 0.75rem 0;
+    margin: 1.25rem 0;
+    color: #cbd5e1;
+  }
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+  th {
+    background-color: #1c1c21;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #1c1c20;
+    color: #d4d4d8;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Footer */
+  footer.doc-footer {
+    border-top: 1px solid var(--border-color);
+    background-color: #060608;
+    padding: 1.5rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  </style>
+</head>
+<body>
+  <header class="nav-header">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="../" class="brand-badge">⚛ ISOThOPE</a>
+        <a href="../" class="nav-btn">← 返回游戏</a>
+      </div>
+      <div class="nav-group">
+        <a href="../manual/zh.html" class="nav-btn ">📖 游戏手册</a>
+        <a href="zh.html" class="nav-btn active">🎯 关卡指南</a>
+        <div class="lang-switcher">
+          <a href="fr.html" class="lang-btn ">Français</a><a href="en.html" class="lang-btn ">English</a><a href="es.html" class="lang-btn ">Español</a><a href="zh.html" class="lang-btn active">中文</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-content">
+    <h1>关卡指南 — ISOThOPE</h1>
+<p><strong>ISOThOPE</strong> 全部 23 个关卡的科学背景介绍、历史核反应与通关解题策略。</p>
+<hr>
+<h2>教程 1：电子俘获</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Te-123</code> ➔ <code>Sb-123</code></li>
+<li><strong>分配资源：</strong> 1 ⚡ 电子</li>
+</ul>
+<p>碲-123 (Te-123) 是一种特殊的稳定同量异位素。向其添加一个电子（右键或下方向键）将质子转化为中子，即可立即获得稳定的锑 (Sb-123)！</p>
+<hr>
+<h2>教程 2：β⁻ 放射性衰变</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>O-18</code> ➔ <code>F-19</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子</li>
+</ul>
+<p>氧-18 是稳定的。向其添加一个中子（左键或右方向键）将其转化为不稳定的氧-19。它将自发发生 β⁻ 衰变并转化为稳定的氟-19！</p>
+<hr>
+<h2>第 3 关：炼金术士之梦</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Hg-196</code> ➔ <code>Au-197</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 1 ⚡ 电子</li>
+</ul>
+<p>将汞-196 嬗变为稳定的金-197。这是 1941 年 Sherr、Bainbridge 和 Anderson 通过用中子轰击汞实现的著名核反应。</p>
+<hr>
+<h2>第 4 关：放射性级联衰变</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Pb-208</code> ➔ <code>Tl-205</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子</li>
+</ul>
+<p>铅-208 是自然界中最重的稳定核素。添加一个中子 (⚛) 将其变为不稳定的铅-209。它会先发生 β⁻ 衰变（变为铋-209），随后发生 α 衰变成为稳定的铊-205！</p>
+<hr>
+<h2>第 5 关：活跃的钙</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Ca-46</code> ➔ <code>Ti-48</code></li>
+<li><strong>分配资源：</strong> 2 ⚛ 中子</li>
+</ul>
+<p>钙-46 是稳定的。添加一个中子 (⚛) 形成钙-47，等待它衰变为不稳定的钪-47。一旦出现，在它衰变前迅速发射第二个中子 (⚛) 得到钪-48，随后它将衰变为稳定的钛-48！</p>
+<hr>
+<h2>第 6 关：争分夺秒的氪</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Kr-86</code> ➔ <code>Sr-88</code></li>
+<li><strong>分配资源：</strong> 2 ⚛ 中子</li>
+</ul>
+<p>氪-86 是稳定的。添加一个中子 (⚛) 形成不稳定的氪-87，它会衰变为铷-87。一旦出现，在它衰变前迅速发射第二个中子 (⚛) 得到铷-88，最终衰变为稳定的锶-88！</p>
+<hr>
+<h2>第 7 关：氩-29 的转换</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Ar-29</code> ➔ <code>Cl-30</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 1 ⚡ 电子</li>
+</ul>
+<p>在此模拟器中氩-29 是稳定的。添加一个中子 (⚛) 生成不稳定的氩-30，在它衰变前立即发射一个电子 (⚡)，将其嬗变为稳定的氯-30！</p>
+<hr>
+<h2>第 8 关：精准硅嬗变</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Si-30</code> ➔ <code>S-33</code></li>
+<li><strong>分配资源：</strong> 3 ⚛ 中子</li>
+</ul>
+<p>硅-30 是稳定的。添加一个中子 (⚛) 生成硅-31，它会衰变为稳定的磷-31。待其稳定后，添加第二个中子 (⚛) 生成不稳定的磷-32，并在它衰变前迅速发射第三个中子 (⚛)，最终到达稳定的硫-33！</p>
+<hr>
+<h2>第 9 关：极速氩反应</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Ar-40</code> ➔ <code>Ca-43</code></li>
+<li><strong>分配资源：</strong> 3 ⚛ 中子</li>
+</ul>
+<p>氩-40 是稳定的。添加一个中子 (⚛) 生成氩-41，它会衰变为稳定的钾-41。稳定后添加第二个中子 (⚛) 形成不稳定的钾-42，再迅速发射第三个中子 (⚛) 使其最终衰变为稳定的钙-43！</p>
+<hr>
+<h2>第 10 关：反应性镍</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Ni-62</code> ➔ <code>Cu-65</code></li>
+<li><strong>分配资源：</strong> 3 ⚛ 中子</li>
+</ul>
+<p>镍-62 是稳定的。添加一个中子 (⚛) 得到不稳定的镍-63，立即发射第二个中子 (⚛) 使其稳定为镍-64。最后添加第三个中子 (⚛) 形成不稳定的镍-65，它将衰变为稳定的铜-65！</p>
+<hr>
+<h2>第 11 关：硫的炼金术</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>S-34</code> ➔ <code>Cl-37</code></li>
+<li><strong>分配资源：</strong> 3 ⚛ 中子 • 1 ⚡ 电子</li>
+</ul>
+<p>硫-34 是稳定的。添加一个中子 (⚛) 生成硫-35，它会衰变为稳定的氯-35。添加第二个中子 (⚛) 形成氯-36 并让它衰变为稳定的氩-36。最后添加第三个中子 (⚛) 形成不稳定的氩-37，并在衰变前迅速发射一个电子 (⚡) 到达稳定的氯-37！</p>
+<hr>
+<h2>第 12 关：铅铋杂耍</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Pb-208</code> ➔ <code>Tl-205</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 3 ⚡ 电子</li>
+</ul>
+<p>铅-208 是稳定的。添加一个中子 (⚛) 得到不稳定的铅-209，它会衰变为铋-209。一旦铋出现，迅速发射一个电子 (⚡) 将其变回铅-209。重复此操作 3 次用完所有电子，最后让级联衰变稳定到铊-205！</p>
+<hr>
+<h2>第 13 关：氖之极速冲刺</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Ne-22</code> ➔ <code>Mg-24</code></li>
+<li><strong>分配资源：</strong> 3 ⚛ 中子 • 2 ⚡ 电子</li>
+</ul>
+<p>氖-22 是稳定的。添加一个中子 (⚛)，然后不等中间同位素衰变，极快地连续发射两个中子 (⚛, ⚛) 和两个电子 (⚡, ⚡)。你将到达不稳定的氧-25，随后经历壮观的级联衰变直达稳定的镁-24！</p>
+<hr>
+<h2>第 14 关：α 衰变突围</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Sm-144</code> ➔ <code>Pr-141</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 1 ⚡ 电子</li>
+</ul>
+<p>钐-144 是稳定的。此时发射粒子的顺序至关重要：首先发射一个电子 (⚡) 生成钷-144，它会发生 β⁺ 衰变成为钕-144，紧接着发生 α 衰变 (🟨) 跃迁至铈-140！等待其稳定后发射一个中子 (⚛)，生成的铈-141 会自发 β⁻ 衰变为稳定的镨-141。如果先发射中子，核素将坠入钕-145 的死亡陷阱！</p>
+<hr>
+<h2>第 15 关：质子极速反射</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>He-4</code> ➔ <code>Li-6</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 1 🔺 质子</li>
+</ul>
+<p>氦-4 具有极高的结合能。发射一个质子 (🔺/按键 P) 生成锂-5，或发射一个中子 (⚛) 生成氦-5。注意：这两个核素是寿命极短的自发发射体，稍有迟疑就会将粒子喷吐回去！必须在半秒内迅速补射第二颗粒子，才能将其锁定为稳定的锂-6！</p>
+<hr>
+<h2>第 16 关：极速拦截铈-141</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Sm-144</code> ➔ <code>Ce-142</code></li>
+<li><strong>分配资源：</strong> 2 ⚛ 中子 • 1 ⚡ 电子</li>
+</ul>
+<p>目标是将钐-144 转化为铈-142。发射一个电子 (⚡)，等待经历 β⁺ 衰变与 α 衰变下落至铈-140。发射第一颗中子 (⚛) 生成不稳定的铈-141，必须在其自发衰变为镨-141 之前极快地射入第二颗中子 (⚛)，方可合成稳定的铈-142！</p>
+<hr>
+<h2>第 17 关：量子奇径</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Li-7</code> ➔ <code>He-3</code></li>
+<li><strong>分配资源：</strong> 1 ⚡ 电子 • 1 🔺 质子</li>
+</ul>
+<p>锂-7 能以一条惊奇的核反应路径到达氦-3。注入一个质子 (🔺) 生成铍-8，它会瞬间发生 α 衰变分裂为氦-4。随后俘获一个电子 (⚡) 达到氢-4：它会自发发射一个中子跃迁为氚 (H-3)，最终通过 β⁻ 衰变稳定为稀有的氦-3！</p>
+<hr>
+<h2>第 18 关：钕核幽谷</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Nd-143</code> ➔ <code>Ce-142</code></li>
+<li><strong>分配资源：</strong> 2 ⚛ 中子 • 1 🔺 质子</li>
+</ul>
+<p>钕-143 周围环绕着同量异位素陷阱。若先发射中子，核素将无可挽回地坠入稳定的钕-146 死局。必须首先发射质子 (🔺) 借道钷-144，静候钕-144 发生 α 衰变下落至铈，随后极速连发两颗中子 (⚛, ⚛) 截击达标！</p>
+<hr>
+<h2>第 19 关：铊管风琴</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Tl-205</code> ➔ <code>Pb-204</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 2 🔺 质子</li>
+</ul>
+<p>任务是将铊-205 转化为稀有的轻铅-204。首先添加一个中子 (⚛) 形成铊-206 并等待其自发 β⁻ 衰变为铅-206。随后连续注入两个质子 (🔺, 🔺) 借道铋-207 冲入钋-208，它将放射出一颗 α 粒子并精确着陆在稳定的铅-204！</p>
+<hr>
+<h2>第 20 关：钨核双重跃迁</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>W-182</code> ➔ <code>Hf-177</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 2 🔺 质子</li>
+</ul>
+<p>钨-182 是一座重金属堡垒。连续发射两个质子 (🔺, 🔺) 合成不稳定的锇-184。静观大自然演绎壮观的连续双重 α 衰变 (Os-184 ➔ W-180 ➔ Hf-176)！一旦在铪-176 稳定，立即补入最后一颗中子 (⚛) 达成铪-177。</p>
+<hr>
+<h2>第 21 关：钽核迷阵</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Ta-181</code> ➔ <code>Hf-176</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 2 🔺 质子</li>
+</ul>
+<p>钽-181 潜藏着 20 多条虚假歧途。必须严格先发射中子 (⚛) 活化为钽-182，等待其 β⁻ 衰变为钨-182，随后注入两个质子 (🔺, 🔺) 引发连续双重 α 衰变级联，直达稳定的铪-176！</p>
+<hr>
+<h2>第 22 关：铼之三重 α 大瀑布</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Re-185</code> ➔ <code>Hf-176</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 2 🔺 质子</li>
+</ul>
+<p>铼-185 蕴藏着跨越 4 种元素的极罕见三重 α 衰变链！首先发射一颗中子 (⚛)，等待 β⁻ 衰变至锇-186，接着等待第一重 α 衰变下落至钨-182。此时连续注入两个质子 (🔺, 🔺) 冲上锇-184：紧随其后的连续双重 α 衰变将送你抵达稳定的铪-176！</p>
+<hr>
+<h2>第 23 关：终极核炼金术</h2>
+<ul>
+<li><strong>任务目标：</strong> <code>Re-185</code> ➔ <code>Hf-180</code></li>
+<li><strong>分配资源：</strong> 1 ⚛ 中子 • 1 ⚡ 电子 • 2 🔺 质子</li>
+</ul>
+<p>核物理智斗的巅峰之作：86 个致命陷阱！从铼-185 出发，必须以完美的时序与节奏调动全部三种粒子 (1⚛, 1⚡, 2🔺)。先发射中子，耐受锇 ➔ 钨的漫长级联，双质子冲向锇-184，等待 α 衰变精准着陆于钨-180，最后以一记电光石火的电子俘获锁定稳定的铪-180！</p>
+<hr>
+
+  </main>
+
+  <footer class="doc-footer">
+    <p>ISOThOPE — 互动核物理科学游戏 • 作者：Philippe Guglielmetti (Dr. Goulu)</p>
+    <div class="footer-links">
+      <a href="https://drgoulu.com/en/2026/11/06/isothope-my-radioactive-game/" target="_blank" rel="noopener noreferrer">游戏介绍文章</a>
+      <span>•</span>
+      <a href="https://github.com/goulu/isotope" target="_blank" rel="noopener noreferrer">GitHub 源码</a>
+      <span>•</span>
+      <a href="../">ISOThOPE Game</a>
+    </div>
+  </footer>
+</body>
+</html>

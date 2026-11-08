@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>游戏使用手册 — ISOThOPE</title>
+  <meta name="description" content="游戏使用手册 — ISOThOPE pour ISOThOPE, le jeu scientifique de transmutation nucléaire.">
+  <link rel="icon" href="../favicon.ico">
+  
+  <style>
+    
+  :root {
+    --bg-main: #09090b;
+    --bg-card: #121215;
+    --bg-card-alt: #18181b;
+    --border-color: #27272a;
+    --border-accent: #38bdf8;
+    --text-main: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --text-heading: #ffffff;
+    --accent-sky: #38bdf8;
+    --accent-sky-hover: #7dd3fc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a { color: var(--accent-sky); text-decoration: none; transition: color 0.15s; }
+  a:hover { color: var(--accent-sky-hover); text-decoration: underline; }
+
+  /* Navigation Bar */
+  header.nav-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: rgba(9, 9, 11, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+  }
+  .nav-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .brand-badge {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #fff;
+    background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover {
+    background-color: var(--bg-card-alt);
+    border-color: #3f3f46;
+    color: #fff;
+  }
+  .nav-btn.active {
+    background-color: #0284c7;
+    border-color: #38bdf8;
+    color: #fff;
+  }
+  .nav-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 0.2rem;
+    gap: 0.2rem;
+  }
+  .lang-btn {
+    padding: 0.25rem 0.55rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none !important;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover {
+    color: #fff;
+  }
+  .lang-btn.active {
+    background-color: #27272a;
+    color: var(--accent-sky);
+  }
+
+  /* Main Document Container */
+  main.doc-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    flex: 1;
+    width: 100%;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-heading);
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #1f1f23;
+    padding-bottom: 0.4rem;
+  }
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e4e4e7;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    margin-bottom: 1rem;
+    color: #d4d4d8;
+  }
+  ul, ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+  li {
+    margin-bottom: 0.4rem;
+    color: #d4d4d8;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+  }
+  code {
+    background-color: #18181b;
+    border: 1px solid var(--border-color);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.35rem;
+    font-size: 0.85em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: #38bdf8;
+  }
+  blockquote {
+    border-left: 4px solid var(--border-accent);
+    background-color: #0f172a;
+    padding: 0.75rem 1rem;
+    border-radius: 0 0.75rem 0.75rem 0;
+    margin: 1.25rem 0;
+    color: #cbd5e1;
+  }
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+  th {
+    background-color: #1c1c21;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #1c1c20;
+    color: #d4d4d8;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Footer */
+  footer.doc-footer {
+    border-top: 1px solid var(--border-color);
+    background-color: #060608;
+    padding: 1.5rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  </style>
+</head>
+<body>
+  <header class="nav-header">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="../" class="brand-badge">⚛ ISOThOPE</a>
+        <a href="../" class="nav-btn">← 返回游戏</a>
+      </div>
+      <div class="nav-group">
+        <a href="zh.html" class="nav-btn active">📖 游戏手册</a>
+        <a href="../levels/zh.html" class="nav-btn ">🎯 关卡指南</a>
+        <div class="lang-switcher">
+          <a href="fr.html" class="lang-btn ">Français</a><a href="en.html" class="lang-btn ">English</a><a href="es.html" class="lang-btn ">Español</a><a href="zh.html" class="lang-btn active">中文</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-content">
+    <h1>游戏使用手册 — ISOThOPE</h1>
+<p>欢迎来到 <strong>ISOThOPE</strong>，一款基于国际原子能机构（IAEA NUBASE / LiveChart）真实核物理数据的核素嬗变解谜游戏。</p>
+<h2>🎯 1. 游戏目标</h2>
+<p>你在**塞格雷图（核素图）**中央控制一个原子核：</p>
+<ul>
+<li>横轴代表<strong>中子数 (<code>N</code>)</strong>。</li>
+<li>纵轴代表<strong>质子数 (<code>Z</code>)</strong>，它决定了化学元素的种类。</li>
+</ul>
+<p>在每个关卡中，你从一个<strong>初始同位素</strong>出发，必须通过巧妙地结合粒子轰击与自然放射性衰变，最终到达<strong>目标同位素</strong>（网格上带有金色边框的格子）。</p>
+<blockquote>
+<p><strong>提示：</strong> 有时顺应自然是最好的策略！利用自然的放射性衰变可以帮你节省宝贵的粒子。</p>
+</blockquote>
+<h2>⚡ 2. 操作与控制</h2>
+<p>在原子核发生衰变前，使用网格下方的按钮对其进行轰击：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="left">操作</th>
+<th align="left">对原子核的影响</th>
+<th align="left">网格移动方向</th>
+<th align="left">键盘快捷键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>⚛ +n</strong>（中子）</td>
+<td align="left">增加 1 个中子 (<code>N + 1</code>)</td>
+<td align="left"><strong>➔ 向右移动 1 格</strong>（同种元素，质量更重）</td>
+<td align="left"><code>N</code> 或 <code>→</code></td>
+</tr>
+<tr>
+<td align="left"><strong>⚡ +e⁻</strong>（电子）</td>
+<td align="left">电子俘获 (<code>Z - 1, N + 1</code>)</td>
+<td align="left"><strong>↘ 向右下对角线移动 1 格</strong></td>
+<td align="left"><code>E</code> 或 <code>↓</code></td>
+</tr>
+<tr>
+<td align="left"><strong>🔴 +p</strong>（质子）</td>
+<td align="left">增加 1 个质子 (<code>Z + 1</code>)</td>
+<td align="left"><strong>↑ 向上移动 1 格</strong>（变为下一种元素）</td>
+<td align="left"><code>P</code> 或 <code>↑</code></td>
+</tr>
+<tr>
+<td align="left"><strong>重新开始</strong></td>
+<td align="left">重置当前关卡</td>
+<td align="left">返回初始同位素</td>
+<td align="left"><code>R</code></td>
+</tr>
+</tbody></table></div>
+<h2>☢️ 3. 稳定性与放射性衰变</h2>
+<p>网格中的每个格子都根据该同位素的真实物理性质进行了着色：</p>
+<ul>
+<li><strong>⬛ 黑色（稳定）</strong>：原子核不会发生衰变。倒计时停止，你有充足的时间思考。<em>注意：如果你停留在非目标的稳定同位素上且耗尽了所有粒子，任务即告失败！</em></li>
+<li><strong>🟦 天蓝色（β⁻ — β⁻ 衰变）</strong>：中子过多。1 个中子转化为 1 个质子（<code>Z + 1, N - 1</code> ➔ <strong>↖ 向左上对角线移动 1 格</strong>）。</li>
+<li><strong>🟥 粉色（β⁺ — β⁺ 衰变或电子俘获）</strong>：质子过多。1 个质子转化为 1 个中子（<code>Z - 1, N + 1</code> ➔ <strong>↘ 向右下对角线移动 1 格</strong>）。</li>
+<li><strong>🟨 黄色（α — α 衰变）</strong>：重核释放出一个由 2 个质子和 2 个中子组成的 α 粒子（<code>⁴He</code>）（<code>Z - 2, N - 2</code> ➔ <strong>↙ 向左下移动 2 格</strong>）。</li>
+<li><strong>🟧 橙色（p — 质子发射）</strong>：极度富质子核直接抛出 1 个质子（<code>Z - 1</code> ➔ <strong>↓ 向下移动 1 格</strong>）。</li>
+<li><strong>🟪 紫色（n — 中子发射）</strong>：极度富中子核直接抛出 1 个中子（<code>N - 1</code> ➔ <strong>← 向左移动 1 格</strong>）。</li>
+</ul>
+<h2>🧭 4. 关卡与自由模式（第 0 关）</h2>
+<ul>
+<li><strong>关卡说明</strong>：点击标题栏下方<strong>关卡信息栏</strong>的任意位置，即可打开当前任务的科学背景与提示。</li>
+<li><strong>选择关卡</strong>：点击关卡信息栏左侧的编号按钮（如 <code>1/13</code>）即可切换关卡。</li>
+<li><strong>第 0 关 — 自由模式（沙盒）</strong>：位于关卡列表最顶部，提供无限粒子（<code>∞</code>），并允许你直接点击网格或顶部 <code>ISOThOPE</code> 标题栏中的任意核素进行自由探索。</li>
+</ul>
+<h2>📈 5. 半衰期对数时间定律</h2>
+<p>在自然界中，同位素的半衰期（<code>T½</code>）跨度极大，从微秒（<code>10⁻⁶ s</code>）到数百亿年（<code>10¹⁷ s</code>）。为了将这 23 个数量级压缩到几秒钟的游戏时间内，同时严格保留各同位素真实的稳定性顺序，<strong>ISOThOPE</strong> 采用了对数时间映射定律：</p>
+<p><code>游戏时间 = clamp(基础时间 + 斜率 × log10(T½), 最小值, 最大值)</code></p>
+<p>你可以在下方查看半对数曲线（可在“选项”中调整衰变参数）：</p>
+
+  </main>
+
+  <footer class="doc-footer">
+    <p>ISOThOPE — 互动核物理科学游戏 • 作者：Philippe Guglielmetti (Dr. Goulu)</p>
+    <div class="footer-links">
+      <a href="https://drgoulu.com/en/2026/11/06/isothope-my-radioactive-game/" target="_blank" rel="noopener noreferrer">游戏介绍文章</a>
+      <span>•</span>
+      <a href="https://github.com/goulu/isotope" target="_blank" rel="noopener noreferrer">GitHub 源码</a>
+      <span>•</span>
+      <a href="../">ISOThOPE Game</a>
+    </div>
+  </footer>
+</body>
+</html>
